@@ -1,0 +1,1648 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chuẩn hoá văn bản</title>
+<link rel="stylesheet" href="static/brand.css">
+<style>
+html,body{height:100%}
+body{display:flex;flex-direction:column;min-height:0}
+/* hai tab công cụ nằm ngay trên thanh điều hướng, cạnh tên đơn vị */
+.bar .unit{display:flex;align-items:center;gap:8px;padding-right:18px;border-right:1px solid rgba(255,255,255,.35)}
+.bar .unit::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.workspace-tabs{display:flex;gap:4px;align-items:center;background:rgba(0,0,0,.12);border-radius:9px;padding:3px}
+.workspace-tabs button{border:0;border-radius:7px;background:transparent;padding:6px 14px;font-size:13.5px;font-weight:700;color:#fff;opacity:.92}
+.workspace-tabs button:hover{background:rgba(255,255,255,.14);opacity:1}
+.workspace-tabs button.on{background:#fff;color:var(--navy);opacity:1;box-shadow:0 1px 3px rgba(16,24,40,.18)}
+.workspace-tabs button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.workspace-tabs button,.bar .unit{white-space:nowrap}
+@media (min-width:761px){.bar .links{gap:6px 16px}.bar .links a,.bar .links .std{white-space:nowrap}.bar .chips{flex-wrap:nowrap}.bar-in{gap:6px 18px}}
+@media (min-width:1360px){.bar-in{flex-wrap:nowrap}.bar .links{flex-wrap:wrap;justify-content:flex-end}}
+@media (min-width:761px) and (max-width:1560px){.bar .links .std{display:none}}
+/* trạng thái Bản in đã có ở khung Tải lên và nút Bản in: ẩn bớt trên màn hình vừa để thanh nằm một dòng */
+@media (min-width:761px) and (max-width:1599px){.bar .chips #chips,.bar .links > .chips{display:none}}
+@media (min-width:1280px){.bar .links{flex-wrap:nowrap;flex-shrink:0}}
+@media (max-width:760px){.bar .unit{border-right:0;padding-right:0;width:100%}.workspace-tabs{width:100%}.workspace-tabs button{flex:1}}
+@media (max-width:360px){.workspace-tabs .ic{display:none}}
+@media (max-width:360px){body:not(.no-audio) .workspace-tabs button{font-size:12px!important;padding:9px 2px!important}}
+.workspace-tabs[hidden],.editor-panel[hidden],.workspace-tabs button[hidden]{display:none}
+.workspace-tabs .sh{display:none}
+#orgUnit[hidden],#orgParent[hidden],#orgTag[hidden]{display:none!important}
+body.desktop .org{padding:8px 20px}
+body.desktop .org-n{font-size:18px;text-transform:none}
+body.desktop #orgParent,body.desktop #orgTag{display:none}
+/* màn hình vừa (laptop, máy tính bảng): tên tab rút gọn để thanh điều hướng không tràn */
+@media (min-width:761px) and (max-width:1600px){.workspace-tabs .lg{display:none}.workspace-tabs .sh{display:inline}.workspace-tabs button{padding:6px 12px}}
+.editor-panel{flex:1;min-height:0;display:flex;background:var(--bg)}
+.editor-panel iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+.app{flex:1;min-height:0;display:grid;grid-template-columns:260px minmax(0,1fr) 380px;gap:12px;padding:12px}
+aside,main{min-height:0}
+aside.left,aside.right,main.center{background:var(--panel);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
+aside.left{display:flex;flex-direction:column}
+aside.left .card-c{overflow:auto;flex:1;min-height:0}
+aside.right{display:flex;flex-direction:column}
+main.center{display:flex;flex-direction:column;min-width:0}
+.drop{display:block;border:1.5px dashed #b9cde0;border-radius:10px;padding:16px 12px;text-align:center;cursor:pointer;background:#f5f9fd}
+.drop.hover,.drop:hover{border-color:var(--acc);background:#eaf3fb}
+.drop b{color:var(--navy)}
+.drop b{display:block;margin-bottom:2px}
+#dropHint{display:block;font-size:12px;word-break:break-word}
+.opts{display:grid;gap:6px;margin:10px 0;font-size:13px}
+.opts label{display:flex;gap:8px;align-items:flex-start}
+input[type=text],input[type=password],input[type=number],select{background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:5px 7px}
+input[type=number]{width:62px}
+.files{margin-top:16px;display:grid;gap:6px}
+.restd{margin:0 0 10px;padding:8px;border:1px dashed var(--line);border-radius:8px;background:var(--soft)}
+.restd[hidden]{display:none}
+.restd p{font-size:12px;margin:5px 0 0}
+.stdbar .btn{margin-left:auto;white-space:nowrap;align-self:center}
+.file{position:relative;border:1px solid var(--line);border-radius:9px;padding:8px 32px 8px 10px;cursor:pointer;background:var(--panel)}
+.file.cur{border-color:var(--acc);box-shadow:inset 4px 0 0 var(--acc);background:#f5f9fd}
+.file .n{font-weight:600;word-break:break-all;font-size:13px}
+.file .s{font-size:12px;color:var(--mut)}
+.file.bad{border-color:var(--err);cursor:default}
+.file .x{position:absolute;top:6px;right:6px;width:20px;height:20px;line-height:18px;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--mut);cursor:pointer;font-size:14px}
+.file .x:hover{border-color:var(--err);color:var(--err)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+.seg{display:inline-flex;border:1px solid #cfd6de;border-radius:7px;overflow:hidden;background:#fff}
+.seg button{border:0;background:transparent;padding:5px 10px;font-size:13px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--acc);font-weight:650;color:#fff}
+.sp{flex:1}
+.zoom{display:inline-flex;align-items:center;gap:4px;font-size:12.5px}
+details.dl{position:relative}
+details.dl summary{list-style:none}
+details.dl summary::-webkit-details-marker{display:none}
+details.dl .menu{position:absolute;right:0;top:34px;z-index:20;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px;min-width:230px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+details.dl .menu button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:7px 9px;border-radius:7px}
+details.dl .menu button:hover{background:var(--soft)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mut);padding:6px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.stage{flex:1;overflow:auto;padding:16px;min-height:0;background:#e6ebf1}
+.panes{display:grid;gap:16px;align-items:start}
+.panes.two{grid-template-columns:1fr 1fr}
+.pane-h{font-size:12.5px;font-weight:700;color:var(--navy);margin:0 0 8px;text-transform:uppercase;letter-spacing:.04em;border-left:3px solid var(--acc);padding-left:8px}
+.pages{transform-origin:top left}
+.empty{max-width:520px;margin:12vh auto;text-align:center;color:var(--mut)}
+.empty h2{color:var(--navy);font-size:19px;margin:0 0 8px}
+.banner{margin:0 0 12px;padding:8px 12px;border-radius:9px;font-size:13px;background:var(--err-bg);color:var(--err)}
+.banner.info{background:var(--soft);color:var(--mut)}
+/* ---------- trang giấy (luôn nền trắng) ---------- */
+.page{position:relative;background:#fff;color:#000;box-shadow:0 1px 3px rgba(0,0,0,.12),0 6px 18px rgba(0,0,0,.08);margin:0 auto 18px;font-family:"Times New Roman","Liberation Serif","Tinos",serif}
+.page .body{position:relative}
+.page .hdr,.page .ftr{position:absolute;font-family:"Times New Roman","Liberation Serif",serif;color:#000}
+.page .mg{position:absolute;inset:0;pointer-events:none;outline:1px dashed rgba(31,94,255,.0)}
+.show-mg .page .mg{outline-color:rgba(31,94,255,.35)}
+.p{position:relative;white-space:pre-wrap;word-wrap:break-word;border-radius:2px;cursor:pointer}
+.p .tab{display:inline-block;width:1.27cm}
+.p .img{display:inline-block;border:1px dashed #999;color:#777;font:11px system-ui,sans-serif;padding:14px 20px;margin:2px 0}
+.hl .p.e-loi{background:rgba(240,68,56,.10);box-shadow:inset 3px 0 0 #d92d20}
+.hl .p.e-warn{background:rgba(247,144,9,.13);box-shadow:inset 3px 0 0 #dc6803}
+.hl .p.e-fix{box-shadow:inset 3px 0 0 #12b76a}
+.hl .p.e-rev{outline:1.5px dashed #7a5af8;outline-offset:1px}
+.p:hover{background:rgba(31,94,255,.06)}
+.hl .p.e-edit,.p.e-edit{outline:1.5px solid #f5b400;outline-offset:1px}
+.p[contenteditable="true"]{outline:2px solid #2e86c1 !important;background:#fffbe6 !important;cursor:text}
+.fmtbar{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.fmtbar .btn[aria-pressed="true"]{background:#267faf;color:#fff;border-color:#267faf}
+.fmtbar .sep{width:1px;height:23px;background:#cad8e4;margin:0 3px}
+.edbox textarea{width:100%;min-height:90px;border:1px solid #cfd6de;border-radius:6px;padding:6px 8px;font:14px/1.45 "Times New Roman",serif;resize:vertical}
+.p.sel{outline:2px solid #1f5eff !important;outline-offset:2px;background:rgba(31,94,255,.08)}
+table.tbl{border-collapse:collapse;max-width:100%}
+table.tbl td{vertical-align:top;padding:0 .12cm}
+table.tbl.z-data_table td{border:1px solid #000}
+table.tbl td.vm{border-top-color:transparent}
+.pimg{background:#fff;margin:0 auto 18px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 6px 18px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;color:#999;font-size:12px}
+.pimg img{width:100%;height:100%;display:block}
+/* ---------- bảng bên phải ---------- */
+.tabs{display:flex;background:var(--acc)}
+.tabs button{flex:1;border:0;background:transparent;padding:10px 3px 8px;font-size:13px;white-space:nowrap;font-weight:650;color:rgba(255,255,255,.78);border-bottom:3px solid transparent}
+.tabs button.on{color:#fff;border-bottom-color:var(--gold)}
+.tabs .cnt[hidden]{display:none}
+.toc-opt{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line);font-size:13px;cursor:pointer}
+.toc-opt small{display:block;color:var(--mut);font-size:11.5px}
+.tab-act{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.toc-cands{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:8px;margin-top:6px}
+.toc-cand{display:flex;gap:8px;align-items:flex-start;padding:5px 8px;border-top:1px solid var(--line);font-size:12.5px;cursor:pointer}
+.toc-cand:first-child{border-top:0}
+.toc-cand.off .t{color:var(--mut);text-decoration:line-through}
+.toc-cand .lv{flex:none;font-size:10.5px;background:var(--soft);border-radius:4px;padding:1px 5px;color:var(--mut)}
+.toc-cand small{display:block;color:var(--mut);font-size:11px;text-decoration:none}
+.toc-res{font-size:12.5px;line-height:1.5;background:var(--soft);border-radius:8px;padding:8px 10px;margin-top:8px}
+.tabs .cnt{font-weight:600;font-size:11px;background:rgba(255,255,255,.22);color:#fff;border-radius:999px;padding:0 7px;margin-left:5px}
+.tabc{flex:1;overflow:auto;padding:12px 14px;min-height:0}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.card{border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#f8fafc}
+.card b{display:block;font-size:22px;color:var(--navy)}
+.card.ok b{color:var(--ok)}
+.filt{display:flex;gap:6px;align-items:center;margin:6px 0 10px;font-size:13px}
+.eg{border:1px solid var(--line);border-radius:8px;padding:5px 9px;margin-bottom:5px;content-visibility:auto;contain-intrinsic-size:auto 44px}
+.eg:hover{border-color:var(--acc)}
+.eg .h{display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;user-select:none}
+.eg .h b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eg .car{display:inline-block;width:12px;color:var(--mut);transition:transform .15s}
+.eg.open .car{transform:rotate(90deg)}
+.eg .cnt{font-size:11.5px;white-space:nowrap}
+.eg .cnt .n-no{color:var(--err);font-weight:600}
+.eg .cnt .n-ok{color:var(--ok);font-weight:600}
+.eg .x{font-size:12px;color:var(--mut);margin:1px 0 0 18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eg .body{display:none;margin-top:4px}
+.eg.open .body{display:block}
+.eg.open .x{white-space:normal}
+.errbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}
+.errbar .filt{margin:0}
+.sim-groups{border:1px solid var(--line);border-radius:9px;background:var(--soft);padding:9px 10px;margin:8px 0 12px}
+.sim-groups h3{font-size:13px;margin:0 0 3px;color:var(--navy)}
+.sim-groups .sim-hint{font-size:11.5px;color:var(--mut);margin:0 0 7px}
+.sp-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px;margin:6px 0}
+.sp-row textarea{width:100%;font-size:12px}
+.sp-g{margin-left:auto;font-size:11.5px;font-weight:400}
+.sp-it{padding:4px 0 4px 18px;border-top:1px solid var(--line);font-size:12px}
+.sp-it small{display:block;color:var(--mut)}
+.sp-c{overflow-wrap:anywhere}
+.sim-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:12px}
+.sim-row .sim-desc{flex:1;min-width:0;overflow-wrap:anywhere}
+.sim-row .sim-desc small{display:block;font-size:11px;color:var(--mut);margin-top:2px}
+.sim-row button{flex:none}
+.ei{font-size:12.5px;padding:2px 0;border-top:1px dashed var(--line)}
+.ei>summary{display:flex;align-items:center;gap:6px;cursor:pointer;list-style:none;min-height:20px}
+.ei>summary::-webkit-details-marker{display:none}
+.ei .f{font-weight:600;white-space:nowrap}
+.ei .f::before{content:"\25B8  ";color:var(--mut);font-weight:400}
+.ei[open] .f::before{content:"\25BE  "}
+.ei .s{flex:1;min-width:0;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ei[open] .s{visibility:hidden}
+.ei .d{padding:2px 0 4px 16px}
+.st-ok{color:var(--ok);font-weight:600}
+.st-no{color:var(--err);font-weight:600}
+.st-ig{color:var(--mut);font-weight:600;white-space:nowrap}
+.ei .stc{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.btn.xs{padding:0 6px;font-size:11px;border-radius:5px;line-height:18px;white-space:nowrap}
+.ei.ig .f,.ei.ig .s,.ei.ig .d{opacity:.55;text-decoration:line-through}
+.sev-loi{color:var(--err)}
+.sev-warn{color:var(--warn)}
+.tag{font-size:11px;border-radius:5px;padding:0 5px;background:var(--soft);color:var(--mut)}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:4px 10px;font-size:13px;margin:8px 0}
+.kv div:nth-child(odd){color:var(--mut)}
+.quote{background:var(--soft);border-radius:8px;padding:8px 10px;font-size:13px;max-height:140px;overflow:auto}
+fieldset{border:1px solid var(--line);border-radius:10px;padding:8px 10px 10px;margin:0 0 12px}
+legend{font-weight:650;font-size:13px;padding:0 4px}
+.grid3{display:grid;grid-template-columns:1fr 62px 62px 62px;gap:5px 6px;align-items:center;font-size:13px}
+.grid3 .hd{font-size:11.5px;color:var(--mut)}
+.row{display:flex;gap:8px;align-items:center;font-size:13px;margin:5px 0;flex-wrap:wrap}
+.opt{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:5px 0}
+.opt input{margin-top:3px}
+.rtbl{width:100%;border-collapse:collapse;font-size:12px}
+.rtbl th{text-align:left;color:var(--mut);font-weight:500;padding:3px 2px;position:sticky;top:-12px;background:var(--panel)}
+.rtbl td{padding:3px 2px;border-top:1px solid var(--line);vertical-align:middle}
+.rtbl input[type=number]{width:44px;padding:3px 4px}
+.rtbl select{padding:2px 2px;max-width:66px}
+.rtbl .grp td{background:var(--soft);font-weight:650;font-size:12px}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.notes{font-size:12.5px;color:var(--warn);margin:6px 0}
+.stdbar{display:flex;gap:8px;align-items:baseline;font-size:12.5px;padding:7px 12px;border-bottom:1px solid var(--line);background:var(--warn-bg);color:var(--warn)}
+.stdbar b{white-space:nowrap}
+.stdbar[hidden]{display:none}
+.jb{font-size:10.5px;border-radius:5px;padding:0 5px;margin-left:4px;white-space:nowrap}
+.jb.y{background:var(--ok-bg);color:var(--ok)}
+.jb.n{background:var(--warn-bg);color:var(--warn)}
+.jb.warn{background:var(--warn-bg);color:var(--warn)}
+.file.pend{cursor:default;opacity:.85}
+.applybar{border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:8px;align-items:center;justify-content:space-between;background:var(--panel)}
+.applybar[hidden]{display:none}
+#toasts{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:50;display:flex;flex-direction:column;gap:6px;align-items:center;max-width:90vw;pointer-events:none}
+.toast{background:#1c1c1e;color:#fff;padding:9px 14px;border-radius:9px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.25);pointer-events:auto}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (max-width:1100px){.app{grid-template-columns:250px minmax(0,1fr)}aside.right{grid-column:1 / -1;height:70vh}}
+@media (max-width:760px){
+  html,body{height:auto}
+  body{display:block}
+  .workspace-tabs{padding:7px 10px}
+  .workspace-tabs button{flex:1;padding:7px 5px;font-size:12px}
+  .editor-panel{height:calc(100dvh - 155px);min-height:590px}
+  .app{display:flex;flex-direction:column;gap:12px;padding:10px}
+  aside.left .card-c{overflow:visible}
+  main.center{height:78vh}
+  aside.right{height:auto;min-height:60vh}
+  .panes.two{grid-template-columns:1fr}
+  .toolbar{gap:6px;padding:8px}
+  .zoom #zVal{display:none}
+  .stdbar{flex-direction:column;gap:2px}
+  /* điện thoại: đầu trang gọn; khi cuộn chỉ giữ lại hàng 3 tab ở mép trên */
+  .org{padding:6px 12px;gap:8px}
+  .org .logo{width:34px;height:34px}
+  .org-p{font-size:10.5px}
+  .org-n{font-size:12px;line-height:1.25}
+  nav.bar{position:sticky;top:var(--bar-stick,0px);z-index:30}
+  .bar-in{padding:6px 10px 6px;gap:6px}
+  .bar .unit{order:1;font-size:14px}
+  .bar .links{order:2;width:100%;flex-wrap:wrap;gap:6px 12px;font-size:13px}
+  .bar .links .std{display:none}
+  .workspace-tabs{order:3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:3px}
+  body.no-audio .workspace-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* bốn tab trên điện thoại: bỏ biểu tượng để tên tab không bị cắt */
+  body:not(.no-audio) .workspace-tabs .ic{display:none}
+  .workspace-tabs button{padding:9px 4px;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .workspace-tabs .lg{display:none}
+  .workspace-tabs .sh{display:inline}
+  .editor-panel{height:calc(100dvh - var(--tabs-h,52px));min-height:420px}
+  /* khung xem văn bản tab Chuẩn hoá: đủ cao để đọc, công cụ không chiếm chỗ */
+  main.center{height:auto}
+  .stage{flex:none;height:72dvh;padding:8px}
+  .legend .mut{display:none}
+}
+/* ---------- đăng nhập (khi máy chủ đặt mã truy cập) ---------- */
+.login{max-width:520px;margin:48px auto;padding:0 12px;width:100%}
+.login[hidden],.app[hidden]{display:none}
+.bar .links button.adm{background:rgba(255,255,255,.16);border-radius:6px;padding:4px 12px;font-weight:700;opacity:1;white-space:nowrap}
+.bar .links button.adm:hover{background:rgba(255,255,255,.28);text-decoration:none}
+.chip.who{background:rgba(0,0,0,.15);font-weight:700;max-width:190px;overflow:hidden;text-overflow:ellipsis}
+.bar .links button.out{white-space:nowrap}
+.adm-dlg{border:0;border-radius:12px;padding:0;width:min(920px,calc(100vw - 24px));max-height:88vh;box-shadow:0 24px 70px rgba(16,24,40,.35)}
+.adm-dlg::backdrop{background:rgba(16,24,40,.45)}
+.adm-h{display:flex;align-items:center;justify-content:space-between}
+.adm-x{border:0;background:transparent;color:#fff;font-size:18px}
+.adm-new{display:grid;grid-template-columns:1.3fr 1fr auto;gap:8px;margin-bottom:10px}
+.adm-token{border:1px solid #9fd5b4;background:var(--ok-bg);border-radius:8px;padding:10px 12px;margin-bottom:12px;display:grid;gap:6px}
+.adm-code{display:flex;gap:8px;align-items:center}
+.adm-code code{font-size:16px;font-weight:700;background:#fff;border:1px dashed #9fd5b4;border-radius:6px;padding:5px 10px;user-select:all;word-break:break-all}
+.adm-list{overflow:auto;max-height:52vh;border:1px solid var(--line);border-radius:8px}
+.adm-list table{width:100%;border-collapse:collapse;font-size:13px}
+.adm-list th{position:sticky;top:0;background:var(--soft);text-align:left;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.adm-list td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.adm-list td .n{font-weight:700;color:var(--navy)}
+.adm-list .acts{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.st-on{color:var(--ok);font-weight:700}.st-off{color:var(--err);font-weight:700}
+@media (max-width:640px){.adm-new{grid-template-columns:1fr}}
+.pw{position:relative}
+.pw input{padding-right:44px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--mut);font-size:13px;padding:4px 6px}
+.lerr{color:var(--err);font-size:13px;margin-top:8px;min-height:18px}
+</style>
+</head>
+<body>
+<header class="org">
+  <img class="logo" id="orgLogo" alt="">
+  <div>
+    <div class="org-p" id="orgParent"></div>
+    <div class="org-n" id="orgName"></div>
+    <div class="org-t" id="orgTag"></div>
+  </div>
+</header>
+<nav class="bar"><div class="bar-in">
+  <span class="app-t unit" id="orgUnit"></span>
+  <div class="workspace-tabs" id="workspaceTabs" role="tablist" aria-label="Công cụ văn bản" hidden>
+    <button type="button" id="tabStandardize" role="tab" aria-selected="true" aria-controls="appMain" class="on"><span class="ic">📄 </span><span class="lg">Chuẩn hoá văn bản</span><span class="sh">Chuẩn hoá</span></button>
+    <button type="button" id="tabCompose" role="tab" aria-selected="false" aria-controls="composerPanel"><span class="ic">✍️ </span><span class="lg">Soạn thảo văn bản</span><span class="sh">Soạn thảo</span></button>
+    <button type="button" id="tabMarkdown" role="tab" aria-selected="false" aria-controls="markdownPanel"><span class="ic">📝 </span><span class="lg">Chuyển Markdown</span><span class="sh">Markdown</span></button>
+    <button type="button" id="tabAudio" role="tab" aria-selected="false" aria-controls="audioPanel"><span class="ic">🎙️ </span><span class="lg">Chuyển đổi Âm thanh</span><span class="sh">Âm thanh</span></button>
+  </div>
+  <div class="links">
+    <a href="huong-dan" title="Hướng dẫn sử dụng">📚 Hướng dẫn</a>
+    <span class="std" id="brandStd">NĐ 30/2020/NĐ-CP</span>
+    <span class="chips" id="chips"></span>
+    <span class="chip who" id="whoChip" hidden></span>
+    <button type="button" class="adm" id="adminBtn" hidden title="Tạo, khoá, cấp lại mã truy cập cho người dùng">👥 Mã truy cập</button>
+    <button type="button" class="out" id="logoutBtn" hidden>Đăng xuất</button>
+  </div>
+</div></nav>
+
+
+<dialog class="adm-dlg" id="adminDlg" aria-labelledby="admTitle">
+  <div class="card-h adm-h"><span id="admTitle">👥 Quản lý mã truy cập</span><button type="button" class="adm-x" id="admClose" aria-label="Đóng">✕</button></div>
+  <div class="card-c">
+    <p class="mut" style="margin:0 0 10px;font-size:13px">Mỗi mã là một người dùng riêng: tài liệu tải lên, bản đã sửa và báo cáo chỉ người giữ mã đó thấy được. Mã của anh/chị (mã quản trị) vẫn dùng như cũ. Mã mới <b>chỉ hiện một lần</b> khi tạo hoặc cấp lại – hãy sao chép và gửi cho người dùng.</p>
+    <form class="adm-new" id="admForm">
+      <input class="in" id="admName" maxlength="80" placeholder="Tên người dùng / đơn vị (VD: Nguyễn Văn A – Phòng Tổng hợp)" required>
+      <input class="in" id="admNote" maxlength="200" placeholder="Ghi chú (không bắt buộc)">
+      <button class="btn pri" type="submit">+ Tạo mã</button>
+    </form>
+    <div class="adm-token" id="admToken" hidden>
+      <div><b id="admTokenWho"></b> – mã truy cập:</div>
+      <div class="adm-code"><code id="admTokenVal"></code><button type="button" class="btn sm" id="admCopy">Sao chép</button></div>
+      <div class="mut" style="font-size:12px">Mã chỉ hiện lần này. Nếu làm mất, bấm “Cấp lại mã” để tạo mã mới (mã cũ hết hiệu lực).</div>
+    </div>
+    <div class="adm-list"><table><thead><tr><th>Người dùng</th><th>Mã (4 ký tự cuối)</th><th>Tạo ngày</th><th>Tài liệu</th><th>Trạng thái</th><th></th></tr></thead><tbody id="admRows"></tbody></table></div>
+  </div>
+</dialog>
+
+<section class="login" id="login" hidden>
+  <form class="card-b" id="loginForm">
+    <div class="card-h">Đăng nhập công cụ chuẩn hoá văn bản</div>
+    <div class="card-c">
+      <label class="f" for="tok">Mã truy cập</label>
+      <div class="pw"><input class="in" type="password" id="tok" autocomplete="current-password"><button type="button" id="tokEye" title="Hiện/ẩn">Hiện</button></div>
+      <div class="lerr" id="loginErr"></div>
+      <button class="btn pri" type="submit">Đăng nhập</button>
+      <p class="mut" style="font-size:12.5px;margin:12px 0 0">Mã truy cập do quản trị viên cấp. Chưa có mã, vui lòng liên hệ quản trị viên.</p>
+    </div>
+  </form>
+</section>
+
+<div class="app" id="appMain">
+  <aside class="left">
+    <div class="card-h">📤 Tải văn bản lên</div>
+    <div class="card-c">
+    <form id="up">
+      <div class="row" style="margin-bottom:8px">
+        <span style="font-size:13px;font-weight:650;margin-right:8px">Chuẩn thể thức</span>
+        <div class="seg" id="segStd">
+          <button type="button" data-std="nd30" class="on">NĐ 30</button>
+          <button type="button" data-std="dang">Đảng</button>
+          <button type="button" data-std="dean" title="Luận văn/đề án thạc sĩ theo Phụ lục 4.1">Đề án</button>
+        </div>
+      </div>
+      <div class="restd" id="restdBox" hidden>
+        <button type="button" class="btn sm full" id="restdBtn">↻ Kiểm tra lại</button>
+        <p class="mut" id="restdNote"></p>
+      </div>
+      <label class="drop" id="drop">
+        <b>Chọn hoặc kéo thả file Word</b>
+        <span class="mut" id="dropHint">.docx, tối đa 20 file</span>
+        <input type="file" id="fileIn" accept=".docx" multiple hidden>
+      </label>
+      <div class="opts">
+        <label><input type="checkbox" id="optNd30"> <span id="optOnlyTxt">Chỉ quy định NĐ 30 (bỏ quy ước báo cáo dài)</span></label>
+        <label title="Sửa thẳng lỗi gõ sai tiếng Việt vào file; chữ vừa sửa đổi sang màu đỏ để dễ nhận biết (có thêm bản không đổi màu)"><input type="checkbox" id="optSpell" checked> Sửa lỗi chính tả (chữ sửa màu đỏ)</label>
+        <label class="sub" for="optSpellLv" style="display:flex;flex-direction:column;gap:3px;font-size:12px">Mức sửa chính tả
+          <select id="optSpellLv" class="in" style="width:100%;padding:3px 6px"><option value="safe">An toàn – chỉ sửa chỗ chắc chắn</option><option value="wide">Rộng – thêm chỗ nghi ngờ (màu cam)</option></select></label>
+      </div>
+      <button class="btn pri full" id="upBtn" type="submit" disabled>Tải lên &amp; kiểm tra</button>
+    </form>
+    <div class="files" id="files"></div>
+    </div>
+  </aside>
+
+  <main class="center">
+    <div class="toolbar">
+      <div class="seg" id="segView">
+        <button data-v="quick" class="on" title="Vẽ lại văn bản ngay trên trình duyệt, tô lỗi, bấm vào đoạn để xem lỗi">Xem nhanh</button>
+        <button data-v="print" title="Dựng bằng LibreOffice trên máy chủ, đúng như khi in">Bản in</button>
+      </div>
+      <div class="seg" id="segWhich">
+        <button data-w="original">Bản gốc</button>
+        <button data-w="fixed" class="on">Đã sửa</button>
+        <button data-w="compare">So sánh</button>
+      </div>
+      <label class="row" style="margin:0"><input type="checkbox" id="hlChk" checked> Tô lỗi</label>
+      <label class="row" style="margin:0"><input type="checkbox" id="mgChk"> Hiện lề</label>
+      <span class="sp"></span>
+      <span class="zoom"><button class="btn sm" id="zOut">−</button><span id="zVal">Vừa khung</span><button class="btn sm" id="zIn">+</button><button class="btn sm" id="zFit">Vừa</button></span>
+      <details class="dl" id="dl">
+        <summary class="btn sm">Tải về ▾</summary>
+        <div class="menu">
+          <button data-k="fixed">Bản đã sửa (.docx)</button>
+          <button data-k="fixed_clean" id="dlClean" hidden>Bản đã sửa, chữ không đổi màu (.docx)</button>
+          <button data-k="report">Báo cáo lỗi (.html)</button>
+          <button data-k="zip">Tất cả (.zip)</button>
+          <button data-k="pdf">Bản in đã sửa (.pdf)</button>
+          <button data-k="original">File gốc (.docx)</button>
+        </div>
+      </details>
+    </div>
+    <div class="legend" id="legend">
+      <span><i style="background:rgba(240,68,56,.35)"></i>Lỗi theo quy định</span>
+      <span><i style="background:rgba(247,144,9,.45)"></i>Cảnh báo quy ước</span>
+      <span><i style="background:#12b76a"></i>Đã sửa</span>
+      <span><i style="border:1.5px dashed #7a5af8"></i>Vai trò cần kiểm tra</span>
+      <span><i style="border:1.5px solid #f5b400"></i>Đã sửa chữ</span>
+      <span class="mut">· Nháy đúp vào một đoạn để sửa chữ (Enter lưu, Esc huỷ) · Xem nhanh chỉ ngắt trang gần đúng; dùng “Bản in” để xem đúng số trang</span>
+    </div>
+    <div class="stdbar" id="stdBar" hidden></div>
+    <div class="stage" id="stage">
+      <div class="empty"><h2>Chưa có văn bản</h2>Tải file Word lên ở khung “Tải văn bản lên”. Công cụ kiểm tra theo chuẩn đã chọn (NĐ 30/2020, Hướng dẫn 05-HD/VPTW của Đảng hoặc Phụ lục 4.1 trình bày luận văn/đề án thạc sĩ), tự sửa, rồi hiển thị bản gốc và bản đã sửa để đối chiếu.</div>
+    </div>
+  </main>
+
+  <aside class="right">
+    <div class="tabs" id="tabs">
+      <button data-t="errs" class="on">Lỗi<span class="cnt" id="cntErr">0</span></button>
+      <button data-t="para">Đoạn</button>
+      <button data-t="spec">Thông số</button>
+      <button data-t="toc">Mục lục</button>
+      <button data-t="spell">Chính tả<span class="cnt" id="cntSpell" hidden>0</span></button>
+    </div>
+    <div class="tabc" id="tab-errs"><p class="mut">Chưa có dữ liệu.</p></div>
+    <div class="tabc" id="tab-para" hidden><p class="mut">Bấm vào một đoạn trong bản xem trước để xem lỗi và chỉnh vai trò.</p></div>
+    <div class="tabc" id="tab-spec" hidden><p class="mut">Mở một file để chỉnh thông số.</p></div>
+    <div class="tabc" id="tab-toc" hidden><p class="mut">Mở một file để tạo mục lục.</p></div>
+    <div class="tabc" id="tab-spell" hidden><p class="mut">Mở một file để sửa chính tả.</p></div>
+    <div class="applybar" id="applybar" hidden>
+      <span class="mut" id="dirtyTxt">Có thay đổi chưa áp dụng</span>
+      <span><button class="btn sm" id="discardBtn">Bỏ</button> <button class="btn pri sm" id="applyBtn">Áp dụng &amp; sửa lại</button></span>
+    </div>
+  </aside>
+</div>
+
+<section class="editor-panel" id="composerPanel" role="tabpanel" aria-labelledby="tabCompose" hidden>
+  <iframe id="composerFrame" title="Soạn thảo Văn bản" loading="lazy"></iframe>
+</section>
+<section class="editor-panel" id="markdownPanel" role="tabpanel" aria-labelledby="tabMarkdown" hidden>
+  <iframe id="markdownFrame" title="Chuyển Markdown" loading="lazy"></iframe>
+</section>
+<section class="editor-panel" id="audioPanel" role="tabpanel" aria-labelledby="tabAudio" hidden>
+  <iframe id="audioFrame" title="Chuyển đổi Âm thanh" loading="lazy"></iframe>
+</section>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const MM = 96 / 25.4;               // px trên mỗi mm (CSS)
+const LH = 1.107;                   // chiều cao dòng đơn của Times New Roman (ascent + descent)
+const src = s => String(s||"").replace("ND30_PL1", "PL I NĐ 30/2020").replace("DANG_05", "HD 05-HD/VPTW").replace("DEAN_PL41", "PL 4.1 (luận văn/đề án)");
+const FIELD = {font:"Phông chữ",color:"Màu chữ",size:"Cỡ chữ",bold:"Đậm",italic:"Nghiêng",underline:"Gạch chân",caps:"In hoa/thường",align:"Căn lề đoạn",
+  indent:"Lùi đầu dòng",spacing:"Khoảng cách đoạn",line_spacing:"Giãn dòng",margin:"Lề trang",paper:"Khổ giấy",orientation:"Hướng trang",page_number:"Số trang",
+  char_spacing:"Mật độ chữ",position:"Vị trí tên bảng/hình",numbering:"Đánh số đề mục",page_start:"Trang 1 từ Mở đầu"};
+const METHOD = {regex:"quy tắc",context:"ngữ cảnh",heuristic:"heuristic",user:"bạn chỉnh",skip:"-"};
+const BODY_ROLES = {nd30: ["body","list_item","can_cu","dieu"], dang: ["dang_body","dang_list_item","dang_can_cu","dang_dieu"],
+  dean: ["dean_body","dean_tai_lieu"]};
+const STD_LABEL = {nd30:"NĐ 30", dang:"Đảng (05-HD/VPTW)", dean:"Đề án thạc sĩ"};
+const BRAND_STD = {nd30:"NĐ 30/2020/NĐ-CP", dang:"Đảng · Hướng dẫn 05-HD/VPTW", dean:"Luận văn/Đề án thạc sĩ · Phụ lục 4.1"};
+const STD_ONLY_TXT = {nd30:"Chỉ quy định NĐ 30 (bỏ quy ước báo cáo dài)", dang:"Chỉ quy định của Đảng (bỏ quy ước bổ sung)",
+  dean:"Chỉ quy định của Phụ lục 4.1 (bỏ quy ước bổ sung)"};
+
+const S = {cfg:null, token:"", jobs:[], cur:null, view:"quick", which:"fixed", hl:true, zoom:null, sel:null,
+  spec:null, roles:{}, manual:{}, dirty:false, filter:"all", pages:{}, busy:false, standard:"nd30", openWhenDone:null, polling:false, edits:{}, ignored:new Set()};
+
+function store(k, v){ try{ v===undefined ? localStorage.removeItem(k) : localStorage.setItem(k, v) }catch(e){} }
+function load(k){ try{ return localStorage.getItem(k) }catch(e){ return null } }
+function toast(msg, ms=3200){
+  let box = $("#toasts"); if (!box){ box = document.createElement("div"); box.id = "toasts"; document.body.append(box) }
+  const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; box.append(t);
+  while (box.children.length > 4) box.firstChild.remove();
+  setTimeout(()=>t.remove(), ms);
+}
+
+async function api(path, opts={}){
+  const h = Object.assign({}, opts.headers||{});
+  if (S.token) h["X-App-Token"] = S.token;
+  const r = await fetch(path, Object.assign({}, opts, {headers:h}));
+  if (r.status === 401 && S.cfg && S.cfg.token_required){ showLogin("Mã truy cập không đúng hoặc đã được đổi. Vui lòng đăng nhập lại."); throw new Error("Cần đăng nhập") }
+  if (!r.ok){ let m = r.statusText; try{ const j = await r.json(); m = j.detail || m }catch(e){} throw new Error(typeof m==="string"?m:JSON.stringify(m)) }
+  return r;
+}
+const jget = async p => (await api(p)).json();
+const jsend = async (p, method, body) => (await api(p, {method, headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)})).json();
+
+/* ---------------------------------------------------------------- khởi động */
+async function init(){
+  S.cfg = await (await fetch("api/config")).json();
+  const org = S.cfg.org || {};
+  { const o = org; const lg = document.getElementById("orgLogo");
+    if (S.cfg.desktop){ lg.remove() }     // bản máy tính: không logo
+    else { lg.onerror = () => { lg.onerror = null; lg.src = "branding/logo" }; lg.src = o.logo || "branding/logo"; } }
+  $("#orgParent").textContent = org.parent || ""; $("#orgName").textContent = org.name || ""; $("#orgTag").textContent = org.tagline || "";
+  for (const id of ["orgParent", "orgTag"]) $("#"+id).hidden = !$("#"+id).textContent;
+  if (org.unit) $("#orgUnit").textContent = org.unit;
+  else if (S.cfg.desktop) $("#orgUnit").hidden = true;
+  if (S.cfg.audio === false){ $("#tabAudio").hidden = true; document.body.classList.add("no-audio"); }   // bản máy tính: không có tab Âm thanh
+  if (S.cfg.desktop){
+    document.title = org.name || "Công cụ văn bản NĐ30"; document.body.classList.add("desktop");
+    setInterval(() => fetch("api/desktop/ping").catch(() => {}), 15000); fetch("api/desktop/ping").catch(() => {});
+  } else if (org.name) document.title = "Chuẩn hoá văn bản · " + org.name;
+  $("#chips").innerHTML =
+    `<span class="chip ${S.cfg.office?"on":"warn"}" title="${S.cfg.office?"Bản in (LibreOffice) sẵn sàng":"Máy chủ chưa cài LibreOffice – không dựng được bản in"}">Bản in ${S.cfg.office?"✓":"✕"}</span>`;
+  $("#dropHint").textContent = `.docx, tối đa ${S.cfg.max_files} file, mỗi file ≤ ${S.cfg.max_mb} MB`;
+  bindUI();
+  if (S.cfg.token_required){
+    // link đăng nhập nhanh: ưu tiên #token=... (phần sau # không gửi lên máy chủ, không nằm trong log); vẫn nhận ?token=
+    const qs = new URLSearchParams(location.search);
+    const hs = new URLSearchParams(location.hash.replace(/^#/, ""));
+    const qTok = hs.get("token") || qs.get("token");
+    if (qTok){ S.token = qTok.trim(); store("nd30_token", S.token); qs.delete("token");
+      const rest = qs.toString(); history.replaceState(null, "", location.pathname + (rest?"?"+rest:"")) }
+    else S.token = load("nd30_token") || "";
+    if (!S.token) return showLogin("");
+  }
+  await enterApp();
+}
+
+function showLogin(msg){
+  $("#appMain").hidden = true; $("#login").hidden = false; $("#logoutBtn").hidden = true;
+  $("#workspaceTabs").hidden = true; $("#composerPanel").hidden = true; $("#markdownPanel").hidden = true; $("#audioPanel").hidden = true;
+  $("#loginErr").textContent = msg || ""; $("#tok").value = ""; setTimeout(() => $("#tok").focus(), 50);
+}
+
+/* điện thoại: thanh điều hướng dính mép trên nhưng chỉ chừa hàng tab; khung soạn thảo/Markdown cao vừa màn hình */
+const isPhone=()=>matchMedia("(max-width:760px)").matches;
+function syncStickyBar(){
+  const nav=document.querySelector("nav.bar"),tabs=$("#workspaceTabs"),root=document.documentElement.style;
+  if(!isPhone()||tabs.hidden){root.removeProperty("--bar-stick");root.removeProperty("--tabs-h");return;}
+  const off=tabs.offsetTop-4;
+  root.setProperty("--bar-stick",(-off)+"px");root.setProperty("--tabs-h",(nav.offsetHeight-off)+"px");
+}
+addEventListener("resize",syncStickyBar);
+if(window.ResizeObserver)new ResizeObserver(syncStickyBar).observe(document.querySelector("nav.bar"));
+function alignPanel(el,always){
+  if(!isPhone()||!el||el.hidden)return;
+  syncStickyBar();
+  const tabsH=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--tabs-h"))||0;
+  const y=el.getBoundingClientRect().top+scrollY-tabsH;
+  if(always||scrollY>y)scrollTo({top:Math.max(0,y),behavior:"auto"});
+}
+function showWorkspaceTab(tab){
+  const audio=tab==="audio"&&S.cfg.audio!==false, compose=tab==="compose", markdown=tab==="markdown", standard=!compose&&!markdown&&!audio;
+  $("#appMain").hidden=!standard;
+  $("#composerPanel").hidden=!compose;
+  $("#markdownPanel").hidden=!markdown;
+  $("#audioPanel").hidden=!audio;
+  for(const [id,active] of [["tabStandardize",standard],["tabCompose",compose],["tabMarkdown",markdown],["tabAudio",audio]]){
+    const button=$("#"+id);button.classList.toggle("on",active);button.setAttribute("aria-selected",String(active));
+  }
+  if(compose&&!$("#composerFrame").getAttribute("src"))$("#composerFrame").setAttribute("src","soan-thao");
+  if(markdown&&!$("#markdownFrame").getAttribute("src"))$("#markdownFrame").setAttribute("src","chuyen-md");
+  if(audio&&!$("#audioFrame").getAttribute("src"))$("#audioFrame").setAttribute("src","chuyen-am-thanh");
+  // chuẩn đang kiểm tra và link quy chuẩn chỉ thuộc tab Chuẩn hoá
+  for(const el of [$("#brandStd")])if(el)el.hidden=!standard;
+  if(standard&&S.zoom===null)requestAnimationFrame(applyZoom);
+  requestAnimationFrame(()=>alignPanel(compose?$("#composerPanel"):markdown?$("#markdownPanel"):audio?$("#audioPanel"):$("#appMain"),!standard));
+}
+
+/* ---------------------------------------------------------------- quản trị mã truy cập */
+const fmtDate = t => t ? new Date(t*1000).toLocaleDateString("vi-VN") : "";
+function showToken(u){
+  $("#admTokenWho").textContent = u.name; $("#admTokenVal").textContent = u.token; $("#admToken").hidden = false;
+}
+async function loadAdminUsers(){
+  const r = await jget("api/admin/users");
+  $("#admRows").innerHTML = r.users.length ? r.users.map(u => `<tr data-uid="${esc(u.id)}">
+    <td><div class="n">${esc(u.name)}</div>${u.note?`<div class="mut" style="font-size:12px">${esc(u.note)}</div>`:""}</td>
+    <td><code>…${esc(u.hint||"")}</code>${u.last_reset?`<div class="mut" style="font-size:11.5px">cấp lại ${fmtDate(u.last_reset)}</div>`:""}</td>
+    <td>${fmtDate(u.created)}</td><td>${u.jobs}</td>
+    <td>${u.active?'<span class="st-on">Đang dùng</span>':'<span class="st-off">Đã khoá</span>'}</td>
+    <td><div class="acts"><button class="btn sm" data-act="toggle">${u.active?"Khoá":"Mở khoá"}</button>
+      <button class="btn sm" data-act="reset">Cấp lại mã</button><button class="btn sm" data-act="rename">Đổi tên</button>
+      <button class="btn sm" data-act="del" style="color:var(--err)">Xoá</button></div></td></tr>`).join("")
+    : `<tr><td colspan="6" class="mut">Chưa có mã nào. Nhập tên ở trên rồi bấm “Tạo mã”.</td></tr>`;
+  S.admUsers = r.users;
+}
+async function openAdmin(){
+  $("#admToken").hidden = true; $("#admForm").reset();
+  try{ await loadAdminUsers(); $("#adminDlg").showModal(); setTimeout(() => $("#admName").focus(), 50) }
+  catch(e){ toast("Không mở được quản lý mã: " + e.message, 6000) }
+}
+function bindAdmin(){
+  $("#admClose").onclick = () => $("#adminDlg").close();
+  $("#admForm").onsubmit = async ev => {
+    ev.preventDefault();
+    try{ const u = await jsend("api/admin/users", "POST", {name:$("#admName").value, note:$("#admNote").value});
+      showToken(u); $("#admForm").reset(); await loadAdminUsers() }
+    catch(e){ toast("Không tạo được mã: " + e.message, 6000) }
+  };
+  $("#admCopy").onclick = async () => {
+    try{ await navigator.clipboard.writeText($("#admTokenVal").textContent); toast("Đã sao chép mã") }
+    catch(e){ toast("Hãy bôi đen mã rồi Ctrl+C") }
+  };
+  $("#admRows").onclick = async e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const uid = b.closest("tr").dataset.uid, u = (S.admUsers||[]).find(x => x.id === uid); if (!u) return;
+    try{
+      if (b.dataset.act === "toggle"){
+        await jsend(`api/admin/users/${uid}`, "PATCH", {active: !u.active});
+        toast(u.active ? `Đã khoá mã của ${u.name}` : `Đã mở khoá mã của ${u.name}`);
+      } else if (b.dataset.act === "reset"){
+        if (!confirm(`Cấp mã mới cho “${u.name}”? Mã cũ sẽ hết hiệu lực ngay; tài liệu của người này vẫn giữ nguyên.`)) return;
+        showToken(await jsend(`api/admin/users/${uid}/reset`, "POST", {}));
+      } else if (b.dataset.act === "rename"){
+        const name = prompt("Tên mới", u.name); if (!name || name === u.name) return;
+        await jsend(`api/admin/users/${uid}`, "PATCH", {name});
+      } else if (b.dataset.act === "del"){
+        if (!confirm(`Xoá mã của “${u.name}”? Người này sẽ không đăng nhập được nữa.`)) return;
+        const purge = u.jobs > 0 && confirm(`Xoá luôn ${u.jobs} tài liệu của “${u.name}”?\nOK = xoá tài liệu · Huỷ = chuyển tài liệu sang quản trị viên`);
+        await api(`api/admin/users/${uid}?purge=${purge}`, {method:"DELETE"});
+        toast(`Đã xoá mã của ${u.name}` + (u.jobs ? (purge ? ` và ${u.jobs} tài liệu` : `; ${u.jobs} tài liệu chuyển sang quản trị viên`) : ""));
+        if (!purge && u.jobs){ const r = await jget("api/jobs"); S.jobs = r.jobs || []; renderFiles() }
+      }
+      await loadAdminUsers();
+    }catch(err){ toast("Lỗi: " + err.message, 6000) }
+  };
+}
+
+/* tab Soạn thảo gửi bản đang soạn sang kiểm tra: mở tab Chuẩn hoá và mở phiên khi xử lý xong */
+async function openCheckedJob(id){
+  if (!/^[0-9a-f]{16}$/.test(id||"")) return;
+  showWorkspaceTab("standardize");
+  try{
+    const st = await jget(`api/jobs/${id}/status`);
+    const j = S.jobs.find(x => x.id === id);
+    if (j) Object.assign(j, st); else S.jobs.unshift(st);
+    if (st.status === "done") await openJob(id); else { S.openWhenDone = id; startPoll() }
+    renderFiles(); toast("Đang kiểm tra thể thức bản vừa soạn…", 4000);
+  }catch(e){ toast("Không mở được bản vừa soạn: " + e.message, 6000) }
+}
+window.addEventListener("message", e => {
+  if (e.origin !== location.origin) return;
+  if (e.data?.type === "nd30:check-job") { openCheckedJob(e.data.id); return; }
+  if (e.data?.type === "nd30:compose-draft") {
+    // tab Chuyển Markdown -> tab Soạn thảo: chuyển tab rồi giao bản thảo cho trình soạn thảo
+    const msg = e.data, frame = $("#composerFrame");
+    showWorkspaceTab("compose");
+    const send = () => frame.contentWindow?.postMessage(msg, location.origin);
+    if (frame.dataset.ready === "1") send();
+    else { S.pendingDraft = msg; }
+    return;
+  }
+  if (e.data?.type === "nd30:composer-ready") {
+    $("#composerFrame").dataset.ready = "1";
+    if (S.pendingDraft) { $("#composerFrame").contentWindow?.postMessage(S.pendingDraft, location.origin); S.pendingDraft = null; }
+  }
+});
+
+async function enterApp(){
+  try{
+    const r = await jget("api/jobs");   // đồng thời kiểm tra mã truy cập
+    $("#login").hidden = true; $("#workspaceTabs").hidden = false; showWorkspaceTab("standardize"); $("#logoutBtn").hidden = !S.cfg.token_required;
+    S.jobs = r.jobs || [];
+    renderFiles(); startPoll();
+    try{ S.me = await jget("api/me") }catch(e){ S.me = null }
+    const who = $("#whoChip"), role = S.me?.role;
+    who.hidden = !(role === "admin" || role === "user"); who.textContent = role === "admin" ? "👤 Quản trị" : "👤 " + (S.me?.name || ""); who.title = role === "admin" ? "Đăng nhập bằng mã quản trị" : (S.me?.name || "");
+    $("#adminBtn").hidden = role !== "admin";
+    if (S.cur) renderSpec();
+    const qJob = new URLSearchParams(location.search).get("job");
+    if (qJob){ history.replaceState(null, "", location.pathname); openCheckedJob(qJob) }
+    return true;
+  }catch(e){
+    if (!$("#login").hidden) return false;   // đã chuyển sang màn đăng nhập (401)
+    $("#login").hidden = true; $("#workspaceTabs").hidden = false; showWorkspaceTab("standardize");
+    toast("Không tải được danh sách file: " + e.message, 6000);
+    return false;
+  }
+}
+
+async function login(ev){
+  ev.preventDefault();
+  const t = $("#tok").value.trim();
+  if (!t){ $("#loginErr").textContent = "Vui lòng nhập mã truy cập."; return }
+  S.token = t;
+  const ok = await enterApp();
+  if (ok){ store("nd30_token", t); toast("Đăng nhập thành công") }
+  else if (!$("#login").hidden) $("#loginErr").textContent = "Mã truy cập không đúng.";
+}
+
+function bindUI(){
+  $("#tabStandardize").onclick=()=>showWorkspaceTab("standardize");
+  $("#tabCompose").onclick=()=>showWorkspaceTab("compose");
+  $("#tabMarkdown").onclick=()=>showWorkspaceTab("markdown");
+  $("#tabAudio").onclick=()=>showWorkspaceTab("audio");
+  const fi = $("#fileIn"), drop = $("#drop");
+  fi.onchange = () => { $("#upBtn").disabled = !fi.files.length; $("#dropHint").textContent = fi.files.length ? `${fi.files.length} file: ` + [...fi.files].map(f=>f.name).join(", ") : ".docx" };
+  ["dragenter","dragover"].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add("hover") }));
+  ["dragleave","drop"].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove("hover") }));
+  drop.addEventListener("drop", ev => { fi.files = ev.dataTransfer.files; fi.onchange() });
+  $("#loginForm").onsubmit = login;
+  $("#tokEye").onclick = () => { const i = $("#tok"); const show = i.type === "password"; i.type = show ? "text" : "password"; $("#tokEye").textContent = show ? "Ẩn" : "Hiện" };
+  $("#adminBtn").onclick = openAdmin; bindAdmin();
+  $("#logoutBtn").onclick = () => { S.me = null; $("#adminBtn").hidden = true; $("#whoChip").hidden = true; S.token = ""; store("nd30_token"); S.jobs = []; S.cur = null; S.sel = null; $("#stage").innerHTML = ""; renderFiles(); showLogin("Đã đăng xuất.") };
+  $("#up").onsubmit = upload;
+  $("#segStd").onclick = e => { const b=e.target.closest("button"); if(!b) return; S.standard=b.dataset.std; segOn("#segStd", b);
+    $("#optOnlyTxt").textContent = STD_ONLY_TXT[S.standard]; updRestd() };
+  $("#restdBtn").onclick = () => restandard(S.standard);
+  $("#segView").onclick = e => { const b=e.target.closest("button"); if(!b) return; S.view=b.dataset.v; segOn("#segView", b); renderStage() };
+  $("#segWhich").onclick = e => { const b=e.target.closest("button"); if(!b) return; S.which=b.dataset.w; segOn("#segWhich", b); renderStage() };
+  $("#hlChk").onchange = e => { S.hl = e.target.checked; document.querySelectorAll(".pages").forEach(p=>p.classList.toggle("hl", S.hl)) };
+  $("#mgChk").onchange = e => $("#stage").classList.toggle("show-mg", e.target.checked);
+  $("#zIn").onclick = () => setZoom((S.zoom || fitZoom()) + 0.1);
+  $("#zOut").onclick = () => setZoom(Math.max(0.3, (S.zoom || fitZoom()) - 0.1));
+  $("#zFit").onclick = () => setZoom(null);
+  $("#tabs").onclick = e => { const b=e.target.closest("button"); if(b) showTab(b.dataset.t) };
+  $("#dl .menu").onclick = e => { const b=e.target.closest("button"); if(b){ $("#dl").open=false; download(b.dataset.k) } };
+  $("#applyBtn").onclick = applyChanges;
+  $("#discardBtn").onclick = () => { if(!S.cur) return; S.spec = clone(S.cur.spec_raw); S.roles = Object.assign({}, S.cur.role_overrides||{}); S.manual = clone(S.cur.manual_format||{}); S.edits = Object.assign({}, S.cur.text_edits||{}); S.ignored = new Set(S.cur.ignored||[]); initSpell(S.cur); initToc(S.cur); setDirty(false); renderTocTab(); renderSpellTab(); renderSpec(); renderPara(); renderStage() };
+  window.addEventListener("resize", () => { if (S.zoom===null) applyZoom() });
+}
+function segOn(sel, b){ document.querySelectorAll(sel+" button").forEach(x=>x.classList.toggle("on", x===b)) }
+function showTab(t){ document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on", b.dataset.t===t)); ["errs","para","spec","toc","spell"].forEach(k=>$("#tab-"+k).hidden = k!==t) }
+const clone = o => JSON.parse(JSON.stringify(o));
+
+/* ---------------------------------------------------------------- tải lên & mở phiên */
+async function upload(ev){
+  ev.preventDefault();
+  const files = $("#fileIn").files; if (!files.length) return;
+  const fd = new FormData(); [...files].forEach(f=>fd.append("files", f));
+  fd.append("only_nd30", $("#optNd30").checked);
+  fd.append("standard", S.standard);
+  fd.append("spell", $("#optSpell").checked); fd.append("spell_level", $("#optSpellLv").value);
+  const btn = $("#upBtn"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Đang tải lên…';
+  try{
+    const r = await (await api("api/jobs", {method:"POST", body:fd})).json();
+    S.jobs = r.jobs.concat(S.jobs);
+    const first = r.jobs.find(j=>j.ok);
+    if (first) S.openWhenDone = first.id;
+    renderFiles(); startPoll();
+    const bad = r.jobs.filter(j=>!j.ok).length;
+    toast(`Đã nhận ${r.jobs.length - bad} file, đang xử lý…` + (bad ? ` · ${bad} file bị từ chối` : ""), 6000);
+    $("#fileIn").value = ""; $("#dropHint").textContent = `.docx, tối đa ${S.cfg.max_files} file, mỗi file ≤ ${S.cfg.max_mb} MB`;
+  }catch(e){ toast("Lỗi: " + e.message, 6000) }
+  finally{ btn.disabled = !$("#fileIn").files.length; btn.textContent = "Tải lên & kiểm tra" }
+}
+
+const isPending = j => j.status === "queued" || j.status === "running";
+async function startPoll(){
+  if (S.polling) return; S.polling = true;
+  try{
+    while (S.jobs.some(isPending)){
+      await new Promise(res => setTimeout(res, 1200));
+      for (const j of S.jobs.filter(isPending)){
+        let st;
+        try{ st = await jget(`api/jobs/${j.id}/status`) }catch(e){ st = {status:"error", ok:false, message:e.message} }
+        Object.assign(j, st);
+        if (j.status === "done"){
+          toast(`${j.file}: ${j.errors} lỗi → còn ${j.errors_after}`, 5000);
+          if (S.openWhenDone === j.id){ S.openWhenDone = null; await openJob(j.id) }
+        } else if (j.status === "error"){
+          toast(`${j.file}: ${j.message}`, 7000);
+          if (S.openWhenDone === j.id) S.openWhenDone = (S.jobs.find(x => isPending(x)) || {}).id || null;
+        }
+      }
+      renderFiles();
+    }
+  } finally { S.polling = false }
+}
+
+function renderFiles(){
+  const sb = j => j.standard_mismatch ? `<span class="jb warn" title="Có thể chọn nhầm chuẩn thể thức – mở file để xem chi tiết">Kiểm tra chuẩn?</span>` : "";
+  $("#files").innerHTML = S.jobs.map(j => isPending(j)
+    ? `<div class="file pend" data-pend="${j.id}"><div class="n">${esc(j.file)}</div><div class="s"><span class="spin"></span> ${esc(j.stage || "Đang xử lý…")}</div></div>`
+    : j.ok
+    ? `<div class="file ${S.cur&&S.cur.id===j.id?"cur":""}" data-id="${j.id}"><div class="n">${esc(j.file)}</div><div class="s">${j.errors} lỗi → còn ${j.errors_after} <span class="mut">· ${STD_LABEL[j.standard]||j.standard||""}</span>${sb(j)}</div><button class="x" data-del="${j.id}" title="Xóa file này">×</button></div>`
+    : `<div class="file bad"><div class="n">${esc(j.file)}</div><div class="s">${esc(j.message)}</div>${j.id?`<button class="x" data-del="${j.id}" title="Xóa">×</button>`:""}</div>`).join("");
+  $("#files").onclick = e => {
+    const x = e.target.closest("[data-del]");
+    if (x){ e.stopPropagation(); deleteJob(x.dataset.del); return }
+    const f = e.target.closest(".file[data-id]"); if (f) openJob(f.dataset.id);
+  };
+}
+
+async function deleteJob(id){
+  if (!confirm("Xóa file này khỏi máy chủ? Không thể hoàn tác.")) return;
+  try{
+    await api(`api/jobs/${id}`, {method:"DELETE"});
+  }catch(e){ toast("Lỗi khi xóa: " + e.message, 5000); return }
+  S.jobs = S.jobs.filter(j => j.id !== id);
+  if (S.cur && S.cur.id === id) clearView();
+  renderFiles();
+  toast("Đã xóa file.");
+}
+
+/* ---------------------------------------------------------------- đổi chuẩn, kiểm tra lại không cần tải lại */
+function setStdSeg(std){
+  S.standard = std;
+  const b = document.querySelector(`#segStd button[data-std="${std}"]`); if (b) segOn("#segStd", b);
+  $("#optOnlyTxt").textContent = STD_ONLY_TXT[std] || STD_ONLY_TXT.nd30;
+}
+function updRestd(){
+  const box = $("#restdBox"); if (!box) return;
+  const show = !!(S.cur && S.standard && S.standard !== S.cur.standard);
+  box.hidden = !show; if (!show) return;
+  $("#restdBtn").textContent = `↻ Kiểm tra lại file đang mở theo chuẩn ${STD_LABEL[S.standard]}`;
+  $("#restdNote").textContent = `“${S.cur.file}” đang kiểm tra theo chuẩn ${STD_LABEL[S.cur.standard]}. Không cần tải lại file gốc; chữ đã sửa và định dạng chỉnh tay được giữ, vai trò chỉnh tay và lỗi đã bỏ qua sẽ được tính lại.`;
+}
+function clearView(){
+  S.cur = null; S.sel = null; S.spec = null; S.roles = {}; S.manual = {}; S.edits = {}; S.ignored = new Set(); setDirty(false);
+  const bs = $("#brandStd"); if (bs) bs.textContent = BRAND_STD.nd30;
+  $("#stage").innerHTML = ""; renderStdBar(null); renderErrs(); renderPara(); renderSpec(); renderTocTab(); renderSpellTab(); updRestd();
+}
+async function restandard(std){
+  if (!S.cur || S.busy) return;
+  if (std === S.cur.standard) return toast("File đang được kiểm tra theo chuẩn này rồi");
+  const lost = Object.keys(S.cur.role_overrides||{}).length + (S.cur.ignored||[]).length;
+  if ((S.dirty || lost) && !confirm(`Kiểm tra lại “${S.cur.file}” theo chuẩn ${STD_LABEL[std]}?` +
+      (lost ? `\n- ${lost} vai trò chỉnh tay/lỗi đã bỏ qua sẽ được tính lại theo chuẩn mới.` : "") +
+      (S.dirty ? "\n- Các thay đổi chưa bấm “Áp dụng & sửa lại” sẽ bị bỏ." : ""))) return;
+  const id = S.cur.id, btn = $("#restdBtn");
+  S.busy = true; if (btn){ btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Đang gửi…' }
+  try{
+    const r = await jsend(`api/jobs/${id}/restandard`, "POST", {standard:std, only_nd30:$("#optNd30").checked});
+    const j = S.jobs.find(x => x.id === id); if (j) Object.assign(j, r, {standard_mismatch:false});
+    setStdSeg(std); clearView(); S.openWhenDone = id; renderFiles(); startPoll();
+    toast(`Đang kiểm tra lại theo chuẩn ${STD_LABEL[std]}…`, 4000);
+  }catch(e){ toast("Không kiểm tra lại được: " + e.message, 6000) }
+  finally{ S.busy = false; if (btn){ btn.disabled = false } updRestd() }
+}
+
+async function openJob(id){
+  try{
+    const p = await jget(`api/jobs/${id}`);
+    setPayload(p);
+  }catch(e){ toast("Không mở được: " + e.message, 5000) }
+}
+
+function setPayload(p){
+  initSpell(p); initToc(p);
+  S.cur = p; S.sel = null; S.spec = clone(p.spec_raw); S.roles = Object.assign({}, p.role_overrides||{}); S.manual = clone(p.manual_format||{}); S.edits = Object.assign({}, p.text_edits||{}); S.ignored = new Set(p.ignored||[]);
+  setDirty(false);
+  const j = S.jobs.find(x=>x.id===p.id);
+  if (j){ j.errors = p.summary.total; j.errors_after = p.summary_after.total;
+    if (p.standard_hint) j.standard_mismatch = !!p.standard_hint.mismatch }
+  const bs = $("#brandStd"); if (bs) bs.textContent = BRAND_STD[p.standard] || BRAND_STD.nd30;
+  renderStdBar(p.standard_hint);
+  setStdSeg(p.standard || "nd30"); updRestd();
+  if (window.matchMedia("(max-width:760px)").matches && S.cur && S._lastOpened !== p.id){   // điện thoại: cuộn tới khung xem văn bản
+    S._lastOpened = p.id; setTimeout(() => $("main.center").scrollIntoView({behavior:"smooth", block:"start"}), 150) }
+  const dc = $("#dlClean"); if (dc) dc.hidden = !(p.spell && p.spell.clean_file);
+  indexPayload(); renderFiles(); renderStage(); renderErrs(); renderPara(); renderSpec(); renderTocTab(); renderSpellTab();
+}
+
+function renderStdBar(hint){
+  const b = $("#stdBar");
+  if (!hint || !hint.mismatch){ b.hidden = true; return }
+  b.hidden = false;
+  const sug = STD_LABEL[hint.suggested] || hint.suggested;
+  const cur = STD_LABEL[hint.current] || hint.current;
+  const act = hint.suggested && hint.suggested !== hint.current && STD_LABEL[hint.suggested]
+    ? `<button type="button" class="btn xs" id="stdBarBtn">↻ Kiểm tra lại theo ${esc(sug)}</button>` : "";
+  if (hint.reason) b.innerHTML = `<b>Có thể chọn nhầm chuẩn</b><span>${esc(hint.reason)}${hint.evidence?` Đầu văn bản: "${esc(hint.evidence)}".`:""} Nên kiểm tra lại theo chuẩn <b>${esc(sug)}</b>.</span>${act}`;
+  else b.innerHTML = `<b>Có thể chọn nhầm chuẩn</b><span>Đoạn "${esc(hint.evidence)}" cho thấy đây có thể là văn bản theo chuẩn <b>${esc(sug)}</b>, nhưng đang kiểm tra theo chuẩn <b>${esc(cur)}</b>. Nếu đúng vậy, bấm nút bên cạnh để kiểm tra lại, không cần tải lại file.</span>${act}`;
+  const sb = $("#stdBarBtn"); if (sb) sb.onclick = () => restandard(hint.suggested);
+}
+
+function indexPayload(){
+  const p = S.cur;
+  const group = list => { const m = {}; (list||[]).forEach(v => { if (v.scope==="paragraph") (m[v.target] ||= []).push(v) }); return m };
+  p._vb = group(p.violations); p._va = group(p.violations_after);
+  p._role = {}; p.roles.forEach(d => p._role[d.pid] = d);
+  p._after = new Set((p.violations_after||[]).filter(v => !v.ignored).map(keyOf));
+  p._label = p.role_labels || {};
+  const min = p.min_role_confidence ?? 0.5;
+  p._rev = new Set(p.roles.filter(d => d.method==="heuristic" && (d.confidence < min || (d.note||"").includes("kiểm tra"))).map(d=>d.pid));
+  $("#cntErr").textContent = p.summary_after.total ? `${p.summary.total} → ${p.summary_after.total}` : p.summary.total;
+}
+
+/* ---------------------------------------------------------------- vẽ văn bản (xem nhanh) */
+function fontStack(f){
+  const base = '"Times New Roman","Liberation Serif","Tinos",serif';
+  if (!f || f.startsWith("theme:")) return base;
+  return `"${f.replace(/"/g,"")}",${base}`;
+}
+function renderParaEl(p){
+  const el = document.createElement("div");
+  el.className = "p"; el.dataset.pid = p.id;
+  const sizes = p.r.map(r=>r.s||0).filter(Boolean);
+  const maxS = sizes.length ? Math.max(...sizes) : 13;
+  const st = el.style;
+  st.textAlign = {justify:"justify",center:"center",right:"right"}[p.a] || "left";
+  if (p.fl) st.textIndent = p.fl + "cm";
+  if (p.li > 0) st.paddingLeft = p.li + "cm";
+  if (p.sb) st.paddingTop = p.sb + "pt";
+  if (p.sa) st.paddingBottom = p.sa + "pt";
+  st.fontSize = maxS + "pt";
+  st.lineHeight = p.lr === "exact" ? p.lv + "pt" : p.lr === "atLeast" ? Math.max(p.lv, maxS*LH) + "pt" : (p.lv * LH).toFixed(3);
+  let brk = false;
+  if (p.nl){ const s = document.createElement("span"); s.className = "nl"; s.contentEditable = "false"; s.textContent = p.nl; el.append(s); const t=document.createElement("span"); t.className="tab nl"; el.append(t) }
+  let hasText = false;
+  for (const r of p.r){
+    const span = document.createElement("span");
+    const s = span.style;
+    s.fontFamily = fontStack(r.f);
+    if (r.s) s.fontSize = (r.v ? r.s*0.65 : r.s) + "pt";
+    if (r.b) s.fontWeight = "700";
+    if (r.i) s.fontStyle = "italic";
+    if (r.u) s.textDecoration = "underline";
+    if (r.k) s.textTransform = "uppercase";
+    if (r.v) s.verticalAlign = r.v === "superscript" ? "super" : "sub";
+    if (r.c && /^[0-9a-f]{6}$/i.test(r.c)) s.color = "#" + r.c;
+    for (const part of r.t.split(/(\t|\n|\f)/)){
+      if (part === "\t"){ const t=document.createElement("span"); t.className="tab"; span.append(t) }
+      else if (part === "\n") span.append(document.createElement("br"));
+      else if (part === "\f") brk = true;
+      else if (part){ span.append(part); if (part.trim()) hasText = true }
+    }
+    el.append(span);
+  }
+  if (p.img){ const i=document.createElement("span"); i.className="img"; i.contentEditable = "false"; i.textContent="[Hình ảnh / đối tượng]"; el.append(i); hasText = true }
+  if (!hasText && !p.nl) el.append(" ");
+  el._pageBreakAfter = brk;
+  return el;
+}
+
+function renderTable(b, paras){
+  const t = document.createElement("table");
+  t.className = "tbl z-" + (b.zone || "data_table");
+  for (const row of b.rows){
+    const tr = document.createElement("tr");
+    for (const c of row){
+      const td = document.createElement("td");
+      if (c.span > 1) td.colSpan = c.span;
+      if (c.w) td.style.width = c.w + "cm";
+      if (c.vm === "continue") td.className = "vm";
+      for (const pid of c.pids) if (paras[pid]) td.append(renderParaEl(paras[pid]));
+      tr.append(td);
+    }
+    t.append(tr);
+  }
+  return t;
+}
+
+function newPage(container, sec, pageNo, firstOfDoc){
+  const pg = document.createElement("div");
+  pg.className = "page";
+  const w = sec.width_mm, h = sec.height_mm;
+  pg.style.width = w + "mm"; pg.style.minHeight = h + "mm";
+  pg.style.padding = `${sec.top_mm}mm ${sec.right_mm}mm ${sec.bottom_mm}mm ${sec.left_mm}mm`;
+  const mg = document.createElement("div"); mg.className = "mg";
+  mg.style.inset = `${sec.top_mm}mm ${sec.right_mm}mm ${sec.bottom_mm}mm ${sec.left_mm}mm`; pg.append(mg);
+  const hidden = firstOfDoc && sec.title_pg;
+  if (sec.has_page_field_header && !hidden){
+    const hd = document.createElement("div"); hd.className = "hdr";
+    hd.style.cssText = `top:${Math.max(6, sec.top_mm*0.45)}mm;left:${sec.left_mm}mm;right:${sec.right_mm}mm;text-align:${sec.page_field_align||"center"};font-size:${sec.page_field_size||12}pt`;
+    hd.textContent = pageNo; pg.append(hd);
+  }
+  if (sec.has_page_field_footer && !sec.has_page_field_header && !hidden){
+    const fd = document.createElement("div"); fd.className = "ftr";
+    fd.style.cssText = `bottom:${Math.max(6, sec.bottom_mm*0.4)}mm;left:${sec.left_mm}mm;right:${sec.right_mm}mm;text-align:right;font-size:12pt`;
+    fd.textContent = pageNo; pg.append(fd);
+  }
+  const body = document.createElement("div"); body.className = "body"; pg.append(body);
+  container.append(pg);
+  pg._max = (h - sec.top_mm - sec.bottom_mm) * MM;
+  pg._body = body;
+  return pg;
+}
+
+function renderDoc(container, pv){
+  container.style.zoom = 1;
+  const secs = pv.sections; let si = 0; let no = 1;
+  let pg = newPage(container, secs[0], no, true);
+  const place = el => {
+    pg._body.append(el);
+    if (pg._body.offsetHeight > pg._max && pg._body.childElementCount > 1){
+      el.remove(); no++; pg = newPage(container, secs[si], no, false); pg._body.append(el);
+    }
+  };
+  for (const b of pv.blocks){
+    if (b.t === "sect"){ si = Math.min(b.idx, secs.length-1); no++; pg = newPage(container, secs[si], no, false); continue }
+    if (b.t === "p"){
+      const p = pv.paras[b.id]; if (!p) continue;
+      if (p.pb && pg._body.childElementCount){ no++; pg = newPage(container, secs[si], no, false) }
+      const el = renderParaEl(p); place(el);
+      if (el._pageBreakAfter){ no++; pg = newPage(container, secs[si], no, false) }
+    } else if (b.t === "tbl"){
+      place(renderTable(b, pv.paras));
+    }
+  }
+}
+
+function decorate(container, which){
+  const p = S.cur;
+  const vmap = which === "original" ? p._vb : p._va;
+  container.querySelectorAll(".p").forEach(el => {
+    const pid = el.dataset.pid, vs = (vmap[pid] || []).filter(v => !v.ignored);
+    el.classList.remove("e-loi","e-warn","e-fix","e-rev","sel");
+    if (vs.length) el.classList.add(vs.some(v => v.severity.startsWith("loi")) ? "e-loi" : "e-warn");
+    else if (which !== "original" && (p._vb[pid] || []).some(v => !v.ignored)) el.classList.add("e-fix");
+    if (p._rev.has(pid)) el.classList.add("e-rev");
+    if (pid === S.sel) el.classList.add("sel");
+    el.classList.toggle("e-edit", S.edits[pid] !== undefined);
+    const d = p._role[pid];
+    el.title = (p._label[d?.role] || d?.role || "") + (vs.length ? ` · ${vs.length} lỗi` : "");
+  });
+}
+
+function panesFor(){
+  return S.which === "compare" ? [["original","Bản gốc"],["fixed","Bản đã sửa"]] : [[S.which, S.which==="original"?"Bản gốc":"Bản đã sửa"]];
+}
+
+function renderStage(){
+  const st = $("#stage");
+  if (!S.cur){ return }
+  st.innerHTML = "";
+  const pageErr = (S.which === "original" ? S.cur.violations : S.cur.violations_after).filter(v=>v.scope==="page" && !v.ignored);
+  if (pageErr.length){
+    const b = document.createElement("div"); b.className = "banner";
+    b.textContent = (S.which==="original" ? "Lỗi trang: " : "Còn lỗi trang: ") + pageErr.map(v=>`${FIELD[v.field]||v.field} (${v.actual})`).join("; ");
+    st.append(b);
+  }
+  const wrap = document.createElement("div"); wrap.className = "panes" + (S.which==="compare" ? " two" : "");
+  st.append(wrap);
+  $("#legend").style.display = S.view === "quick" ? "" : "none";
+  for (const [w, label] of panesFor()){
+    const col = document.createElement("div");
+    col.innerHTML = `<div class="pane-h">${label}</div>`;
+    const pages = document.createElement("div"); pages.className = "pages" + (S.hl ? " hl" : ""); pages.dataset.which = w;
+    col.append(pages); wrap.append(col);
+    if (S.view === "quick"){
+      renderDoc(pages, S.cur.preview[w]);
+      decorate(pages, w);
+      pages.onclick = e => { const el = e.target.closest(".p"); if (el && !el.isContentEditable) select(el.dataset.pid, false) };
+      pages.ondblclick = e => { const el = e.target.closest(".p"); if (el) startEdit(el, w) };
+    } else {
+      renderPrint(pages, w);
+    }
+  }
+  applyZoom();
+}
+
+/* ---------------------------------------------------------------- sửa chữ trên bản xem trước */
+function readText(el){
+  let out = "";
+  const walk = n => {
+    for (const c of n.childNodes){
+      if (c.nodeType === 3) out += c.data;
+      else if (c.nodeType === 1){
+        if (c.classList.contains("nl") || c.classList.contains("img")) continue;
+        if (c.classList.contains("tab")){ out += "\t"; continue }
+        if (c.tagName === "BR"){ out += "\n"; continue }
+        walk(c);
+      }
+    }
+  };
+  walk(el);
+  out = out.replace(/\u00a0/g, " ").replace(/\n$/, "");
+  return out === " " ? "" : out;
+}
+function paraText(pid){ return (S.cur.paragraphs.find(x => x.id === pid) || {}).text || "" }
+function setEdit(pid, txt){
+  const applied = (S.cur.text_edits || {})[pid];
+  if (txt === paraText(pid)){ if (applied !== undefined) S.edits[pid] = applied; else delete S.edits[pid] }
+  else S.edits[pid] = txt;
+  setDirty(true);
+  document.querySelectorAll(`#stage .p[data-pid="${pid}"]`).forEach(x => x.classList.toggle("e-edit", S.edits[pid] !== undefined));
+}
+function startEdit(el, which){
+  if (el.isContentEditable) return;
+  const pd = S.cur.preview[which]?.paras?.[el.dataset.pid];
+  if (pd && pd.fd) return toast("Đoạn có trường tự động (số trang, mục lục, số hình/bảng) – hãy sửa trong Word", 5000);
+  const base = readText(el);
+  el.contentEditable = "true"; el.spellcheck = false; el.focus();
+  const onKey = e => {
+    if (e.key === "Enter"){ e.preventDefault(); el.blur() }
+    else if (e.key === "Escape"){ e.preventDefault(); cancel = true; el.blur() }
+  };
+  const onPaste = e => { e.preventDefault(); document.execCommand("insertText", false, (e.clipboardData.getData("text/plain")||"").replace(/\r?\n/g, " ")) };
+  let cancel = false;
+  const onBlur = () => {
+    el.removeEventListener("keydown", onKey); el.removeEventListener("blur", onBlur); el.removeEventListener("paste", onPaste);
+    el.contentEditable = "false";
+    const txt = readText(el);
+    if (cancel || txt === base){ if (cancel) renderStage(); return }
+    setEdit(el.dataset.pid, txt);
+    toast("Đã ghi chữ sửa – bấm “Áp dụng & sửa lại” để cập nhật file và kiểm tra lại", 4500);
+  };
+  el.addEventListener("keydown", onKey); el.addEventListener("blur", onBlur); el.addEventListener("paste", onPaste);
+}
+
+/* ---------------------------------------------------------------- bản in (LibreOffice) */
+async function renderPrint(pages, which){
+  if (!S.cfg.office){ pages.innerHTML = '<div class="banner info">Máy chủ chưa cài LibreOffice/poppler-utils. Xem hướng dẫn trong README (mục Bản in).</div>'; return }
+  const cur = S.cur;
+  const key = `${cur.id}:${which}:${which==="fixed"?cur.version:0}`;
+  pages.innerHTML = '<div class="banner info"><span class="spin"></span> Đang dựng bản in bằng LibreOffice…</div>';
+  try{
+    let entry = S.pages[key];
+    if (!entry){ const info = await jget(`api/jobs/${cur.id}/pages/${which}`); entry = S.pages[key] = {count:info.count, urls:{}} }
+    if (S.cur !== cur) return;
+    pages.innerHTML = "";
+    const sec = cur.preview[which].sections[0];
+    const io = new IntersectionObserver(async ents => {
+      for (const en of ents){
+        if (!en.isIntersecting) continue;
+        const box = en.target; io.unobserve(box);
+        const n = +box.dataset.n;
+        try{
+          if (!entry.urls[n]){ const r = await api(`api/jobs/${cur.id}/page/${which}/${n}`); entry.urls[n] = URL.createObjectURL(await r.blob()) }
+          const img = new Image(); img.alt = `Trang ${n}`; img.src = entry.urls[n];
+          img.onload = () => { box.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`; box.style.height = "auto" };
+          box.innerHTML = ""; box.append(img);
+        }catch(e){ box.textContent = "Lỗi tải trang " + n }
+      }
+    }, {root: $("#stage"), rootMargin: "600px"});
+    for (let n = 1; n <= entry.count; n++){
+      const box = document.createElement("div"); box.className = "pimg"; box.dataset.n = n;
+      box.style.width = sec.width_mm + "mm"; box.style.height = sec.height_mm + "mm"; box.textContent = "Trang " + n;
+      pages.append(box); io.observe(box);
+    }
+  }catch(e){ pages.innerHTML = `<div class="banner">Không dựng được bản in: ${esc(e.message)}</div>` }
+}
+
+/* ---------------------------------------------------------------- thu phóng */
+function pageWidthPx(){
+  const s = S.cur?.preview?.fixed?.sections?.[0] || S.cur?.preview?.original?.sections?.[0];
+  return (s ? Math.max(...(S.cur.preview.original.sections.map(x=>x.width_mm))) : 210) * MM;
+}
+function fitZoom(){
+  const st = $("#stage"); const n = S.which === "compare" ? 2 : 1;
+  const avail = (st.clientWidth - 32 - (n-1)*16) / n;
+  return Math.max(0.3, Math.min(1.4, avail / pageWidthPx()));
+}
+function applyZoom(){
+  const z = S.zoom || fitZoom();
+  document.querySelectorAll("#stage .pages").forEach(p => p.style.zoom = z);
+  $("#zVal").textContent = S.zoom ? Math.round(z*100) + "%" : `Vừa khung (${Math.round(z*100)}%)`;
+}
+function setZoom(z){ S.zoom = z; applyZoom() }
+
+/* ---------------------------------------------------------------- chọn đoạn */
+function highlightOnly(pid){
+  document.querySelectorAll("#stage .p").forEach(el => el.classList.toggle("sel", el.dataset.pid === pid));
+  const el = document.querySelector(`#stage .p[data-pid="${pid}"]`); if (el) el.scrollIntoView({block:"center", behavior:"smooth"});
+}
+function select(pid, scroll=true){
+  S.sel = pid;
+  document.querySelectorAll("#stage .p").forEach(el => el.classList.toggle("sel", el.dataset.pid === pid));
+  if (scroll){
+    if (S.view !== "quick"){ S.view = "quick"; segOn("#segView", document.querySelector('#segView [data-v="quick"]')); renderStage() }
+    const el = document.querySelector(`#stage .p[data-pid="${pid}"]`); if (el) el.scrollIntoView({block:"center", behavior:"smooth"});
+  }
+  renderPara(); showTab("para");
+}
+
+/* ---------------------------------------------------------------- tab Lỗi */
+function sevClass(v){ return v.severity.startsWith("loi") ? "sev-loi" : "sev-warn" }
+const keyOf = v => v.key || (v.target + "|" + v.field);
+function errItem(v, withSrc){
+  const k = keyOf(v), ig = v.ignored;
+  const st = ig ? '<span class="st-ig">đã bỏ qua</span>' : (S.cur._after.has(k) ? '<span class="st-no">còn</span>' : '<span class="st-ok">đã sửa</span>');
+  const canFix = !ig && canFixV(v);
+  const fixBtn = canFix ? `<button class="btn xs pri" data-fix="${esc(v.target)}" title="Xác nhận vai trò hiện tại của đoạn và sửa ngay">Sửa</button>` : "";
+  const manualBtn = v.scope === "paragraph" ? `<button class="btn xs" data-editfmt="${esc(v.target)}" title="Mở đoạn để sửa chữ hoặc định dạng thủ công">Chỉnh tay</button>` : "";
+  const btn = fixBtn + manualBtn + (ig ? `<button class="btn xs" data-unig="${esc(k)}" title="Tính lại lỗi này">Hoàn tác</button>`
+                 : `<button class="btn xs" data-ig="${esc(k)}" title="Phát hiện nhầm: không đánh dấu và không tự sửa lỗi này nữa">Bỏ qua</button>`);
+  const srcLine = "";
+  return `<details class="ei ${ig?"ig":""}"><summary><span class="f ${sevClass(v)}">${esc(FIELD[v.field]||v.field)}</span><span class="s">cần ${esc(v.expected)}</span><span class="stc">${st}${btn}</span></summary><div class="d">cần ${esc(v.expected)}; thực tế ${esc(v.actual)}${srcLine}</div></details>`;
+}
+// lỗi CẤU TRÚC: xác nhận vai trò cũng không tự sửa được -> không hiện nút Sửa
+const NOFIX_FIELDS = new Set(["position", "page_start"]);
+const BULK_FIELDS = new Set(["font","color","size","bold","italic","underline","caps","align","indent","spacing","line_spacing","char_spacing"]);
+function canFixV(v,p=S.cur){
+  if (!p || v.ignored || v.scope !== "paragraph" || NOFIX_FIELDS.has(v.field)) return false;
+  if (!p._after.has(keyOf(v))) return false;                  // đã sửa rồi
+  // còn lại vì vai trò chưa chắc (tin cậy thấp) hoặc sửa được nhưng chưa sửa
+  return v.fixable || p._rev.has(v.target);
+}
+function similarFixGroups(p,filter="all"){
+  const groups=new Map();
+  for(const v of p.violations_after||[]){
+    if(!canFixV(v,p)||!BULK_FIELDS.has(v.field)||filter==="ignored")continue;
+    if(filter==="loi"&&!v.severity.startsWith("loi"))continue;
+    if(filter==="warn"&&v.severity!=="canh_bao")continue;
+    const role=p._role[v.target]?.role||v.role;
+    const key=JSON.stringify([role,v.field,v.expected,v.source,v.severity]);
+    if(!groups.has(key))groups.set(key,{role,field:v.field,expected:v.expected,source:v.source,severity:v.severity,pids:new Set(),uncertain:new Set()});
+    const group=groups.get(key);
+    group.pids.add(v.target);
+    if(p._rev.has(v.target))group.uncertain.add(v.target);
+  }
+  return [...groups.values()].filter(g=>g.pids.size>=2).sort((a,b)=>b.pids.size-a.pids.size||a.field.localeCompare(b.field,"vi"));
+}
+function fixablePids(){
+  const p = S.cur; if (!p) return [];
+  return [...new Set((p.violations_after||[]).filter(v => canFixV(v,p)).map(v => v.target))];
+}
+async function fixParas(pids){
+  if (!S.cur || S.busy || !pids.length) return;
+  for (const pid of pids){
+    const role = S.roles[pid] || (S.cur._role[pid] || {}).role;
+    if (role && role !== "empty") S.roles[pid] = role;     // xác nhận vai trò đang hiển thị -> cho sửa theo vai trò
+  }
+  await applyChanges(pids.length === 1 ? `Đã xác nhận vai trò và sửa đoạn ${pids[0]}` : `Đã xác nhận vai trò và sửa ${pids.length} đoạn`);
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-fix],[data-fixall]"); if (!b) return;
+  e.stopPropagation(); e.preventDefault();
+  fixParas(b.dataset.fix ? [b.dataset.fix] : fixablePids());
+}, true);
+document.addEventListener("click", e => {
+  const b=e.target.closest("[data-fixgroup]");if(!b)return;
+  e.stopPropagation();e.preventDefault();
+  if(S.busy)return;
+  const group=S.fixGroups?.[Number(b.dataset.fixgroup)];if(!group)return;
+  const pids=[...group.pids];
+  if(group.uncertain.size&&!confirm(`${group.uncertain.size} đoạn trong nhóm “${FIELD[group.field]||group.field}” chưa chắc vai trò “${S.cur._label[group.role]||group.role}”. Xác nhận vai trò này cho các đoạn đó và sửa nhóm?`))return;
+  fixParas(pids);
+},true);
+async function toggleIgnore(k, on){
+  if (!S.cur || S.busy) return;
+  if (on) S.ignored.add(k); else S.ignored.delete(k);
+  await applyChanges(on ? "Đã bỏ qua lỗi – không còn đánh dấu và không tự sửa lỗi này" : "Đã tính lại lỗi này");
+}
+document.addEventListener("click", e => {
+  const b=e.target.closest("[data-editfmt]");if(!b)return;
+  e.stopPropagation();e.preventDefault();select(b.dataset.editfmt);
+},true);
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-ig],[data-unig]"); if (!b) return;
+  e.stopPropagation(); e.preventDefault();
+  toggleIgnore(b.dataset.ig || b.dataset.unig, !!b.dataset.ig);
+}, true);
+function renderErrs(){
+  const p = S.cur, box = $("#tab-errs");
+  if (!p){ box.innerHTML = '<p class="mut">Chưa có dữ liệu.</p>'; return }
+  const after = p._after;
+  const sb = p.summary.by_severity || {};
+  const pageV = p.violations.filter(v=>v.scope==="page");
+  const pids = Object.keys(p._vb);
+  const keep = v => S.filter==="all" || (S.filter==="ignored" ? v.ignored : !v.ignored && ((S.filter==="loi" && v.severity.startsWith("loi")) || (S.filter==="warn" && v.severity==="canh_bao") || (S.filter==="remain" && after.has(keyOf(v)))));
+  let html = `<div class="cards">
+      <div class="card"><span class="mut">Lỗi phát hiện</span><b>${p.summary.total}</b><span class="mut" style="font-size:12px">quy định: ${(sb.loi||0)+(sb.loi_can_doi_chieu||0)} · quy ước: ${sb.canh_bao||0}${p.summary.ignored?` · đã bỏ qua: ${p.summary.ignored}`:""}</span></div>
+      <div class="card ${p.summary_after.total?"":"ok"}"><span class="mut">Còn lại sau sửa</span><b>${p.summary_after.total}</b><span class="mut" style="font-size:12px">${p._rev.size} đoạn cần kiểm tra vai trò</span></div>
+    </div>`;
+  if ((p.notes||[]).length) html += `<div class="notes">${p.notes.map(esc).join("<br>")}</div>`;
+  html += `<div class="errbar"><div class="filt">Lọc <select id="filt">
+      <option value="all">Tất cả</option><option value="loi">Lỗi theo quy định</option><option value="warn">Cảnh báo quy ước</option><option value="remain">Còn lại sau sửa</option><option value="ignored">Đã bỏ qua</option></select></div>
+      <button class="btn xs" id="egOpenAll">Mở hết</button><button class="btn xs" id="egCloseAll">Thu gọn hết</button>
+      ${fixablePids().length ? `<button class="btn xs pri" data-fixall="1" title="Xác nhận vai trò đang hiển thị của các đoạn còn lỗi và sửa tất cả">Sửa tất cả lỗi còn lại (${fixablePids().length} đoạn)</button>` : ""}</div>`;
+  S.fixGroups=similarFixGroups(p,S.filter);
+  if(S.fixGroups.length){
+    html+=`<section class="sim-groups"><h3>Lỗi giống nhau còn lại</h3><p class="sim-hint">Gom theo vai trò đoạn, loại lỗi và thông số cần đạt. Bấm sửa một nhóm để cập nhật Word và kiểm tra lại.</p>`;
+    S.fixGroups.forEach((g,i)=>{
+      const label=p._label[g.role]||g.role;
+      html+=`<div class="sim-row"><span class="sim-desc"><b>${esc(FIELD[g.field]||g.field)}</b> · ${esc(label)} · ${g.pids.size} đoạn<small>Cần ${esc(g.expected)}${g.uncertain.size?` · ${g.uncertain.size} đoạn cần xác nhận vai trò`:""}</small></span><button class="btn xs pri" data-fixgroup="${i}" type="button">Sửa nhóm</button></div>`;
+    });
+    html+='</section>';
+  }
+  S.errOpen = S.errOpen || new Set();
+  const cnt = vs => { const no = vs.filter(v => !v.ignored && after.has(keyOf(v))).length;
+    return `<span class="cnt">${vs.length} lỗi · ${no ? `<span class="n-no">còn ${no}</span>` : '<span class="n-ok">đã sửa hết</span>'}</span>` };
+  const grp = (id, title, tag, excerpt, vs) => `<div class="eg ${S.errOpen.has(id)?"open":""}" data-g="${id}">
+      <div class="h"><span class="car">&#9656;</span><b>${title}</b>${cnt(vs)}</div>
+      ${excerpt ? `<div class="x">${esc(excerpt)}</div>` : ""}
+      <div class="body">${tag ? `<div style="font-size:11.5px;margin:2px 0 4px 18px" class="mut">Vai trò xác định bởi: ${tag}</div>` : ""}${vs.map(item).join("")}${id !== "__page" ? `<div style="text-align:right;margin-top:4px"><button class="btn xs" data-go="${id}">Xem đoạn này &rarr;</button></div>` : ""}</div></div>`;
+  const item = v => errItem(v, false);
+  const pv = pageV.filter(keep);
+  if (pv.length) html += grp("__page", "Trang in (khổ giấy, lề, số trang)", "", "", pv);
+  for (const pid of pids){
+    const vs = p._vb[pid].filter(keep); if (!vs.length) continue;
+    const d = p._role[pid] || {};
+    const how = METHOD[d.method] || d.method || "";
+    html += grp(pid, `${pid} · ${esc(p._label[d.role]||d.role)}`,
+      `<span class="tag">${esc(how)}</span>`, vs[0].excerpt, vs);
+  }
+  if (!pv.length && !pids.some(pid => p._vb[pid].some(keep))) html += '<p class="mut">Không có mục nào.</p>';
+  box.innerHTML = html;
+  $("#filt").value = S.filter;
+  $("#filt").onchange = e => { S.filter = e.target.value; renderErrs() };
+  box.querySelectorAll(".eg .h").forEach(h => h.onclick = () => {
+    const g = h.closest(".eg"), id = g.dataset.g, on = !g.classList.contains("open");
+    g.classList.toggle("open", on); on ? S.errOpen.add(id) : S.errOpen.delete(id);
+    if (on && id !== "__page") highlightOnly(id);
+  });
+  box.querySelectorAll("[data-go]").forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); select(b.dataset.go) });
+  $("#egOpenAll").onclick = () => { box.querySelectorAll(".eg").forEach(g => { g.classList.add("open"); S.errOpen.add(g.dataset.g) }) };
+  $("#egCloseAll").onclick = () => { box.querySelectorAll(".eg").forEach(g => g.classList.remove("open")); S.errOpen.clear() };
+}
+
+
+
+function renderSpellTab(){
+  const box = $("#tab-spell"), p = S.cur, cnt = $("#cntSpell");
+  if (!p){ box.innerHTML = '<p class="mut">Mở một file để sửa chính tả.</p>'; if (cnt) cnt.hidden = true; return }
+  if (cnt){ const n = (p.spell||{}).applied; cnt.hidden = !n; cnt.textContent = n||0 }
+  box.innerHTML = spellHtml(p) + `<div class="tab-act"><button class="btn pri" id="spApply" type="button">Áp dụng chính tả</button></div>`;
+  bindSpell(box);
+  $("#spApply").onclick = () => applyChanges("Chính tả");
+}
+
+/* ---------------------------------------------------------------- tab Mục lục */
+function initToc(p){
+  S.tocOpts = Object.assign({on:false, toc:true, hinh:false, bang:false}, clone(p.toc_opts||{}));
+  delete S.tocOpts.legacy;
+  S.tocOpts.exclude = [...(S.tocOpts.exclude||[])]; S.tocOpts.include = [...(S.tocOpts.include||[])];
+}
+function tocIncluded(c){
+  const ex = S.tocOpts.exclude, inc = S.tocOpts.include;
+  return !ex.includes(c.key) && (!c.reason || inc.includes(c.key));
+}
+function tocToggle(c, on){
+  const o = S.tocOpts, rm = (a, k) => a.filter(x => x !== k);
+  if (on){ o.exclude = rm(o.exclude, c.key); if (c.reason && !o.include.includes(c.key)) o.include.push(c.key) }
+  else { o.include = rm(o.include, c.key); if (!c.reason && !o.exclude.includes(c.key)) o.exclude.push(c.key) }
+}
+function tocCandHtml(p){
+  const cs = p.toc_candidates || [];
+  if (!cs.length) return "";
+  const auto = cs.filter(c => c.reason).length;
+  const rows = cs.map((c, i) => `<label class="toc-cand${tocIncluded(c) ? "" : " off"}" data-i="${i}">
+      <input type="checkbox" ${tocIncluded(c) ? "checked" : ""}><span class="lv">${c.level}</span>
+      <span class="tx"><span class="t">${esc(c.text) || "(trống)"}</span>${c.reason ? `<small>${esc(c.reason)}</small>` : ""}</span></label>`).join("");
+  return `<h3 style="margin-top:14px">Đề mục đưa vào mục lục</h3>
+    <p class="sim-hint">Bỏ tick dòng không muốn có trong mục lục; tick lại dòng bị loại tự động nếu đó thực sự là đề mục.${auto ? ` Đã tự loại ${auto} dòng có dấu hiệu là nội dung (lý do ghi bên dưới từng dòng).` : ""}</p>
+    <div class="toc-cands">${rows}</div>`;
+}
+function tocMsg(r, o){
+  const conv = (r.captions||{}).converted || {}, skipped = (r.captions||{}).skipped || [];
+  const ins = (r.toc||{}).inserted || {}, alr = (r.toc||{}).already || {}, cre = (r.toc||{}).created || {}, rem = (r.toc||{}).removed_old || {};
+  const tag = (r.captions||{}).tagged || {}, wc = (r.captions||{}).word_captions || {};
+  const part = (key, label) => !o[key] ? "" : cre[key] ? `đã tạo ${label} (mới)` : ins[key] ? (alr[key] || rem[key] ? `đã làm mới ${label}${rem[key] ? ` (thay ${rem[key]} dòng gõ tay)` : ""}` : `đã chèn ${label}`) : `không làm được ${label}`;
+  const msg = [part("toc","Mục lục"), part("hinh","Danh mục hình"), part("bang","Danh mục bảng")].filter(Boolean);
+  if (o.hinh) msg.push(`Hình: ${conv.Hinh||0} chú thích đánh số tự động`);
+  if (o.bang) msg.push(`Bảng: ${conv.Bang||0} chú thích đánh số tự động`);
+  const tg = (o.hinh ? tag.Hinh||0 : 0) + (o.bang ? tag.Bang||0 : 0); if (tg) msg.push(`${tg} chú thích đánh số theo chương được đưa vào danh mục`);
+  const w = (o.hinh ? wc.Hinh||0 : 0) + (o.bang ? wc.Bang||0 : 0); if (w) msg.push(`${w} chú thích tạo bằng Insert Caption của Word`);
+  if (skipped.length) msg.push(`bỏ qua ${skipped.length} chú thích (định dạng phức tạp, giữ nguyên)`);
+  return msg.join(" · ");
+}
+function renderTocTab(){
+  const box = $("#tab-toc"), p = S.cur;
+  if (!p){ box.innerHTML = '<p class="mut">Mở một file để tạo mục lục.</p>'; return }
+  const o = S.tocOpts, saved = p.toc_opts || {}, st = p.toc_stats;
+  const opt = (k, t, d) => `<label class="toc-opt"><input type="checkbox" data-toc="${k}" ${o[k]?"checked":""}><span><b>${t}</b><small>${d}</small></span></label>`;
+  box.innerHTML = `<section class="sim-groups"><h3>Mục lục và danh mục</h3>
+    <p class="sim-hint">Làm sau khi đã ưng ý việc sửa lỗi. Công cụ dựng mục lục bằng field của Word (tự cập nhật) trên bản đã sửa, gồm cả bản không đổi màu.</p>
+    ${opt("toc","Mục lục","Theo các đề mục cấp 1–3.")}
+    ${opt("hinh","Danh mục hình",'Đánh số lại các chú thích “Hình 1.” bằng field rồi lập danh mục.')}
+    ${opt("bang","Danh mục bảng",'Đánh số lại các chú thích “Bảng 1:” bằng field rồi lập danh mục.')}
+    <p class="sim-hint" style="margin-top:8px">Văn bản đã có dòng tiêu đề MỤC LỤC / DANH MỤC HÌNH / DANH MỤC BẢNG thì làm mới ngay tại đó (thay các dòng gõ tay cũ). Chưa có thì tạo mới ngay trước đề mục đầu tiên, mỗi mục một trang. Mục không tick được giữ nguyên.</p>
+    <div class="tab-act"><button class="btn pri" id="tocGo" type="button">${saved.on ? "Tạo lại" : "Tạo mục lục"}</button>
+      ${saved.on ? '<button class="btn" id="tocOff" type="button">Gỡ mục lục</button>' : ""}</div>
+    ${S.dirty ? '<p class="sim-hint">Có thay đổi chưa áp dụng ở các tab khác: bấm nút trên cũng áp dụng luôn các thay đổi đó.</p>' : ""}
+    ${tocCandHtml(p)}
+    ${saved.on && st ? `<div class="toc-res"><b>Lần gần nhất:</b> ${esc(tocMsg(st, saved))}. Mở file Word, bấm Ctrl+A rồi F9 (Update Field) nếu số trang chưa hiện đúng.</div>` : ""}
+  </section>`;
+  box.querySelectorAll("[data-toc]").forEach(c => c.onchange = e => { S.tocOpts[c.dataset.toc] = e.target.checked });
+  box.querySelectorAll(".toc-cand").forEach(row => row.querySelector("input").onchange = e => {
+    tocToggle(p.toc_candidates[+row.dataset.i], e.target.checked); row.classList.toggle("off", !e.target.checked) });
+  $("#tocGo").onclick = () => {
+    if (!o.toc && !o.hinh && !o.bang) return toast("Hãy tick ít nhất một mục");
+    S.tocOpts.on = true; applyChanges("Mục lục");
+  };
+  const off = $("#tocOff"); if (off) off.onclick = () => { S.tocOpts.on = false; applyChanges("Đã gỡ mục lục") };
+}
+
+/* ---------------------------------------------------------------- chính tả */
+const SP_KINDS = {tone:"Sai dấu/chính tả", edit:"Gõ thừa/thiếu/nhầm chữ", edit_rare:"Chữ hiếm gần chữ phổ biến", context:"Sai theo ngữ cảnh",
+  placement:"Dấu thanh đặt sai chỗ", pair:"Cặp sai–đúng thường gặp", telex:"Sót phím Telex", dup:"Lặp từ", style:"Thống nhất cách viết",
+  space:"Dấu cách", nfc:"Chuẩn Unicode", flag:"Nghi sai, chưa có gợi ý"};
+function spDefault(it, level){ return it.tier===2 || (it.tier===1 && level==="wide") }
+function initSpell(p){
+  S.spellOpts = Object.assign({on:false, level:"safe", color:"FF0000", color_maybe:"ED7D31", force_on:[], force_off:[], off_kinds:[], ignore_words:[]}, clone(p.spell_opts||{}));
+  S.spellSel = {};
+  for (const it of ((p.spell||{}).items||[])) if (it.tier>0) S.spellSel[it.key] = !!it.applied;
+  S.spellSaved = JSON.stringify(spellOptsOut());
+}
+function spellOptsOut(){
+  const o = S.spellOpts, level = o.level, on = [], off = [];
+  const items = ((S.cur||{}).spell||{}).items || [];
+  for (const it of items){ if (it.tier<1) continue; const eff = S.spellSel[it.key], d = spDefault(it, level);
+    if (eff && !d) on.push(it.key); else if (!eff && d) off.push(it.key) }
+  return {on:!!o.on, level, color:o.color, color_maybe:o.color_maybe, force_on:on.sort(), force_off:off.sort(),
+          off_kinds:[...o.off_kinds].sort(), ignore_words:[...o.ignore_words].sort()};
+}
+function spellDirty(){ return !!S.cur && JSON.stringify(spellOptsOut()) !== S.spellSaved }
+function spellHtml(p){
+  const o = S.spellOpts, sp = p.spell;
+  if (!o.on && !sp) return `<section class="sim-groups"><h3>Chính tả</h3><p class="sim-hint">Phiên này chưa bật sửa chính tả.</p>
+    <button class="btn xs pri" id="spOn" type="button">Bật sửa chính tả</button></section>`;
+  if (!sp || sp.available===false) return `<section class="sim-groups"><h3>Chính tả</h3><p class="sim-hint">Máy chủ chưa có mô hình ngôn ngữ nên không sửa được chính tả.</p></section>`;
+  const items = sp.items||[], groups = sp.groups||{};
+  const byKind = {}; items.forEach(it => (byKind[it.kind] = byKind[it.kind]||[]).push(it));
+  const eff = it => !!S.spellSel[it.key];
+  const nOn = items.filter(it => it.tier>0 && eff(it)).length;
+  let h = `<section class="sim-groups" id="spBox"><h3>Chính tả · ${sp.applied} chỗ đã sửa${sp.marked!==undefined?` (${sp.marked} chỗ đổi màu)`:""}</h3>
+    <p class="sim-hint">Chữ sửa đổi sang <b style="color:#${esc(sp.color||"FF0000")}">màu đỏ</b>${sp.color_maybe?`, chỗ nghi ngờ sang <b style="color:#${esc(sp.color_maybe)}">màu cam</b>`:""}. Bỏ tick chỗ không muốn sửa rồi bấm “Áp dụng chính tả”. Chỉ sửa chữ tiếng Việt gõ sai; tên riêng, viết tắt, số hiệu, đường dẫn, email và trường tự động của Word được giữ nguyên.</p>
+    <div class="sp-row"><label>Mức sửa <select id="spLevel"><option value="safe">An toàn</option><option value="wide">Rộng (thêm chỗ nghi ngờ)</option></select></label>
+      <label><input type="checkbox" id="spOnCb" ${o.on?"checked":""}> Bật</label></div>
+    <div class="sp-row"><label>Từ không sửa (mỗi từ một dòng)</label><textarea id="spIgn" rows="2" class="in" placeholder="VD: Quảng Ngãi">${esc((o.ignore_words||[]).join("\n"))}</textarea></div>`;
+  const kinds = Object.keys(byKind).sort((a,b) => byKind[b].length - byKind[a].length);
+  if (!kinds.length) h += '<p class="mut" style="font-size:12.5px">Không tìm thấy lỗi chính tả.</p>';
+  for (const k of kinds){
+    const arr = byKind[k], off = (o.off_kinds||[]).includes(k), open = (S.spOpen||(S.spOpen=new Set())).has(k);
+    h += `<div class="eg ${open?"open":""}" data-spk="${k}"><div class="h"><span class="car">&#9656;</span><b>${esc(SP_KINDS[k]||k)}</b><span class="cnt">${arr.length}</span>
+      ${k==="flag"?"":`<label class="sp-g" title="Tắt/bật cả nhóm"><input type="checkbox" data-spg="${k}" ${off?"":"checked"}> dùng</label>`}</div>
+      <div class="body">${arr.slice(0,400).map(it => `<div class="sp-it"><label>${it.tier>0?`<input type="checkbox" data-spi="${esc(it.key)}" ${eff(it)?"checked":""}>`:""}
+        <span class="sp-c">${esc(it.ctx)}</span>${it.new!==""||it.kind!=="flag"?` <b>&rarr; ${esc(it.new===""?"(xoá)":it.new)}</b>`:""}</label>
+        <small>${esc(it.reason||"")} · <a href="#" data-go="${esc(it.pid)}">${esc(it.pid)}</a></small></div>`).join("")}${arr.length>400?`<div class="mut">… còn ${arr.length-400} chỗ nữa (xem trong file)</div>`:""}</div></div>`;
+  }
+  if (sp.truncated) h += '<p class="mut" style="font-size:12px">Danh sách bị cắt bớt ở 3000 mục; các chỗ còn lại vẫn được sửa theo mức đã chọn.</p>';
+  return h + `</section>`;
+}
+function bindSpell(box){
+  const on = $("#spOn"); if (on) on.onclick = () => { S.spellOpts.on = true; setDirty(true) };
+  const cb = $("#spOnCb"); if (cb) cb.onchange = e => { S.spellOpts.on = e.target.checked; setDirty(true) };
+  const lv = $("#spLevel"); if (lv){ lv.value = S.spellOpts.level; lv.onchange = e => {
+    S.spellOpts.level = e.target.value;
+    for (const it of ((S.cur.spell||{}).items||[])) if (it.tier===1) S.spellSel[it.key] = spDefault(it, S.spellOpts.level);
+    setDirty(true); renderSpellTab() } }
+  const ig = $("#spIgn"); if (ig) ig.onchange = e => { S.spellOpts.ignore_words = e.target.value.split(/\n/).map(x=>x.trim()).filter(Boolean); setDirty(true) };
+  box.querySelectorAll("[data-spk] .h").forEach(h => h.onclick = e => { if (e.target.closest("label")) return;
+    const g = h.closest(".eg"), k = g.dataset.spk, on = !g.classList.contains("open"); g.classList.toggle("open", on); on ? S.spOpen.add(k) : S.spOpen.delete(k) });
+  box.querySelectorAll("[data-spg]").forEach(c => c.onchange = e => { const k = c.dataset.spg, a = new Set(S.spellOpts.off_kinds||[]);
+    e.target.checked ? a.delete(k) : a.add(k); S.spellOpts.off_kinds = [...a]; setDirty(true) });
+  box.querySelectorAll("[data-spi]").forEach(c => c.onchange = e => { S.spellSel[c.dataset.spi] = e.target.checked; setDirty(true) });
+  box.querySelectorAll("[data-go]").forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); select(b.dataset.go) });
+}
+
+/* ---------------------------------------------------------------- tab Đoạn */
+function renderPara(){
+  const box = $("#tab-para"), p = S.cur;
+  if (!p || !S.sel){ box.innerHTML = '<p class="mut">Bấm vào một đoạn trong bản xem trước để xem lỗi và chỉnh vai trò.</p>'; return }
+  const pid = S.sel, d = p._role[pid] || {role:"other"};
+  const text = (p.paragraphs.find(x=>x.id===pid)||{}).text || "";
+  const cur = S.roles[pid] || d.role;
+  const opts = (p.role_keys||[]).map(r => `<option value="${r.key}" ${r.key===cur?"selected":""}>${esc(r.label)}</option>`).join("") +
+    `<option value="empty" ${cur==="empty"?"selected":""}>(Bỏ qua đoạn này)</option>`;
+  const after = p._after;
+  const vs = p._vb[pid] || [];
+  const needConfirm = p._rev.has(pid) && S.roles[pid] === undefined && vs.some(v => !v.ignored && after.has(keyOf(v)));
+  const scores = Object.entries(d.scores||{}).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${esc(p._label[k]||k)}: ${v.toFixed(2)}`).join("<br>");
+  const edited = S.edits[pid] !== undefined;
+  const shown = p.preview?.fixed?.paras?.[pid];
+  const runs = (shown?.r||[]).filter(r=>r.t?.trim());
+  const manual = S.manual[pid] || {};
+  const pressed = k => k in manual ? manual[k] : !!(runs.length && runs.every(r=>r[{bold:"b",italic:"i",underline:"u"}[k]]));
+  const align = manual.align || shown?.a || "left";
+  const fmtBtn = (key,label,title,on) => `<button type="button" class="btn xs" data-fmt="${key}" aria-pressed="${on}" title="${title}">${label}</button>`;
+  const numError = vs.some(v=>v.field==="numbering" && !v.ignored && after.has(keyOf(v)));
+  box.innerHTML = `<div class="quote">${esc(text) || '<span class="mut">(đoạn trống)</span>'}</div>
+    <div class="pane-h" style="margin-top:10px">Định dạng đoạn trên bản đã sửa</div>
+    <div class="fmtbar" role="group" aria-label="Định dạng đoạn">
+      ${fmtBtn("bold","<b>B</b>","Đậm toàn đoạn",pressed("bold"))}
+      ${fmtBtn("italic","<i>I</i>","Nghiêng toàn đoạn",pressed("italic"))}
+      ${fmtBtn("underline","<u>U</u>","Gạch chân toàn đoạn",pressed("underline"))}
+      <span class="sep"></span>
+      ${[["left","Trái"],["center","Giữa"],["right","Phải"],["justify","Đều"]].map(([k,l])=>fmtBtn("align:"+k,l,"Căn "+l.toLowerCase(),align===k)).join("")}
+    </div>
+    <div class="acts"><button class="btn sm pri" id="fmtApply" type="button">Áp dụng định dạng</button>${Object.keys(manual).length?'<button class="btn sm" id="fmtReset" type="button">Bỏ chỉnh tay đoạn này</button>':""}</div>
+    <p class="mut" style="font-size:12px;margin:5px 0 8px">B/I/U áp dụng cho toàn bộ chữ trong đoạn; các lựa chọn này được ghi vào Word xuất ra. Nếu khác quy chuẩn đang chọn, lỗi định dạng vẫn được báo.</p>
+    <details class="edbox" ${edited?"open":""} style="margin:8px 0"><summary style="cursor:pointer;font-weight:650">Sửa chữ đoạn này${edited?" · <span style='color:#b54708'>đã sửa</span>":""}</summary>
+      <textarea id="edTxt">${esc(edited ? S.edits[pid] : text)}</textarea>
+      <div class="acts"><button class="btn sm pri" id="edSave">Lưu chữ</button>${edited?'<button class="btn sm" id="edUndo">Bỏ sửa chữ, về như file gốc</button>':""}</div>
+      <p class="mut" style="font-size:12px;margin:4px 0 0">Hoặc nháy đúp vào đoạn trên bản xem trước để sửa tại chỗ. Định dạng chữ được giữ; bấm “Áp dụng & sửa lại” để cập nhật file.</p>
+    </details>
+    <div class="kv"><div>Mã đoạn</div><div>${pid}</div>
+      <div>Vai trò</div><div><select id="roleSel" style="max-width:100%">${opts}</select></div>
+      <div>Xác định bởi</div><div>${esc(METHOD[d.method]||d.method)}${d.method==="heuristic"?` · tin cậy ${(d.confidence||0).toFixed(2)}`:""}</div>
+      ${scores?`<div>Điểm</div><div style="font-size:12.5px">${scores}</div>`:""}
+      ${d.note?`<div>Ghi chú</div><div>${esc(d.note)}</div>`:""}</div>
+    ${S.roles[pid] && S.roles[pid]!==p.role_overrides?.[pid] ? '<div class="notes">Vai trò đã đổi – bấm “Áp dụng & sửa lại” để sửa theo vai trò mới.</div>' : ""}
+    ${needConfirm ? `<div class="notes" style="border:1px solid #7a5af8;border-radius:8px;padding:8px;color:var(--fg)"><b>Vai trò chưa được xác nhận</b> (độ tin cậy thấp) nên các lỗi liên quan đến vai trò bên dưới chưa tự sửa được. Nếu vai trò “${esc(p._label[cur]||cur)}” ở trên là đúng, bấm nút này để xác nhận rồi bấm “Áp dụng & sửa lại”:<br><button class="btn sm" id="confirmRoleBtn" style="margin-top:6px">Xác nhận vai trò & cho sửa</button></div>` : ""}
+    ${numError?'<div class="notes"><b>Lỗi đánh số đề mục:</b> Nhóm tiểu mục cùng cấp chỉ có một mục. Hãy thêm tiểu mục thứ hai nếu thực sự có nội dung, hoặc sửa cấp/số mục bằng ô “Sửa chữ đoạn này” nếu số là chữ thường. Nếu Word tự đánh số, hãy sửa danh sách trong file Word gốc rồi tải lại. B/I/U và căn lề không xử lý được lỗi này.</div>':""}
+    <div class="pane-h" style="margin-top:10px">Lỗi của đoạn</div>
+    ${vs.length ? vs.map(v => errItem(v, true)).join("") + '<p class="mut" style="font-size:12px">Bấm “Bỏ qua” nếu công cụ phát hiện nhầm: lỗi đó không bị đánh dấu và không bị tự sửa nữa (bấm “Hoàn tác” để tính lại).</p>' : '<p class="mut">Không có lỗi.</p>'}`;
+  $("#roleSel").onchange = e => {
+    const v = e.target.value;
+    if (v === d.role && !(p.role_overrides||{})[pid] && !p._rev.has(pid)) delete S.roles[pid]; else S.roles[pid] = v;
+    setDirty(true); renderPara();
+  };
+  const crb = $("#confirmRoleBtn");
+  if (crb) crb.onclick = () => { S.roles[pid] = cur; setDirty(true); renderPara(); };
+  box.querySelectorAll("[data-fmt]").forEach(b=>b.onclick=()=>{
+    const key=b.dataset.fmt;
+    const next={...(S.manual[pid]||{})};
+    if(key.startsWith("align:"))next.align=key.slice(6);
+    else next[key]=!pressed(key);
+    S.manual[pid]=next;setDirty(true);renderPara();
+  });
+  $("#fmtApply").onclick=()=>applyChanges(`Đã lưu định dạng đoạn ${pid}`);
+  const fr=$("#fmtReset");if(fr)fr.onclick=()=>{delete S.manual[pid];setDirty(true);applyChanges(`Đã bỏ định dạng chỉnh tay đoạn ${pid}`)};
+  $("#edSave").onclick = () => { setEdit(pid, $("#edTxt").value.replace(/\r?\n/g, " ")); renderPara() };
+  const eu = $("#edUndo");
+  if (eu) eu.onclick = () => { delete S.edits[pid]; setDirty(true); renderPara(); renderStage() };
+}
+
+/* ---------------------------------------------------------------- tab Thông số */
+function getP(o, path){ return path.split(".").reduce((a,k)=> a==null ? a : a[k], o) }
+function setP(o, path, v){ const ks = path.split("."); let a = o; ks.slice(0,-1).forEach(k => { if (a[k]==null) a[k] = /^\d+$/.test(k)?[]:{}; a = a[k] }); a[ks[ks.length-1]] = v }
+function numIn(paths, step, val){ return `<input type="number" step="${step}" data-p="${paths}" value="${val ?? ""}">` }
+function triSel(path, v){
+  const cur = v===true?"true":v===false?"false":"any";
+  return `<select data-p="${path}" data-t="tri"><option value="true" ${cur==="true"?"selected":""}>Có</option><option value="false" ${cur==="false"?"selected":""}>Không</option><option value="any" ${cur==="any"?"selected":""}>—</option></select>`;
+}
+function alignSel(paths, v){
+  const o = [["any","—"],["left","Trái"],["center","Giữa"],["right","Phải"],["justify","Đều"]];
+  return `<select data-p="${paths}">${o.map(([k,l])=>`<option value="${k}" ${k===(v||"any")?"selected":""}>${l}</option>`).join("")}</select>`;
+}
+function renderSpec(){
+  const box = $("#tab-spec"), sp = S.spec;
+  if (!sp){ box.innerHTML = '<p class="mut">Mở một file để chỉnh thông số.</p>'; return }
+  const std = S.cur?.standard || "nd30";
+  const bodyRoles = BODY_ROLES[std] || BODY_ROLES.nd30;
+  const m = sp.page.margins_mm, b = sp.body, pn = sp.page.page_number, rb = sp.roles[bodyRoles[0]];
+  const bp = k => bodyRoles.map(r => `roles.${r}.${k}`).concat(k.startsWith("size")||k==="fix_size" ? [`body.${k}`] : []).join("|");
+  const side = [["top","Trên"],["bottom","Dưới"],["left","Trái"],["right","Phải"]];
+  const lineRow = b.line_spacing_mode === "exact_pt"
+    ? `<span>Giãn dòng (pt, Exactly)</span>${numIn("body.line_spacing_pt.0",0.5,b.line_spacing_pt[0])}${numIn("body.line_spacing_pt.1",0.5,b.line_spacing_pt[1])}${numIn("body.fix_line_spacing_pt",0.5,b.fix_line_spacing_pt)}`
+    : `<span>Giãn dòng (lines)</span>${numIn("body.line_spacing_min",0.05,b.line_spacing_min)}${numIn("body.line_spacing_max",0.05,b.line_spacing_max)}${numIn("body.fix_line_spacing",0.05,b.fix_line_spacing)}`;
+  let html = `
+  <fieldset><legend>Cách sửa</legend>
+    <label class="opt"><input type="radio" name="mode" value="violations" ${sp.fix.mode!=="normalize"?"checked":""}><span>Chỉ sửa chỗ sai (giữ nguyên chỗ đang đúng)</span></label>
+    <label class="opt"><input type="radio" name="mode" value="normalize" ${sp.fix.mode==="normalize"?"checked":""}><span>Đồng loạt: đưa mọi đoạn về đúng “giá trị sửa”</span></label>
+  </fieldset>
+  <fieldset><legend>Lề trang (mm)</legend>
+    <div class="grid3"><span></span><span class="hd">Từ</span><span class="hd">Đến</span><span class="hd">Sửa về</span>
+    ${side.map(([k,l]) => `<span>${l}</span>${numIn(`page.margins_mm.${k}.range.0`,0.5,m[k].range[0])}${numIn(`page.margins_mm.${k}.range.1`,0.5,m[k].range[1])}${numIn(`page.margins_mm.${k}.fix`,0.5,m[k].fix)}`).join("")}
+    </div>
+    <div class="row">Phông chữ <input type="text" data-p="page.font.name" value="${esc(sp.page.font.name)}" style="flex:1"></div>
+  </fieldset>
+  <fieldset><legend>Nội dung văn bản</legend>
+    <div class="grid3"><span></span><span class="hd">Từ</span><span class="hd">Đến</span><span class="hd">Sửa về</span>
+      <span>Cỡ chữ (pt)</span>${numIn(bp("size.0"),0.5,rb.size[0])}${numIn(bp("size.1"),0.5,rb.size[1])}${numIn(bp("fix_size"),0.5,rb.fix_size)}
+      ${lineRow}
+      ${b.first_line_indent_cm ? `<span>Lùi đầu dòng (cm)</span>${numIn("body.first_line_indent_cm.0|"+bodyRoles.map(r=>`roles.${r}.first_line_indent_cm.0`).join("|"),0.01,b.first_line_indent_cm[0])}${numIn("body.first_line_indent_cm.1|"+bodyRoles.map(r=>`roles.${r}.first_line_indent_cm.1`).join("|"),0.01,b.first_line_indent_cm[1])}${numIn("body.fix_first_line_indent_cm",0.01,b.fix_first_line_indent_cm)}` : ""}
+    </div>
+    <div class="row">Khoảng cách đoạn tối thiểu ${numIn("body.paragraph_spacing_min_pt",1,b.paragraph_spacing_min_pt)} pt</div>
+    <div class="row">Sửa về: trước ${numIn("body.fix_space_before_pt",1,b.fix_space_before_pt)} pt, sau ${numIn("body.fix_space_after_pt",1,b.fix_space_after_pt)} pt</div>
+    <div class="row">Căn lề đoạn nội dung ${alignSel(bodyRoles.map(r=>`roles.${r}.align`).join("|"), rb.align)}</div>
+  </fieldset>
+  <fieldset><legend>Số trang</legend>
+    <label class="opt"><input type="checkbox" data-p="page.page_number.required" ${pn.required?"checked":""}><span>Bắt buộc có số trang (giữa lề trên)</span></label>
+    <label class="opt"><input type="checkbox" data-p="page.page_number.hide_first_page" ${pn.hide_first_page?"checked":""}><span>Không hiển thị số trang thứ nhất</span></label>
+    ${pn.size ? `<div class="row">Cỡ chữ số trang: từ ${numIn("page.page_number.size.0",0.5,pn.size[0])} đến ${numIn("page.page_number.size.1",0.5,pn.size[1])} sửa về ${numIn("page.page_number.fix_size",0.5,pn.fix_size)}</div>` : ""}
+  </fieldset>
+  <details><summary style="cursor:pointer;font-weight:650;margin-bottom:6px">Theo từng thành phần thể thức</summary>
+  <table class="rtbl"><thead><tr><th>Thành phần</th><th>Từ</th><th>Đến</th><th>Sửa</th><th>Đậm</th><th>Ng.</th><th>Hoa</th><th>Căn</th></tr></thead><tbody>`;
+  const keys = Object.keys(sp.roles).filter(k => k !== "other");
+  const PROFILE_LABEL = {nd30:"Theo NĐ 30", dang:"Theo Hướng dẫn thể thức văn bản Đảng", dean:"Theo Phụ lục 4.1 (luận văn/đề án thạc sĩ)", convention:"Quy ước bổ sung (không bắt buộc)"};
+  const profOrder = [...new Set(keys.map(k => sp.roles[k].profile || "nd30"))].sort((a,b)=>(a==="convention")-(b==="convention"));
+  for (const prof of profOrder){
+    html += `<tr class="grp"><td colspan="8">${PROFILE_LABEL[prof] || prof}</td></tr>`;
+    for (const k of keys.filter(k => (sp.roles[k].profile||"nd30") === prof)){
+      const r = sp.roles[k];
+      const sz = r.size ? `<td>${numIn(`roles.${k}.size.0`,0.5,r.size[0])}</td><td>${numIn(`roles.${k}.size.1`,0.5,r.size[1])}</td><td>${numIn(`roles.${k}.fix_size`,0.5,r.fix_size)}</td>` : `<td colspan="3" class="mut">—</td>`;
+      html += `<tr><td title="${esc(r.source||"")}">${esc(r.label)}</td>${sz}<td>${triSel(`roles.${k}.bold`,r.bold)}</td><td>${triSel(`roles.${k}.italic`,r.italic)}</td><td>${triSel(`roles.${k}.caps`,r.caps)}</td><td>${alignSel(`roles.${k}.align`,r.align)}</td></tr>`;
+    }
+  }
+  html += `</tbody></table></details>
+  <div class="acts">
+    <button class="btn pri" id="specApply">Áp dụng &amp; sửa lại</button>
+    ${S.me?.role === "user" ? "" : `<button class="btn" id="specSave" title="Các file tải lên sau (của mọi người dùng) sẽ dùng bộ thông số này">Lưu làm mặc định</button>`}
+    <button class="btn" id="specBase">Khôi phục ${STD_LABEL[std]||std} gốc</button>
+  </div>
+  <p class="mut" style="font-size:12px">“Từ–Đến” là khoảng được coi là đúng; “Sửa về” là giá trị ghi vào file khi sửa. Nhập giá trị sửa nằm ngoài khoảng thì khoảng tự mở rộng. Áp dụng lại không xác định lại vai trò, chỉ chạy lại phần sửa.</p>`;
+  box.innerHTML = html;
+  box.querySelectorAll("[data-p]").forEach(inp => inp.addEventListener("change", onSpecInput));
+  box.querySelectorAll('input[name="mode"]').forEach(r => r.onchange = () => { S.spec.fix.mode = r.value; setDirty(true) });
+  $("#specApply").onclick = applyChanges;
+  if ($("#specSave")) $("#specSave").onclick = saveDefault;
+  $("#specBase").onclick = loadBase;
+}
+function onSpecInput(e){
+  const el = e.target; let v;
+  if (el.type === "checkbox") v = el.checked;
+  else if (el.type === "number"){ if (el.value === "") return; v = parseFloat(el.value); if (!isFinite(v)) return }
+  else if (el.dataset.t === "tri") v = el.value === "true" ? true : el.value === "false" ? false : "any";
+  else v = el.value;
+  const paths = el.dataset.p.split("|");
+  paths.forEach(path => setP(S.spec, path, v));
+  // đồng bộ các ô khác cùng trỏ tới thông số này (ô chung ↔ bảng theo thành phần)
+  $("#tab-spec").querySelectorAll("[data-p]").forEach(o => {
+    if (o === el || !o.dataset.p.split("|").some(q => paths.includes(q))) return;
+    const cur = getP(S.spec, o.dataset.p.split("|")[0]);
+    if (o.type === "checkbox") o.checked = !!cur;
+    else if (o.dataset.t === "tri") o.value = cur === true ? "true" : cur === false ? "false" : "any";
+    else o.value = cur ?? "";
+  });
+  setDirty(true);
+}
+async function loadBase(){
+  const std = S.cur?.standard || "nd30";
+  try{ const r = await jget(`api/spec?base=true&standard=${std}`); S.spec = r.raw; renderSpec(); setDirty(true);
+    toast(`Đã nạp thông số ${STD_LABEL[std]||std} gốc – bấm Áp dụng để sửa lại`) }
+  catch(e){ toast("Lỗi: " + e.message) }
+}
+async function saveDefault(){
+  const std = S.cur?.standard || "nd30";
+  try{ const r = await jsend(`api/spec?standard=${std}`, "PUT", S.spec); toast("Đã lưu làm mặc định trên máy chủ" + (r.notes.length ? " · " + r.notes.join("; ") : "")) }
+  catch(e){ toast("Không lưu được: " + e.message, 6000) }
+}
+
+/* ---------------------------------------------------------------- áp dụng lại */
+function setDirty(v){
+  S.dirty = v; $("#applybar").hidden = !v;
+  const n = Object.keys(S.roles).filter(k => S.roles[k] !== (S.cur?.role_overrides||{})[k]).length;
+  const te = S.cur?.text_edits || {};
+  const m = new Set([...Object.keys(S.edits), ...Object.keys(te)].filter(k => S.edits[k] !== te[k])).size;
+  const mf = S.cur?.manual_format || {};
+  const f = new Set([...Object.keys(S.manual),...Object.keys(mf)].filter(k=>JSON.stringify(S.manual[k]||{})!==JSON.stringify(mf[k]||{}))).size;
+  const sp = spellDirty();
+  const parts = [n ? `${n} vai trò` : "", m ? `${m} đoạn sửa chữ` : "", f ? `${f} đoạn định dạng` : "", sp ? "chính tả" : ""].filter(Boolean);
+  $("#dirtyTxt").textContent = parts.length ? `Có thay đổi chưa áp dụng (${parts.join(", ")})` : "Có thay đổi chưa áp dụng";
+}
+async function applyChanges(msg){
+  if (!S.cur || S.busy) return;
+  S.busy = true; const btns = [$("#applyBtn"), $("#specApply"), $("#tocGo"), $("#tocOff"), $("#spApply")].filter(Boolean);
+  btns.forEach(b => { b.disabled = true; b.dataset.t = b.textContent; b.innerHTML = '<span class="spin"></span> Đang sửa…' });
+  const keepSel = S.sel;
+  try{
+    const p = await jsend(`api/jobs/${S.cur.id}/apply`, "POST", {spec:S.spec, role_overrides:S.roles, text_edits:S.edits, ignored:[...S.ignored], manual_format:S.manual, spell:spellOptsOut(), toc:S.tocOpts});
+    setPayload(p);
+    if (keepSel){ S.sel = keepSel; renderPara(); document.querySelectorAll(`#stage .p[data-pid="${keepSel}"]`).forEach(el=>el.classList.add("sel")) }
+    if (msg === "Mục lục" && p.toc_stats) toast(tocMsg(p.toc_stats, p.toc_opts) + ". Mở file Word, bấm Ctrl+A rồi F9 (Update Field) nếu số trang chưa hiện đúng.", 10000);
+    else toast((typeof msg === "string" ? msg + " · " : "") + `Đã sửa lại: ${p.summary.total} lỗi → còn ${p.summary_after.total}` + ((p.notes||[]).length ? " · " + p.notes.join("; ") : ""), 5000);
+  }catch(e){ toast("Lỗi: " + e.message, 6000) }
+  finally{ S.busy = false; btns.forEach(b => { b.disabled = false; b.textContent = b.dataset.t || "Áp dụng & sửa lại" }) }
+}
+
+/* ---------------------------------------------------------------- tải file */
+async function download(kind){
+  if (!S.cur) return toast("Chưa mở file nào");
+  if (S.busy && kind !== "original") return toast("Đang sửa lại file – đợi xong rồi tải để nhận bản mới nhất");
+  if (S.dirty && kind !== "original") toast("Lưu ý: còn thay đổi chưa áp dụng – file tải về là bản sửa gần nhất");
+  try{
+    const url = kind === "pdf" ? `api/jobs/${S.cur.id}/pdf/fixed` : `api/jobs/${S.cur.id}/file/${kind}`;
+    const r = await api(url, {cache:"no-store"});
+    const cd = r.headers.get("Content-Disposition") || "";
+    let name = (cd.match(/filename\*=utf-8''([^;]+)/i) || [])[1];
+    name = name ? decodeURIComponent(name) : ((cd.match(/filename="?([^";]+)"?/)||[])[1] || kind);
+    const a = document.createElement("a"); a.href = URL.createObjectURL(await r.blob()); a.download = name; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }catch(e){ toast("Không tải được: " + e.message, 5000) }
+}
+
+init().catch(e => toast("Không kết nối được máy chủ: " + e.message, 8000));
+</script>
+</body>
+</html>

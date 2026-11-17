@@ -1,0 +1,165 @@
+{
+ "id": "1.8",
+ "standard": "nd30",
+ "name": "Giấy giới thiệu",
+ "source": {
+  "template": "NĐ 30/2020/NĐ-CP, Phụ lục III – Mẫu 1.8 (Giấy giới thiệu)",
+  "format": "NĐ 30/2020/NĐ-CP, Phụ lục I",
+  "observed": "Mẫu 1.8: bảng đầu trang 2 cột không viền 174.4/303.1 pt; bảng ký 170.1/304.8 pt"
+ },
+ "template_status": "supported",
+ "doc_types": [
+  "GIAY_GIOI_THIEU"
+ ],
+ "number": {
+  "ky_hieu": "GGT-{ma_co_quan}"
+ },
+ "geometry": {
+  "header_cols_pt": [
+   174.4,
+   303.1
+  ],
+  "footer_cols_pt": [
+   170.1,
+   304.8
+  ],
+  "note": "Độ rộng cột đo từ file mẫu; nếu tổng vượt vùng trình bày thì co theo tỉ lệ"
+ },
+ "layout": [
+  {
+   "kind": "header",
+   "left": [
+    "co_quan_chu_quan",
+    "co_quan_ban_hanh",
+    "line_co_quan",
+    "so_ky_hieu"
+   ],
+   "right": [
+    "quoc_hieu",
+    "tieu_ngu",
+    "line_tieu_ngu",
+    "dia_danh_ngay"
+   ]
+  },
+  {
+   "kind": "ten_loai",
+   "text": "GIẤY GIỚI THIỆU"
+  },
+  {
+   "kind": "line_trich_yeu",
+   "of": "ten_loai"
+  },
+  {
+   "kind": "text_line",
+   "template": "{chu_the} trân trọng giới thiệu:",
+   "align": "center",
+   "indent": false
+  },
+  {
+   "kind": "text_line",
+   "template": "Ông (bà) {nguoi_duoc_gt}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Chức vụ: {chuc_vu_gt}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Được cử đến: {cu_den}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Về việc: {ve_viec}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Đề nghị Quý cơ quan tạo điều kiện để ông (bà) có tên ở trên hoàn thành nhiệm vụ."
+  },
+  {
+   "kind": "text_line",
+   "template": "Giấy này có giá trị đến hết ngày {gia_tri_den}/.",
+   "end_mark": false
+  },
+  {
+   "kind": "sign_footer"
+  }
+ ],
+ "fields": [
+  "co_quan_chu_quan",
+  "co_quan_ban_hanh",
+  "ma_co_quan",
+  "so",
+  "ky_hieu_tuy_chinh",
+  "dia_danh",
+  "ngay",
+  {
+   "id": "chu_the",
+   "label": "Tên cơ quan, tổ chức cấp giấy (viết thường, đầu câu)",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "default_from": "defaults.chu_the"
+  },
+  {
+   "id": "nguoi_duoc_gt",
+   "label": "Ông (bà) – họ tên, đơn vị công tác",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "note": "Mẫu 1.8 – ghi chú 5"
+  },
+  {
+   "id": "chuc_vu_gt",
+   "label": "Chức vụ",
+   "type": "text",
+   "group": "content"
+  },
+  {
+   "id": "cu_den",
+   "label": "Được cử đến",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "note": "Mẫu 1.8 – ghi chú 6"
+  },
+  {
+   "id": "ve_viec",
+   "label": "Về việc",
+   "type": "text",
+   "required": true,
+   "group": "content"
+  },
+  {
+   "id": "gia_tri_den",
+   "label": "Giấy có giá trị đến hết ngày",
+   "type": "date_text",
+   "required": true,
+   "group": "content",
+   "placeholder": "VD: 31/10/2026"
+  },
+  "noi_nhan",
+  "luu",
+  "quyen_han",
+  "quyen_han_cua",
+  "chuc_vu",
+  "ho_ten"
+ ],
+ "noi_nhan_default": [
+  "Như trên;"
+ ],
+ "validation": [
+  "required_fields",
+  "number_padding",
+  "noi_nhan_punctuation"
+ ],
+ "notes": [
+  "Mẫu 1.8 không có trích yếu; đường kẻ nằm ngay dưới tên loại “GIẤY GIỚI THIỆU”.",
+  "Nơi nhận theo mẫu: “- Như trên;” “- Lưu: VT.”"
+ ],
+ "docx": {
+  "page_number": "header, từ trang 2",
+  "header_table": "2 cột, không viền",
+  "lines": "viền dưới đoạn văn",
+  "footer_table": "2 cột, không viền"
+ }
+}

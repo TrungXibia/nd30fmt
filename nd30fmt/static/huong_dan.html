@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hướng dẫn sử dụng · Chuẩn hoá văn bản</title>
+<link rel="stylesheet" href="static/brand.css">
+<style>
+.wrap{max-width:900px;margin:0 auto;padding:18px 16px 60px}
+h1{color:var(--navy);font-size:20px;margin:6px 0 10px}
+.intro{margin:14px 0 6px}
+.intro p{margin:0 0 12px;color:#344054;font-size:15px}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.step p{margin:4px 0 0;font-size:15px}
+.step ul{margin:6px 0 0;padding-left:20px;font-size:14.5px}
+.step li{margin:3px 0}
+.box{background:#fff;border-radius:10px;box-shadow:var(--shadow);padding:12px 16px;margin:10px 0}
+.lv{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;font-size:14px;align-items:start}
+.tagc{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12.5px;font-weight:650;white-space:nowrap}
+.t-ok{background:var(--ok-bg);color:var(--ok)}.t-warn{background:var(--warn-bg);color:var(--warn)}.t-mid{background:var(--soft);color:var(--fg)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.src{font-size:13px;color:var(--mut);margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
+kbd{border:1px solid #cfd6de;border-bottom-width:2px;border-radius:4px;padding:0 5px;font-size:12.5px;background:#fff}
+</style>
+</head>
+<body>
+<header class="org">
+  <img class="logo" id="orgLogo" alt="">
+  <div><div class="org-p" id="orgParent"></div><div class="org-n" id="orgName"></div><div class="org-t" id="orgTag"></div></div>
+</header>
+<nav class="bar"><div class="bar-in">
+  <span class="app-t" id="orgUnit"></span>
+  <div class="links"><a href="huong-dan">📚 Hướng dẫn sử dụng</a></div>
+</div></nav>
+
+<main class="wrap">
+  <h1>Hướng dẫn sử dụng công cụ chuẩn hoá văn bản</h1>
+  <a class="btn sec" href="./" style="text-decoration:none;display:inline-block">← Quay lại</a>
+
+  <div class="card-b intro"><div class="card-c">
+    <p>Công cụ kiểm tra thể thức, kỹ thuật trình bày file Word (.docx) theo Phụ lục I Nghị định 30/2020/NĐ-CP (văn bản hành chính), Hướng dẫn 05-HD/VPTW (văn bản của Đảng) hoặc quy định trình bày luận văn/đề án thạc sĩ, tự sửa lỗi và cho xem bản gốc – bản đã sửa cạnh nhau. Bấm vào một mục để đi nhanh tới phần tương ứng.</p>
+    <div class="jump">
+      <a class="pill" href="#b1">1. Đăng nhập</a>
+      <a class="pill" href="#b2">2. Tải văn bản lên</a>
+      <a class="pill" href="#b3">3. Xem lỗi &amp; bản đã sửa</a>
+      <a class="pill" href="#b4">4. Chỉnh vai trò &amp; thông số</a>
+      <a class="pill" href="#b5">5. Mục lục, danh mục hình/bảng</a>
+      <a class="pill" href="#b6">6. Vai trò đoạn</a>
+      <a class="pill" href="#b7">7. Tải kết quả</a>
+      <a class="pill" href="#b8">8. Soạn thảo văn bản</a>
+      <a class="pill" href="#b9">9. Chuyển Markdown</a>
+      <a class="pill" href="#b10">10. Chuyển đổi Âm thanh</a>
+    </div>
+  </div></div>
+
+  <h2 class="sec" id="b1">1. Đăng nhập</h2>
+  <div class="step"><div class="no">1</div><div><p>Nếu máy chủ có đặt mã truy cập, trang đầu tiên là khung <b>Đăng nhập</b>. Nhập <b>Mã truy cập</b> do quản trị viên cấp rồi bấm <b>Đăng nhập</b>. Trình duyệt sẽ nhớ mã cho lần sau; bấm <b>Đăng xuất</b> trên thanh xanh khi dùng máy chung.</p></div></div>
+
+  <h2 class="sec" id="b2">2. Tải văn bản lên</h2>
+  <div class="step"><div class="no">1</div><div><p>Ở khung <b>Tải văn bản lên</b>, chọn <b>Chuẩn thể thức</b>:</p>
+    <ul><li><b>NĐ 30</b>: văn bản hành chính (quyết định, công văn, báo cáo, tờ trình…).</li>
+    <li><b>Đảng</b>: văn bản của cơ quan, tổ chức Đảng.</li>
+    <li><b>Đề án</b>: luận văn/đề án thạc sĩ theo Phụ lục 4.1 (lề 3–3–3,5–2 cm; cỡ 13–14; giãn dòng 1,3–1,5; cách đoạn 6 pt; tên chương cỡ 15 in hoa đậm căn trái; tiểu mục 1.1 đậm, 1.1.1 đậm nghiêng, 1.1.1.1 nghiêng; tên bảng/hình cỡ 12 đậm, giữa trang; mật độ chữ bình thường). Công cụ còn báo: tên bảng phải ở trên bảng, tên hình ở dưới hình; nhóm tiểu mục phải có ít nhất 2 tiểu mục; trang 1 phải là trang đầu MỞ ĐẦU. Các mục này chỉ báo, cần sửa tay.</li></ul></div></div>
+  <div class="step"><div class="no">2</div><div><p>Bấm hoặc kéo thả một hay nhiều file <b>.docx</b> vào ô chọn file. File <b>.doc</b> (Word 97-2003) cần mở bằng Word và <i>Lưu thành .docx</i> trước.</p></div></div>
+  <div class="step"><div class="no">3</div><div><p>Tuỳ chọn:</p>
+    <ul><li><b>Chỉ quy định</b>: bỏ qua các quy ước bổ sung (quy ước trình bày báo cáo dài…), chỉ kiểm tra những gì văn bản quy định bắt buộc.</li></ul></div></div>
+  <div class="step"><div class="no">4</div><div><p>Bấm <b>Tải lên &amp; kiểm tra</b>. File được nhận ngay và xử lý ngầm; danh sách file hiện từng bước đang làm. Xong file đầu tiên sẽ tự mở.</p></div></div>
+
+  <h2 class="sec" id="b3">3. Xem lỗi và bản đã sửa</h2>
+  <div class="step"><div class="no">1</div><div><p><b>Xem nhanh</b> vẽ lại văn bản ngay trên trình duyệt (ngắt trang gần đúng); <b>Bản in</b> dựng đúng như khi in (dùng LibreOffice trên máy chủ, chậm hơn vài giây).</p></div></div>
+  <div class="step"><div class="no">2</div><div><p>Chọn <b>Bản gốc</b>, <b>Đã sửa</b> hoặc <b>So sánh</b> (hai bản cạnh nhau). Ý nghĩa màu tô:</p>
+    <ul><li><span class="sw" style="background:rgba(240,68,56,.35)"></span>Lỗi so với quy định bắt buộc.</li>
+    <li><span class="sw" style="background:rgba(247,144,9,.45)"></span>Cảnh báo theo quy ước bổ sung.</li>
+    <li><span class="sw" style="background:#12b76a"></span>Đoạn đã được sửa.</li>
+    <li><span class="sw" style="border:1.5px dashed #7a5af8"></span>Vai trò đoạn chưa chắc chắn – nên kiểm tra.</li></ul></div></div>
+  <div class="step"><div class="no">3</div><div><p>Bấm vào một đoạn để xem lỗi chi tiết ở tab <b>Đoạn</b>; tab <b>Lỗi</b> liệt kê toàn bộ lỗi, lọc được theo loại.</p></div></div>
+  <div class="step"><div class="no">4</div><div><p>Nếu công cụ <b>phát hiện nhầm</b>, bấm <b>Bỏ qua</b> cạnh lỗi đó (ở tab Lỗi hoặc tab Đoạn). Lỗi chuyển sang trạng thái <b>Đã bỏ qua</b>, không còn tô màu, không tính vào tổng lỗi và không bị tự sửa; bản đã sửa được cập nhật ngay. Bấm <b>Hoàn tác</b> để tính lại. Lọc "Đã bỏ qua" để xem lại các lỗi đã bỏ qua.</p></div></div>
+
+  <div class="step"><div class="no">5</div><div><p><b>Sửa lỗi chính tả.</b> Khi tải lên, ô <b>Sửa lỗi chính tả</b> được tick sẵn: công cụ sửa thẳng các lỗi gõ sai tiếng Việt (thiếu/sai dấu, dấu thanh đặt sai chỗ, gõ thừa/thiếu/nhầm chữ cái, sót phím Telex, lặp từ, hai dấu cách, thiếu dấu cách sau dấu phẩy, cặp sai–đúng thường gặp như "sử lý → xử lý") và <b>đổi chữ vừa sửa sang màu đỏ</b> để nhận ra ngay; in đậm, nghiêng, phông, cỡ chữ của chữ đó giữ nguyên. Sửa dấu cách và chuẩn Unicode không đổi màu. Tab <b>Chính tả</b> ở khung bên phải liệt kê từng chỗ: bỏ tick chỗ không muốn sửa, tắt cả một nhóm, hoặc ghi vào ô <b>Từ không sửa</b> (VD tên riêng), rồi bấm <b>Áp dụng chính tả</b>. Mức <b>An toàn</b> chỉ sửa chỗ chắc chắn; mức <b>Rộng</b> sửa thêm chỗ nghi ngờ có gợi ý và đổi sang <b>màu cam</b>. Không đụng tới tên riêng, viết tắt, số hiệu văn bản, đường dẫn, email, trường tự động của Word (số trang, mục lục, số hình/bảng) và chữ đặt "không kiểm tra chính tả". Công cụ không hiểu nghĩa câu nên <b>vẫn cần đọc lại</b> các chỗ đỏ; chỗ gõ sai thành một chữ khác vẫn đúng chính tả (VD "nghiêm" thay cho "nghiệm") có thể không bị phát hiện. Chưa kiểm tra đầu trang, chân trang, chú thích cuối trang và hộp văn bản.</p></div></div>
+
+  <h2 class="sec" id="b4">4. Chỉnh vai trò đoạn và thông số</h2>
+  <div class="step"><div class="no">1</div><div><p>Vai trò đoạn (tên cơ quan, trích yếu, nội dung, chữ ký…) quyết định đoạn phải trình bày thế nào. Nếu công cụ nhận nhầm, ở tab <b>Đoạn</b> chọn lại vai trò đúng.</p></div></div>
+  <div class="step"><div class="no">2</div><div><p>Đoạn có viền tím là vai trò chưa chắc chắn nên lỗi phụ thuộc vai trò <b>chưa tự sửa</b>. Nếu vai trò đang hiện là đúng, bấm <b>Xác nhận vai trò &amp; cho sửa</b>.</p></div></div>
+  <div class="step"><div class="no">3</div><div><p><b>Sửa chữ</b>: nháy đúp vào một đoạn trên bản xem trước rồi gõ (Enter để lưu, Esc để huỷ), hoặc dùng ô <b>Sửa chữ đoạn này</b> ở tab <b>Đoạn</b> (tiện khi dùng điện thoại). Định dạng chữ (đậm, nghiêng…) được giữ nguyên; đoạn đã sửa có viền vàng; bấm <b>Bỏ sửa chữ</b> để quay về chữ gốc. Không sửa được đoạn chứa trường tự động (số trang, mục lục, số hình/bảng).</p></div></div>
+  <div class="step"><div class="no">4</div><div><p>Tab <b>Thông số</b>: đổi cỡ chữ, giãn dòng, lề… cho phiên đang mở, hoặc lưu làm mặc định cho các lần sau. Mọi thay đổi chỉ có hiệu lực sau khi bấm <b>Áp dụng &amp; sửa lại</b>.</p></div></div>
+
+  <h2 class="sec" id="b5">5. Mục lục, danh mục hình và bảng</h2>
+  <div class="step"><div class="no">1</div><div><p>Chuẩn bị trong file Word:</p>
+    <ul><li>Mục lục lấy các đoạn dùng kiểu Heading 1–3 của Word.</li>
+    <li>Chú thích hình/bảng đặt ở <b>đầu đoạn</b> dạng <b>Hình 1.</b> … hoặc <b>Bảng 1:</b> …</li>
+    <li>Có thể đặt sẵn các dòng tiêu đề <b>MỤC LỤC</b>, <b>DANH MỤC HÌNH</b>, <b>DANH MỤC BẢNG</b> ở nơi muốn chèn; nếu chưa có thì công cụ tự tạo.</li></ul></div></div>
+  <div class="step"><div class="no">2</div><div><p>Sau khi đã ưng ý với phần sửa lỗi, mở tab <b>Mục lục</b> ở khung bên phải, chọn các mục cần làm rồi bấm <b>Tạo mục lục</b>: <b>Mục lục</b> (tick sẵn), <b>Danh mục hình</b>, <b>Danh mục bảng</b> (không tick sẵn). Số hình/bảng được chuyển thành số tự động (chỉ với loại đã tick): thêm, xoá hay đổi chỗ hình/bảng thì số tự nhảy lại.</p></div></div>
+  <div class="step"><div class="no">3</div><div><p>Mục nào đã có dòng tiêu đề trong văn bản thì được làm mới ngay tại đó (các dòng mục lục gõ tay cũ bị thay). Mục chưa có tiêu đề thì được <b>tạo mới ngay trước đề mục đầu tiên</b> (mỗi mục một trang riêng, tiêu đề căn giữa, in đậm, Times New Roman 14); chưa có đề mục nào thì tạo ở đầu văn bản. Mục không tick được giữ nguyên. Bấm nhiều lần không bị chèn lặp; bỏ tick rồi bấm <b>Tạo lại</b> sẽ gỡ mục đó; <b>Gỡ mục lục</b> bỏ tất cả. Mục lục có cả ở bản đã sửa và bản không đổi màu.</p></div></div>
+  <div class="step"><div class="no">4</div><div><p>Trong tab <b>Mục lục</b> có danh sách <b>Đề mục đưa vào mục lục</b>: bỏ tick dòng không muốn có trong mục lục, hoặc tick lại dòng bị loại tự động (lý do ghi dưới dòng đó: chú thích hình/bảng, “Nguồn:”, “Nơi nhận:”, câu dẫn kết thúc bằng dấu hai chấm, điểm liệt kê a)/1), chức danh/tên người ký, dòng quá dài, đề mục trong ô bảng…). Sau khi tick xong bấm <b>Tạo lại</b>. Chữ trong văn bản không đổi, chỉ đổi việc có vào mục lục hay không. Khi “1.1.” và “1.1.1.” đang cùng một cấp, công cụ tự tách tầng theo số thứ tự để mục lục thụt lề đúng (số cấp ghi ở đầu mỗi dòng trong danh sách).</p></div></div>
+  <div class="step"><div class="no">5</div><div><p>Mở file đã tải về bằng Word; nếu mục lục/số chưa hiện đúng, bấm <kbd>Ctrl</kbd>+<kbd>A</kbd> rồi <kbd>F9</kbd>. Phần <b>Bản in</b> và <b>Xem nhanh</b> trong công cụ không hiện các số/mục lục này.</p></div></div>
+
+  <h2 class="sec" id="b6">6. Vai trò đoạn được xác định thế nào</h2>
+  <div class="step"><div class="no">1</div><div><p>Công cụ xác định vai trò từng đoạn (tên cơ quan, số ký hiệu, trích yếu, đề mục, nội dung…) bằng <b>quy tắc</b> (dấu hiệu chắc chắn như "Số:", "V/v", "Nơi nhận:") và <b>ngữ cảnh</b> (vị trí trong bảng tiêu đề, bảng chữ ký). Đoạn còn mơ hồ được gán vai trò mặc định với độ tin cậy thấp và có <b>viền tím</b> để bạn xem lại.</p></div></div>
+  <div class="step"><div class="no">2</div><div><p>Đoạn có độ tin cậy thấp chỉ được sửa phông chữ/màu, không tự sửa theo vai trò. Chọn lại vai trò đúng ở khung bên phải rồi bấm <b>Áp dụng &amp; sửa lại</b>.</p></div></div>
+
+  <h2 class="sec" id="b7">7. Tải kết quả</h2>
+  <div class="step"><div class="no">1</div><div><p>Nút <b>Tải về</b>: bản đã sửa (.docx; chữ sửa chính tả màu đỏ), <b>bản đã sửa không đổi màu</b> (chữ đã sửa nhưng không tô màu, để gửi đi), báo cáo lỗi (.html), bản in (.pdf), file gốc, hoặc tất cả trong một file .zip. File trên máy chủ tự xoá sau 24 giờ; bấm <b>×</b> để xoá ngay.</p></div></div>
+
+  <h2 class="sec" id="b8">8. Soạn thảo văn bản (theo Mẫu 1.1–1.10)</h2>
+  <div class="step"><div class="no">1</div><div><p>Chọn <b>Chuẩn trình bày</b> (NĐ 30/2020 hoặc văn bản Đảng) và <b>Loại văn bản</b>. Mỗi loại gắn với một mẫu của Phụ lục III NĐ 30/2020: 1.1 Nghị quyết; 1.2 Quyết định quy định trực tiếp; 1.3 Quyết định ban hành/phê duyệt văn bản khác; 1.4 các văn bản có tên loại; 1.5 Công văn; 1.6 Công điện; 1.7 Giấy mời; 1.8 Giấy giới thiệu; 1.9 Biên bản; 1.10 Giấy nghỉ phép. Hợp đồng, Bản ghi nhớ, Bản thỏa thuận, Thư công chưa có mẫu chuẩn nên không soạn được.</p></div></div>
+  <div class="step"><div class="no">2</div><div><p>Form đổi theo mẫu (ví dụ Biên bản có Thư ký, Chủ tọa; Giấy nghỉ phép có vùng xác nhận nơi nghỉ phép). Nội dung soạn theo khối: <b>Enter</b> tạo khối mới cùng loại (tự đánh Điều/khoản/điểm tiếp theo), <b>Shift+Enter</b> xuống dòng, <b>Tab/Shift+Tab</b> hạ/nâng cấp (Điều → khoản → điểm). Dán nhiều đoạn sẽ tự tách theo dấu hiệu “Điều n.”, “1.”, “a)”, “-”. Bấm số khối để sửa số tay.</p></div></div>
+  <div class="step"><div class="no">3</div><div><p>Bản xem trước khổ A4 bên phải dựng từ cùng bố cục với file Word (thu phóng 80/100/120% hoặc kéo thanh trượt). <b>Xuất Word</b> tải file .docx; <b>Kiểm tra thể thức</b> gửi bản đang soạn sang tab Chuẩn hoá. <b>Nhập Word</b> đọc file .docx, nhận diện chuẩn, loại, mẫu và điền vào form để sửa rồi xuất lại.</p></div></div>
+  <div class="step"><div class="no">4</div><div><p>Chọn chuẩn <b>Văn bản của Đảng</b> để soạn theo Hướng dẫn 05-HD/VPTW: tiêu đề “ĐẢNG CỘNG SẢN VIỆT NAM” có đường kẻ dưới, dấu sao dưới tên cơ quan, số “Số 05-HD/VPTW”, 05 dấu gạch nối dưới trích yếu, “Kính gửi” (công văn) hoặc “Kính trình” (tờ trình), chữ ký T/M, K/T, T/L, Q., biên bản hội nghị hai vùng ký; có thêm ô dấu khẩn, dự thảo, phạm vi phổ biến, thông tin liên hệ và tuỳ chọn in hai mặt.</p></div></div>
+  <div class="step"><div class="no">5</div><div><p><b>Cài đặt định dạng</b> lưu riêng cho từng chuẩn (lề, cỡ chữ, giãn dòng, thụt đầu dòng, thông tin cơ quan/người ký mặc định); nút <b>Khôi phục chuẩn NĐ30</b>/<b>Khôi phục chuẩn HD05</b> trả về thông số chuẩn. <b>Văn bản mới</b> xoá nội dung nhưng giữ thông tin mặc định.</p></div></div>
+
+  <h2 class="sec" id="b9">9. Chuyển Markdown</h2>
+  <div class="step"><div class="no">1</div><div><p>Kéo thả hoặc chọn nhiều file (.docx, .doc, .pdf, ảnh .png/.jpg, .txt, .md) vào tab <b>Chuyển Markdown</b>, kiểm tra danh sách file đã chọn rồi bấm <b>Tải lên</b> (trên điện thoại: chạm vào khung để chọn file, có thể <b>Chọn thêm</b> nhiều lần); có thể dán thẳng văn bản Markdown. Word giữ thứ tự đoạn, bảng, chữ đậm/nghiêng, tiêu đề và ảnh; PDF được tách theo trang; ảnh và PDF dạng ảnh được nhận dạng chữ (OCR tiếng Việt) nên cần soát lại.</p></div></div>
+  <div class="step"><div class="no">2</div><div><p><b>Tự sửa lỗi dấu sau nhận dạng chữ.</b> Với PDF quét và ảnh, máy chủ tự sửa các chữ sai dấu theo ngữ cảnh (VD “thâm quyên” → “thẩm quyền”, “dé nghị” → “đề nghị”), không gửi nội dung ra ngoài. Chỗ đã sửa được tô xanh (rê chuột xem chữ gốc), chữ nghi sai còn lại gạch đỏ. Bấm <b>Danh sách sửa</b> để bỏ chọn nhóm sửa không đúng rồi <b>Áp dụng lựa chọn</b>, hoặc <b>Khôi phục bản nhận dạng gốc</b>. Bộ sửa chỉ đổi dấu (không thêm/bớt chữ); số viết tay, tên riêng, chữ bị nhòe vẫn cần soát lại.</p></div></div>
+  <div class="step"><div class="no">3</div><div><p>Mỗi mã truy cập có thư viện riêng. Ô <b>Tìm kiếm</b> tìm trong tên và toàn bộ nội dung, gõ không dấu vẫn tìm được. Chọn một tài liệu để <b>Xem</b> hoặc <b>Sửa Markdown</b> rồi lưu; có thể đổi tên, xoá.</p></div></div>
+  <div class="step"><div class="no">4</div><div><p>Tải về: <b>.md</b>, <b>file gốc</b>, hoặc <b>Word thường</b> (chưa theo thể thức). Để có văn bản đúng thể thức, bấm <b>Soạn theo NĐ 30 →</b> hoặc <b>Soạn văn bản Đảng →</b>: nội dung được nhận diện (cơ quan, số, ngày, trích yếu, Kính gửi, Điều/khoản/điểm, nơi nhận, người ký) và chuyển sang tab Soạn thảo để kiểm tra, sửa rồi xuất Word. Bảng nội dung không chuyển được sang trình soạn thảo, hệ thống sẽ báo để bổ sung tay.</p></div></div>
+  <div class="step"><div class="no">5</div><div><p><b>Chia sẻ link</b> tạo đường dẫn công khai chỉ xem (không cần mã); <b>Thu hồi</b> làm link cũ hết hiệu lực ngay.</p></div></div>
+
+  <h2 class="sec" id="b10">10. Chuyển đổi Âm thanh</h2>
+  <div class="step"><div class="no">1</div><div><p>Mở tab <b>Chuyển đổi Âm thanh</b>, chọn hoặc kéo thả một tệp ghi âm/video tiếng Việt (mp3, m4a, wav, ogg, mp4…; dung lượng tối đa ghi ngay dưới khung chọn tệp) rồi bấm <b>Phiên âm</b>. Dòng trạng thái đầu trang cho biết dịch vụ phiên âm đã sẵn sàng hay chưa; nếu báo chưa cấu hình, liên hệ quản trị viên.</p></div></div>
+  <div class="step"><div class="no">2</div><div><p>Tệp dài được cắt thành các đoạn 20 phút và phiên âm lần lượt; dòng trạng thái hiện <b>đoạn đang xử lý trên tổng số đoạn</b>. Khi có người khác đang dùng, tệp của bạn <b>chờ đến lượt</b> (máy chủ xử lý từng tệp một). Bấm <b>Chuyển âm thanh khác</b> để huỷ và bắt đầu lại.</p></div></div>
+  <div class="step"><div class="no">3</div><div><p>Kết quả hiện trong khung văn bản: chọn <b>Kèm mốc thời gian</b> nếu cần, rồi <b>Sao chép</b> hoặc <b>Tải file .txt</b>. Mặc định máy chủ xóa kết quả ngay sau khi trình duyệt nhận được; tệp ghi âm không được lưu lại trên máy chủ.</p></div></div>
+  <div class="step"><div class="no">4</div><div><p><b>Lưu ý.</b> Tệp ghi âm được gửi tới dịch vụ phiên âm bên ngoài (Groq), vì vậy không dùng cho nội dung mật. Văn bản do máy tạo có thể nghe sai tên riêng, thuật ngữ, số liệu: cần đối chiếu lại trước khi dùng cho văn bản chính thức.</p></div></div>
+
+</main>
+<script>
+fetch("api/config").then(r => r.json()).then(c => {
+  const o = c.org || {};
+  const lg = document.getElementById("orgLogo");
+  if (c.desktop) { lg.remove(); document.title = "Hướng dẫn sử dụng · " + (o.name || ""); }
+  else { lg.onerror = () => { lg.onerror = null; lg.src = "branding/logo" }; lg.src = o.logo || "branding/logo"; }
+  document.getElementById("orgParent").textContent = o.parent || "";
+  document.getElementById("orgName").textContent = o.name || "";
+  if (o.unit) document.getElementById("orgUnit").textContent = o.unit;
+  else if (c.desktop) document.getElementById("orgUnit").hidden = true;
+  if (c.audio === false) {      // bản máy tính: không có tab Chuyển đổi Âm thanh
+    document.querySelector('a.pill[href="#b10"]')?.remove();
+    const h = document.getElementById("b10");
+    let el = h && h.nextElementSibling;
+    while (el && el.tagName !== "H2" && !el.classList.contains("src")) { const nx = el.nextElementSibling; el.remove(); el = nx; }
+    h?.remove();
+  }
+  if (c.desktop) {      // bản máy tính: không có đăng nhập
+    document.getElementById("orgUnit").style.display = "none";
+    document.querySelector('a.pill[href="#b1"]')?.remove();
+    const h = document.getElementById("b1");
+    let el = h && h.nextElementSibling;
+    while (el && el.tagName !== "H2") { const nx = el.nextElementSibling; el.remove(); el = nx; }
+    h?.remove();
+  }
+  document.getElementById("orgTag").textContent = o.tagline || "";
+}).catch(() => {});
+</script>
+</body>
+</html>

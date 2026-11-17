@@ -1,0 +1,16 @@
+# Cài không dùng Docker: sao chép vào /etc/systemd/system/nd30fmt.service
+[Unit]
+Description=ND30 Word format checker
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/opt/nd30fmt
+EnvironmentFile=/opt/nd30fmt/deploy/.env
+Environment=HOME=/var/lib/nd30fmt
+StateDirectory=nd30fmt
+ExecStart=/opt/nd30fmt/.venv/bin/uvicorn nd30fmt.web:app --host 127.0.0.1 --port 8030 --proxy-headers
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

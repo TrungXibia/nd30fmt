@@ -1,0 +1,183 @@
+{
+ "id": "1.7",
+ "standard": "nd30",
+ "name": "Giấy mời",
+ "source": {
+  "template": "NĐ 30/2020/NĐ-CP, Phụ lục III – Mẫu 1.7 (Giấy mời)",
+  "format": "NĐ 30/2020/NĐ-CP, Phụ lục I",
+  "observed": "Mẫu 1.7: bảng đầu trang 2 cột không viền 174.4/298.1 pt; bảng ký 141.8/340.2 pt"
+ },
+ "template_status": "supported",
+ "doc_types": [
+  "GIAY_MOI"
+ ],
+ "number": {
+  "ky_hieu": "GM-{ma_co_quan}"
+ },
+ "geometry": {
+  "header_cols_pt": [
+   174.4,
+   298.1
+  ],
+  "footer_cols_pt": [
+   141.8,
+   340.2
+  ],
+  "note": "Độ rộng cột đo từ file mẫu; nếu tổng vượt vùng trình bày thì co theo tỉ lệ"
+ },
+ "layout": [
+  {
+   "kind": "header",
+   "left": [
+    "co_quan_chu_quan",
+    "co_quan_ban_hanh",
+    "line_co_quan",
+    "so_ky_hieu"
+   ],
+   "right": [
+    "quoc_hieu",
+    "tieu_ngu",
+    "line_tieu_ngu",
+    "dia_danh_ngay"
+   ]
+  },
+  {
+   "kind": "ten_loai",
+   "text": "GIẤY MỜI"
+  },
+  {
+   "kind": "trich_yeu",
+   "field": "trich_yeu"
+  },
+  {
+   "kind": "line_trich_yeu"
+  },
+  {
+   "kind": "text_line",
+   "template": "{chu_the} trân trọng kính mời: {nguoi_duoc_moi}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Tới dự {cuoc_hop}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Chủ trì: {chu_tri}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Thời gian: {thoi_gian}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Địa điểm: {dia_diem}"
+  },
+  {
+   "kind": "body",
+   "field": "luu_y",
+   "allowed_blocks": [
+    "p",
+    "bullet"
+   ],
+   "optional": true
+  },
+  {
+   "kind": "sign_footer"
+  }
+ ],
+ "fields": [
+  "co_quan_chu_quan",
+  "co_quan_ban_hanh",
+  "ma_co_quan",
+  "so",
+  "ky_hieu_tuy_chinh",
+  "dia_danh",
+  "ngay",
+  {
+   "id": "trich_yeu",
+   "label": "Trích yếu nội dung cuộc họp",
+   "type": "text",
+   "required": true,
+   "group": "title"
+  },
+  {
+   "id": "chu_the",
+   "label": "Tên cơ quan, tổ chức mời (viết thường, đầu câu)",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "default_from": "defaults.chu_the",
+   "placeholder": "VD: Tên cơ quan, tổ chức"
+  },
+  {
+   "id": "nguoi_duoc_moi",
+   "label": "Người/cơ quan được mời",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "note": "Mẫu 1.7 – ghi chú 6"
+  },
+  {
+   "id": "cuoc_hop",
+   "label": "Tới dự (tên, nội dung cuộc họp/hội nghị/hội thảo)",
+   "type": "text",
+   "required": true,
+   "group": "content"
+  },
+  {
+   "id": "chu_tri",
+   "label": "Chủ trì",
+   "type": "text",
+   "group": "content"
+  },
+  {
+   "id": "thoi_gian",
+   "label": "Thời gian",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "placeholder": "VD: 08 giờ 30, ngày 05 tháng 10 năm 2026"
+  },
+  {
+   "id": "dia_diem",
+   "label": "Địa điểm",
+   "type": "text",
+   "required": true,
+   "group": "content"
+  },
+  {
+   "id": "luu_y",
+   "label": "Các vấn đề cần lưu ý",
+   "type": "blocks",
+   "group": "content",
+   "starter": [
+    {
+     "type": "p",
+     "html": ""
+    }
+   ],
+   "note": "Mẫu 1.7 – ghi chú 8"
+  },
+  "noi_nhan",
+  "luu",
+  "quyen_han",
+  "quyen_han_cua",
+  "chuc_vu",
+  "ho_ten"
+ ],
+ "noi_nhan_default": [],
+ "validation": [
+  "required_fields",
+  "number_padding",
+  "noi_nhan_punctuation"
+ ],
+ "notes": [
+  "Nội dung Giấy mời trình bày theo các dòng cố định của Mẫu 1.7."
+ ],
+ "docx": {
+  "page_number": "header, từ trang 2",
+  "header_table": "2 cột, không viền",
+  "lines": "viền dưới đoạn văn",
+  "footer_table": "2 cột, không viền"
+ }
+}

@@ -1,0 +1,251 @@
+{
+ "standard": "nd30",
+ "source": "NĐ 30/2020/NĐ-CP Điều 7 (29 loại văn bản hành chính); Phụ lục III Mục I (chữ viết tắt); Phụ lục III Mục II (Mẫu 1.1–1.10)",
+ "types": [
+  {
+   "id": "NGHI_QUYET",
+   "label": "Nghị quyết (cá biệt)",
+   "ten_loai": "NGHỊ QUYẾT",
+   "ma_loai": "NQ",
+   "template": "1.1",
+   "template_status": "supported"
+  },
+  {
+   "id": "QUYET_DINH_TRUC_TIEP",
+   "label": "Quyết định (cá biệt) – quy định trực tiếp",
+   "ten_loai": "QUYẾT ĐỊNH",
+   "ma_loai": "QĐ",
+   "template": "1.2",
+   "template_status": "supported"
+  },
+  {
+   "id": "QUYET_DINH_GIAN_TIEP",
+   "label": "Quyết định – ban hành/phê duyệt văn bản khác",
+   "ten_loai": "QUYẾT ĐỊNH",
+   "ma_loai": "QĐ",
+   "template": "1.3",
+   "template_status": "supported"
+  },
+  {
+   "id": "CHI_THI",
+   "label": "Chỉ thị",
+   "ten_loai": "CHỈ THỊ",
+   "ma_loai": "CT",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "QUY_CHE",
+   "label": "Quy chế",
+   "ten_loai": "QUY CHẾ",
+   "ma_loai": "QC",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "QUY_DINH",
+   "label": "Quy định",
+   "ten_loai": "QUY ĐỊNH",
+   "ma_loai": "QyĐ",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "THONG_CAO",
+   "label": "Thông cáo",
+   "ten_loai": "THÔNG CÁO",
+   "ma_loai": "TC",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "THONG_BAO",
+   "label": "Thông báo",
+   "ten_loai": "THÔNG BÁO",
+   "ma_loai": "TB",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "HUONG_DAN",
+   "label": "Hướng dẫn",
+   "ten_loai": "HƯỚNG DẪN",
+   "ma_loai": "HD",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "CHUONG_TRINH",
+   "label": "Chương trình",
+   "ten_loai": "CHƯƠNG TRÌNH",
+   "ma_loai": "CTr",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "KE_HOACH",
+   "label": "Kế hoạch",
+   "ten_loai": "KẾ HOẠCH",
+   "ma_loai": "KH",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "PHUONG_AN",
+   "label": "Phương án",
+   "ten_loai": "PHƯƠNG ÁN",
+   "ma_loai": "PA",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "DE_AN",
+   "label": "Đề án",
+   "ten_loai": "ĐỀ ÁN",
+   "ma_loai": "ĐA",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "DU_AN",
+   "label": "Dự án",
+   "ten_loai": "DỰ ÁN",
+   "ma_loai": "DA",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "BAO_CAO",
+   "label": "Báo cáo",
+   "ten_loai": "BÁO CÁO",
+   "ma_loai": "BC",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "BIEN_BAN",
+   "label": "Biên bản",
+   "ten_loai": "BIÊN BẢN",
+   "ma_loai": "BB",
+   "template": "1.9",
+   "template_status": "supported"
+  },
+  {
+   "id": "TO_TRINH",
+   "label": "Tờ trình",
+   "ten_loai": "TỜ TRÌNH",
+   "ma_loai": "TTr",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "HOP_DONG",
+   "label": "Hợp đồng",
+   "ten_loai": "HỢP ĐỒNG",
+   "ma_loai": "HĐ",
+   "template": null,
+   "template_status": "unsupported",
+   "status_note": "Chưa có mẫu chuẩn trong Phụ lục III NĐ 30/2020 (Mẫu 1.1–1.10); công cụ không tự dựng bố cục cho loại này."
+  },
+  {
+   "id": "CONG_VAN",
+   "label": "Công văn",
+   "ten_loai": "",
+   "ma_loai": null,
+   "template": "1.5",
+   "template_status": "supported"
+  },
+  {
+   "id": "CONG_DIEN",
+   "label": "Công điện",
+   "ten_loai": "CÔNG ĐIỆN",
+   "ma_loai": "CĐ",
+   "template": "1.6",
+   "template_status": "supported"
+  },
+  {
+   "id": "BAN_GHI_NHO",
+   "label": "Bản ghi nhớ",
+   "ten_loai": "BẢN GHI NHỚ",
+   "ma_loai": "BGN",
+   "template": null,
+   "template_status": "unsupported",
+   "status_note": "Chưa có mẫu chuẩn trong Phụ lục III NĐ 30/2020 (Mẫu 1.1–1.10); công cụ không tự dựng bố cục cho loại này."
+  },
+  {
+   "id": "BAN_THOA_THUAN",
+   "label": "Bản thỏa thuận",
+   "ten_loai": "BẢN THỎA THUẬN",
+   "ma_loai": "BTT",
+   "template": null,
+   "template_status": "unsupported",
+   "status_note": "Chưa có mẫu chuẩn trong Phụ lục III NĐ 30/2020 (Mẫu 1.1–1.10); công cụ không tự dựng bố cục cho loại này."
+  },
+  {
+   "id": "GIAY_UY_QUYEN",
+   "label": "Giấy ủy quyền",
+   "ten_loai": "GIẤY ỦY QUYỀN",
+   "ma_loai": "GUQ",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "GIAY_MOI",
+   "label": "Giấy mời",
+   "ten_loai": "GIẤY MỜI",
+   "ma_loai": "GM",
+   "template": "1.7",
+   "template_status": "supported"
+  },
+  {
+   "id": "GIAY_GIOI_THIEU",
+   "label": "Giấy giới thiệu",
+   "ten_loai": "GIẤY GIỚI THIỆU",
+   "ma_loai": "GGT",
+   "template": "1.8",
+   "template_status": "supported"
+  },
+  {
+   "id": "GIAY_NGHI_PHEP",
+   "label": "Giấy nghỉ phép",
+   "ten_loai": "GIẤY NGHỈ PHÉP",
+   "ma_loai": "GNP",
+   "template": "1.10",
+   "template_status": "supported"
+  },
+  {
+   "id": "PHIEU_GUI",
+   "label": "Phiếu gửi",
+   "ten_loai": "PHIẾU GỬI",
+   "ma_loai": "PG",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "PHIEU_CHUYEN",
+   "label": "Phiếu chuyển",
+   "ten_loai": "PHIẾU CHUYỂN",
+   "ma_loai": "PC",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "PHIEU_BAO",
+   "label": "Phiếu báo",
+   "ten_loai": "PHIẾU BÁO",
+   "ma_loai": "PB",
+   "template": "1.4",
+   "template_status": "supported"
+  },
+  {
+   "id": "THU_CONG",
+   "label": "Thư công",
+   "ten_loai": "THƯ CÔNG",
+   "ma_loai": null,
+   "template": null,
+   "template_status": "unsupported",
+   "status_note": "Chưa có mẫu chuẩn trong Phụ lục III NĐ 30/2020 (Mẫu 1.1–1.10); công cụ không tự dựng bố cục cho loại này.",
+   "ma_loai_note": "Phụ lục III Mục I không có chữ viết tắt cho loại này"
+  }
+ ]
+}

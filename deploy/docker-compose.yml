@@ -1,0 +1,16 @@
+services:
+  nd30fmt:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        MSCOREFONTS: "0"            # đặt "1" nếu muốn cài Times New Roman từ gói Debian thay vì dùng phông của VPS
+    container_name: nd30fmt
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:8030:8030"       # chỉ mở nội bộ, đi qua nginx
+    volumes:
+      - ../config:/app/config:ro     # quy chuẩn gốc (YAML)
+      - ./data:/data                 # phiên làm việc, bộ thông số đã lưu
+      - /usr/share/fonts:/usr/share/fonts/host:ro   # dùng phông đã cài trên VPS (Times New Roman...)

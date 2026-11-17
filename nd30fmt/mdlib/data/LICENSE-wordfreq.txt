@@ -1,0 +1,7 @@
+enlm.zip chứa bảng tần suất từ tiếng Anh rút từ gói wordfreq 3.1.1 (https://github.com/rspeer/wordfreq),
+tác giả Robyn Speer. Mã của wordfreq theo giấy phép Apache-2.0; dữ liệu theo Creative Commons
+Attribution-ShareAlike 4.0 (https://creativecommons.org/licenses/by-sa/4.0/). Dữ liệu của wordfreq tổng hợp từ
+Wikipedia, OpenSubtitles 2018, SUBTLEX (Brysbaert và cộng sự), Leeds Internet Corpus, Google Books Ngrams,
+ParaCrawl, Reddit, Twitter và nguồn tin tức; xem mục License trong tài liệu của wordfreq để biết đầy đủ ghi công.
+Bảng này đã được biến đổi: chỉ giữ 60.000 từ đầu (chữ a–z), làm tròn zipf×100, bỏ các mảnh vụn của từ rút gọn.
+Chia sẻ lại dữ liệu này (kể cả bản đã biến đổi) phải giữ nguyên ghi công trên và giấy phép CC BY-SA 4.0.

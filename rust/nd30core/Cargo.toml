@@ -1,0 +1,20 @@
+[package]
+name = "nd30core"
+version = "1.0.48"
+edition = "2021"
+publish = false
+
+[lib]
+name = "_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.30", features = ["extension-module", "abi3-py39"] }
+unicode-general-category = "1.1"
+unicode-normalization = "0.1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true

@@ -1,0 +1,5 @@
+# Thư viện chỉ dùng khi chạy test
+-r requirements.txt
+pytest==9.1.1
+httpx2==2.13.1
+pillow==13.0.0

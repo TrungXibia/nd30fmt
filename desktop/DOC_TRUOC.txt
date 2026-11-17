@@ -1,0 +1,19 @@
+CÔNG CỤ VĂN BẢN NĐ30 – bản cài trên máy tính (Windows 10/11, 64-bit)
+
+Mở ứng dụng: biểu tượng "Công cụ văn bản NĐ30" trên màn hình hoặc menu Start. Giao diện mở trong cửa sổ riêng
+(Microsoft Edge/Chrome chế độ ứng dụng); đóng cửa sổ là ứng dụng tự tắt sau khoảng 1–2 phút.
+
+Gồm 3 phần: Chuẩn hoá văn bản (kiểm tra, sửa thể thức Word theo NĐ 30/2020, văn bản Đảng HD 05, đề án/luận văn),
+Soạn thảo văn bản (Mẫu 1.1–1.10), Chuyển Markdown (Word/PDF/ảnh -> Markdown, nhận dạng chữ tiếng Việt, tự sửa dấu).
+
+Mọi xử lý chạy ngay trên máy này, không gửi tài liệu lên mạng.
+Dữ liệu (thư viện Markdown, bản nháp, cài đặt): %LOCALAPPDATA%\CongCuVanBanND30\data  – gỡ cài đặt không xoá thư mục này.
+Nhật ký lỗi: %LOCALAPPDATA%\CongCuVanBanND30\app.log
+
+Tuỳ chọn:
+- "Bản in" (xem văn bản đúng như in) và đọc file .doc cũ cần LibreOffice: cài LibreOffice (miễn phí,
+  https://www.libreoffice.org) vào thư mục mặc định, ứng dụng tự nhận.
+
+Thành phần mã nguồn mở đi kèm: Python (PSF License), Tesseract OCR (Apache-2.0) và dữ liệu tiếng Việt,
+PyMuPDF (AGPL-3.0), FastAPI/Uvicorn/Starlette (MIT/BSD), lxml, python-docx, PyYAML, Markdown (BSD/MIT);
+thống kê tiếng Việt dựng từ kho VNTC/VNESE của dự án underthesea (Apache-2.0).

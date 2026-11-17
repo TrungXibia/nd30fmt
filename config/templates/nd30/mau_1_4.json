@@ -1,0 +1,160 @@
+{
+ "id": "1.4",
+ "standard": "nd30",
+ "name": "Văn bản có tên loại",
+ "source": {
+  "template": "NĐ 30/2020/NĐ-CP, Phụ lục III – Mẫu 1.4 (Văn bản có tên loại)",
+  "format": "NĐ 30/2020/NĐ-CP, Phụ lục I",
+  "observed": "Mẫu 1.4: bảng đầu trang 2 cột không viền 174.4/302.1 pt; bảng ký 177.2/290.6 pt"
+ },
+ "template_status": "supported",
+ "doc_types": [
+  "CHI_THI",
+  "QUY_CHE",
+  "QUY_DINH",
+  "THONG_CAO",
+  "THONG_BAO",
+  "HUONG_DAN",
+  "CHUONG_TRINH",
+  "KE_HOACH",
+  "PHUONG_AN",
+  "DE_AN",
+  "DU_AN",
+  "BAO_CAO",
+  "TO_TRINH",
+  "GIAY_UY_QUYEN",
+  "PHIEU_GUI",
+  "PHIEU_CHUYEN",
+  "PHIEU_BAO"
+ ],
+ "number": {
+  "ky_hieu": "{ma_loai}-{ma_co_quan}"
+ },
+ "geometry": {
+  "header_cols_pt": [
+   174.4,
+   302.1
+  ],
+  "footer_cols_pt": [
+   177.2,
+   290.6
+  ],
+  "note": "Độ rộng cột đo từ file mẫu; nếu tổng vượt vùng trình bày thì co theo tỉ lệ"
+ },
+ "layout": [
+  {
+   "kind": "header",
+   "left": [
+    "co_quan_chu_quan",
+    "co_quan_ban_hanh",
+    "line_co_quan",
+    "so_ky_hieu"
+   ],
+   "right": [
+    "quoc_hieu",
+    "tieu_ngu",
+    "line_tieu_ngu",
+    "dia_danh_ngay"
+   ]
+  },
+  {
+   "kind": "ten_loai",
+   "from": "doc_type"
+  },
+  {
+   "kind": "trich_yeu",
+   "field": "trich_yeu"
+  },
+  {
+   "kind": "line_trich_yeu"
+  },
+  {
+   "kind": "kinh_gui",
+   "field": "kinh_gui",
+   "only_types": [
+    "TO_TRINH",
+    "BAO_CAO"
+   ]
+  },
+  {
+   "kind": "body",
+   "field": "noi_dung",
+   "allowed_blocks": [
+    "p",
+    "bullet",
+    "la_ma",
+    "khoan",
+    "diem",
+    "phan",
+    "chuong",
+    "muc",
+    "dieu"
+   ]
+  },
+  {
+   "kind": "sign_footer"
+  }
+ ],
+ "fields": [
+  "co_quan_chu_quan",
+  "co_quan_ban_hanh",
+  "ma_co_quan",
+  "so",
+  "ky_hieu_tuy_chinh",
+  "dia_danh",
+  "ngay",
+  {
+   "id": "trich_yeu",
+   "label": "Trích yếu nội dung văn bản",
+   "type": "text",
+   "group": "title",
+   "required": true
+  },
+  {
+   "id": "kinh_gui",
+   "label": "Kính gửi (Tờ trình, Báo cáo gửi cấp trên – mỗi dòng một nơi)",
+   "type": "list",
+   "group": "content",
+   "only_types": [
+    "TO_TRINH",
+    "BAO_CAO"
+   ],
+   "note": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.9.b"
+  },
+  {
+   "id": "noi_dung",
+   "label": "Nội dung văn bản",
+   "type": "blocks",
+   "group": "content",
+   "starter": [
+    {
+     "type": "p",
+     "html": ""
+    }
+   ]
+  },
+  "noi_nhan",
+  "luu",
+  "quyen_han",
+  "quyen_han_cua",
+  "chuc_vu",
+  "ho_ten"
+ ],
+ "noi_nhan_default": [],
+ "validation": [
+  "required_fields",
+  "number_padding",
+  "noi_nhan_punctuation",
+  "kinh_gui_punctuation"
+ ],
+ "notes": [
+  "Mẫu 1.4 ghi chú 6: áp dụng chung cho chỉ thị, quy chế, quy định, thông cáo, thông báo, hướng dẫn, chương trình, kế hoạch, phương án, đề án, dự án, báo cáo, tờ trình, giấy ủy quyền, phiếu gửi, phiếu chuyển, phiếu báo.",
+  "Ký hiệu: chữ viết tắt tên loại (Phụ lục III Mục I) + chữ viết tắt cơ quan ban hành."
+ ],
+ "docx": {
+  "page_number": "header, từ trang 2",
+  "header_table": "2 cột, không viền",
+  "lines": "viền dưới đoạn văn",
+  "footer_table": "2 cột, không viền"
+ }
+}

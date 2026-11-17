@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Rust core: build output and the compiled module (build with rust/build.sh)
+rust/nd30core/target/
+nd30fmt/_core*.so
+nd30fmt/_core*.pyd
+
+# Runtime data, secrets, backups
+deploy/.env
+deploy/data/
+deploy/backup/
+.env
+*.pem
+*.key
+id_rsa*
+*.bak*
+
+# Generated outputs
+test_output/
+*.zip
+!nd30fmt/mdlib/data/*.zip
+
+# Quy chuẩn rõ (đã mã hoá thành config/*_spec.yaml.enc) và khoá giải mã: không đưa lên git
+config/*_spec.yaml
+*.spec-key
+ND30_SPEC_KEY*

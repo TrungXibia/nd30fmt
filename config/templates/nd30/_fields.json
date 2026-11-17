@@ -1,0 +1,113 @@
+{
+ "standard": "nd30",
+ "fields": {
+  "co_quan_chu_quan": {
+   "label": "Cơ quan, tổ chức chủ quản trực tiếp (nếu có)",
+   "type": "text",
+   "caps": true,
+   "group": "header",
+   "default_from": "defaults.co_quan_chu_quan",
+   "note": "Mẫu – ghi chú 1"
+  },
+  "co_quan_ban_hanh": {
+   "label": "Cơ quan, tổ chức ban hành",
+   "type": "text",
+   "caps": true,
+   "required": true,
+   "group": "header",
+   "default_from": "defaults.co_quan_ban_hanh",
+   "note": "Mẫu – ghi chú 2"
+  },
+  "ma_co_quan": {
+   "label": "Chữ viết tắt tên cơ quan ban hành",
+   "type": "code",
+   "required": true,
+   "group": "header",
+   "default_from": "defaults.ma_co_quan",
+   "note": "Mẫu – ghi chú 3"
+  },
+  "so": {
+   "label": "Số văn bản",
+   "type": "number_text",
+   "group": "header",
+   "placeholder": "để trống nếu chưa lấy số"
+  },
+  "ky_hieu_tuy_chinh": {
+   "label": "Số và ký hiệu (sửa tay, nếu cần)",
+   "type": "text",
+   "group": "header",
+   "placeholder": "để trống: tự tạo theo mẫu"
+  },
+  "dia_danh": {
+   "label": "Địa danh",
+   "type": "text",
+   "group": "header",
+   "default": "Hà Nội"
+  },
+  "ngay": {
+   "label": "Ngày ban hành",
+   "type": "date",
+   "group": "header",
+   "placeholder": "để trống: ngày … tháng … năm …"
+  },
+  "trich_yeu": {
+   "label": "Trích yếu nội dung",
+   "type": "text",
+   "group": "title"
+  },
+  "noi_nhan": {
+   "label": "Nơi nhận",
+   "type": "list",
+   "group": "footer",
+   "item_end": ";"
+  },
+  "luu": {
+   "label": "Lưu (sau “VT,”): đơn vị soạn thảo, số bản lưu, ký hiệu người soạn",
+   "type": "text",
+   "group": "footer",
+   "placeholder": "VD: VP, NVA(05)"
+  },
+  "quyen_han": {
+   "label": "Quyền hạn ký",
+   "type": "select",
+   "options": [
+    "",
+    "TM.",
+    "Q.",
+    "KT.",
+    "TL.",
+    "TUQ."
+   ],
+   "group": "sign"
+  },
+  "quyen_han_cua": {
+   "label": "Ký thay/thay mặt cho (chức vụ, tập thể)",
+   "type": "text",
+   "caps": true,
+   "group": "sign",
+   "show_if": {
+    "quyen_han": [
+     "TM.",
+     "KT.",
+     "TL.",
+     "TUQ."
+    ]
+   },
+   "placeholder": "VD: VIỆN TRƯỞNG"
+  },
+  "chuc_vu": {
+   "label": "Chức vụ người ký",
+   "type": "text",
+   "caps": true,
+   "group": "sign",
+   "default_from": "defaults.chuc_vu",
+   "required": true
+  },
+  "ho_ten": {
+   "label": "Họ và tên người ký",
+   "type": "text",
+   "group": "sign",
+   "default_from": "defaults.ho_ten"
+  }
+ }
+}

@@ -1,0 +1,94 @@
+{
+  "standard": "Nghị định 30/2020/NĐ-CP",
+  "module": "Soạn thảo văn bản hành chính",
+  "version": "1.0",
+  "master_templates": {
+    "1.1": {
+      "name": "Nghị quyết (cá biệt)",
+      "types": [
+        "NGHI_QUYET"
+      ]
+    },
+    "1.2": {
+      "name": "Quyết định (cá biệt) quy định trực tiếp",
+      "types": [
+        "QUYET_DINH_TRUC_TIEP"
+      ]
+    },
+    "1.3": {
+      "name": "Quyết định ban hành/phê duyệt văn bản khác",
+      "types": [
+        "QUYET_DINH_GIAN_TIEP"
+      ]
+    },
+    "1.4": {
+      "name": "Văn bản có tên loại",
+      "types": [
+        "CHI_THI",
+        "QUY_CHE",
+        "QUY_DINH",
+        "THONG_CAO",
+        "THONG_BAO",
+        "HUONG_DAN",
+        "CHUONG_TRINH",
+        "KE_HOACH",
+        "PHUONG_AN",
+        "DE_AN",
+        "DU_AN",
+        "BAO_CAO",
+        "TO_TRINH",
+        "GIAY_UY_QUYEN",
+        "PHIEU_GUI",
+        "PHIEU_CHUYEN",
+        "PHIEU_BAO"
+      ]
+    },
+    "1.5": {
+      "name": "Công văn",
+      "types": [
+        "CONG_VAN"
+      ]
+    },
+    "1.6": {
+      "name": "Công điện",
+      "types": [
+        "CONG_DIEN"
+      ]
+    },
+    "1.7": {
+      "name": "Giấy mời",
+      "types": [
+        "GIAY_MOI"
+      ]
+    },
+    "1.8": {
+      "name": "Giấy giới thiệu",
+      "types": [
+        "GIAY_GIOI_THIEU"
+      ]
+    },
+    "1.9": {
+      "name": "Biên bản",
+      "types": [
+        "BIEN_BAN"
+      ]
+    },
+    "1.10": {
+      "name": "Giấy nghỉ phép",
+      "types": [
+        "GIAY_NGHI_PHEP"
+      ]
+    }
+  },
+  "other_article7_types": [
+    "HOP_DONG",
+    "BAN_GHI_NHO",
+    "BAN_THOA_THUAN",
+    "THU_CONG"
+  ],
+  "notes": [
+    "29 loại lấy theo Điều 7 NĐ30.",
+    "Không gán Mẫu 1.4 cho Hợp đồng, Bản ghi nhớ, Bản thỏa thuận, Thư công khi bộ mẫu tải lên không chứng minh ánh xạ đó.",
+    "HD05/Đảng không dùng schema này."
+  ]
+}

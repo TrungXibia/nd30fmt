@@ -1,0 +1,16 @@
+# Chỉ nd30fmt/, config/ và requirements.txt được đưa vào image (xem deploy/Dockerfile).
+# Loại phần còn lại để docker không phải đọc dữ liệu người dùng, bản sao lưu và bộ test mỗi lần build.
+deploy/data
+deploy/backup
+deploy/.env
+tests
+samples
+test_output
+tools
+desktop
+*.md
+*.zip
+**/__pycache__
+**/*.pyc
+**/*.bak*
+rust/nd30core/target

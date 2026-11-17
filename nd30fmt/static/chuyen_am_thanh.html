@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chuyển đổi Âm thanh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--ink:#1d2939;--bg:#edf1f6;--line:#dde3ea;--acc:#2e86c1;--acc-dk:#236b9c;--navy:#1b3a5c;--soft:#f3f6fa;--muted:#667085;
+  --err:#b42318;--ok:#067647;--warn:#b54708;--shadow:0 1px 2px rgba(16,24,40,.06),0 2px 8px rgba(16,24,40,.06)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Nunito",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,textarea{font:inherit;color:inherit}
+.page{max-width:860px;margin:0 auto;padding:14px 12px 28px}
+.card{background:#fff;border-radius:10px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:12px}
+h1{margin:0 0 2px;font-size:17px;color:var(--navy);font-weight:800}
+h2{margin:0 0 8px;font-size:14px;color:var(--navy);font-weight:800}
+.sub{margin:0;color:var(--muted)}
+.state{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:50%;background:#98a2b3;flex:none}
+.dot.ok{background:var(--ok)}.dot.bad{background:var(--err)}.dot.wait{background:var(--warn)}
+#stateTxt{font-weight:700}
+.help{margin:8px 0 0;color:var(--muted);font-size:13px}
+.drop{border:2px dashed #b9cde0;border-radius:8px;background:#f5f9fd;padding:20px 12px;text-align:center;cursor:pointer;color:var(--navy)}
+.drop.over{border-color:var(--acc);background:#eaf3fb}
+.drop b{display:block;font-size:14.5px}
+.drop small{color:var(--muted)}
+.drop .fname{display:block;margin-top:6px;font-weight:700;word-break:break-all}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:6px;padding:7px 12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.btn:hover:not(:disabled){border-color:var(--acc);background:var(--soft)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.pri:hover:not(:disabled){background:var(--acc-dk)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.chk{display:flex;align-items:center;gap:6px;cursor:pointer}
+#status{margin-top:10px;min-height:1.5em;color:var(--muted)}
+#status.err{color:var(--err)}
+#status.ok{color:var(--ok)}
+textarea{width:100%;min-height:280px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;resize:vertical;line-height:1.55}
+.note{margin:8px 0 0;color:var(--muted);font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="card">
+  <h1>Chuyển đổi Âm thanh</h1>
+  <p class="sub">Chọn tệp ghi âm hoặc video tiếng Việt, nhận lại văn bản và tải về dạng .txt.</p>
+</div>
+
+<div class="card">
+  <div class="state">
+    <span class="dot wait" id="dot"></span>
+    <span id="stateTxt">Đang kiểm tra dịch vụ phiên âm…</span>
+    <button class="btn" id="recheck" type="button">Kiểm tra lại</button>
+  </div>
+  <p class="help" id="stateHelp" hidden></p>
+</div>
+
+<div class="card">
+  <div class="drop" id="drop" tabindex="0" role="button" aria-label="Chọn tệp âm thanh">
+    <b>Bấm để chọn tệp, hoặc kéo thả vào đây</b>
+    <small>mp3, m4a, wav, ogg, mp4, … <span id="maxHint"></span></small>
+    <span class="fname" id="fname"></span>
+  </div>
+  <input id="file" type="file" accept="audio/*,video/*,.m4a,.mp3,.wav,.ogg,.oga,.opus,.mp4,.mov,.webm,.aac,.flac" hidden>
+  <div class="row">
+    <button class="btn pri" id="go" type="button" disabled>Phiên âm</button>
+    <label class="chk"><input id="ts" type="checkbox"> Kèm mốc thời gian</label>
+    <button class="btn" id="reset" type="button">Chuyển âm thanh khác</button>
+  </div>
+  <label class="chk" style="margin-top:8px"><input id="autodel" type="checkbox" checked> Tự xóa dữ liệu trên máy chủ ngay sau khi nhận kết quả</label>
+  <div id="status" role="status"></div>
+</div>
+
+<div class="card">
+  <h2>Kết quả</h2>
+  <textarea id="out" readonly placeholder="Văn bản phiên âm sẽ hiện ở đây"></textarea>
+  <div class="row">
+    <button class="btn" id="copy" type="button" disabled>Sao chép</button>
+    <button class="btn pri" id="dl" type="button" disabled>Tải file .txt</button>
+  </div>
+  <p class="note">Văn bản do máy tạo, có thể nghe sai tên riêng, thuật ngữ, số liệu. Cần đối chiếu lại trước khi dùng cho văn bản chính thức. Tệp ghi âm được gửi tới dịch vụ phiên âm bên ngoài (Groq) và không được lưu lại trên máy chủ web; không dùng cho nội dung mật.</p>
+</div>
+
+</div>
+
+<script>
+"use strict";
+var $ = function (id) { return document.getElementById(id); };
+var file = null, resultData = null, baseName = "phien-am", maxMb = 90, ready = false, running = false;
+var runId = 0, curXhr = null, curId = "";
+try { if (localStorage.getItem("audio_autodel") === "0") $("autodel").checked = false; } catch (e) {}
+$("autodel").addEventListener("change", function () { try { localStorage.setItem("audio_autodel", $("autodel").checked ? "1" : "0"); } catch (e) {} });
+function dropJob(id) {
+  try { fetch("api/audio/jobs/" + encodeURIComponent(id), { method: "DELETE", headers: authHeaders() }).catch(function () {}); } catch (e) {}
+}
+
+function token() { try { return localStorage.getItem("nd30_token") || ""; } catch (e) { return ""; } }
+function authHeaders() { var t = token(); return t ? { "X-App-Token": t } : {}; }
+function fmt(t) { var s = Math.floor(t); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
+function setStatus(msg, kind) { $("status").textContent = msg; $("status").className = kind || ""; }
+function updateGo() { $("go").disabled = running || !file; }
+
+function detail(text) {
+  try { var j = JSON.parse(text); return typeof j.detail === "string" ? j.detail : text; } catch (e) { return text; }
+}
+
+/* ---------------------------------------------------------------- tình trạng máy phiên âm */
+async function checkState() {
+  $("dot").className = "dot wait"; $("stateTxt").textContent = "Đang kiểm tra dịch vụ phiên âm…"; $("stateHelp").hidden = true;
+  try {
+    var r = await fetch("api/audio/status", { headers: authHeaders() });
+    if (r.status === 401) { setState("bad", "Chưa đăng nhập hoặc phiên đã hết hạn.", "Tải lại trang rồi đăng nhập lại."); return; }
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    var j = await r.json();
+    maxMb = j.max_mb || maxMb; $("maxHint").textContent = "(tối đa " + maxMb + " MB)";
+    if (!j.configured) {
+      setState("bad", "Chưa cấu hình dịch vụ phiên âm.", "Quản trị viên cần đặt GROQ_API_KEY trong tệp .env và cài ffmpeg trên máy chủ, sau đó bấm Kiểm tra lại.");
+    } else if (!j.alive) {
+      setState("bad", "Dịch vụ phiên âm chưa sẵn sàng.", "Thử lại sau ít phút rồi bấm Kiểm tra lại.");
+    } else {
+      setState("ok", "Dịch vụ phiên âm sẵn sàng.", "");
+    }
+  } catch (e) {
+    setState("bad", "Không kiểm tra được dịch vụ phiên âm.", "Thử tải lại trang.");
+  }
+}
+function setState(kind, text, help) {
+  ready = kind === "ok";
+  $("dot").className = "dot " + kind; $("stateTxt").textContent = text;
+  $("stateHelp").textContent = help; $("stateHelp").hidden = !help;
+}
+$("recheck").addEventListener("click", checkState);
+
+/* ---------------------------------------------------------------- chọn tệp */
+function setFile(f) {
+  file = f || null;
+  if (file) {
+    $("fname").textContent = file.name + " (" + (file.size / 1048576).toFixed(1) + " MB)";
+    baseName = file.name.replace(/\.[^.]+$/, "") || "phien-am";
+    setStatus(file.size > maxMb * 1048576 ? "Tệp lớn hơn " + maxMb + " MB, máy chủ sẽ từ chối. Hãy nén hoặc cắt nhỏ." : "", file.size > maxMb * 1048576 ? "err" : "");
+  }
+  updateGo();
+}
+$("drop").addEventListener("click", function () { $("file").click(); });
+$("drop").addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file").click(); } });
+$("file").addEventListener("change", function (e) { setFile(e.target.files[0]); });
+$("drop").addEventListener("dragover", function (e) { e.preventDefault(); $("drop").classList.add("over"); });
+$("drop").addEventListener("dragleave", function () { $("drop").classList.remove("over"); });
+$("drop").addEventListener("drop", function (e) {
+  e.preventDefault(); $("drop").classList.remove("over");
+  if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]);
+});
+
+/* ---------------------------------------------------------------- kết quả */
+function buildText() {
+  if (!resultData) return "";
+  if ($("ts").checked && resultData.segments && resultData.segments.length) {
+    return resultData.segments.map(function (s) { return "[" + fmt(s.start) + "] " + s.text; }).join("\n");
+  }
+  return resultData.text || "";
+}
+function render() {
+  $("out").value = buildText();
+  $("copy").disabled = !resultData; $("dl").disabled = !resultData;
+}
+$("ts").addEventListener("change", render);
+
+function upload() {
+  return new Promise(function (resolve, reject) {
+    var form = new FormData();
+    form.append("file", file, file.name);
+    var x = new XMLHttpRequest();
+    curXhr = x;
+    x.open("POST", "api/audio/jobs");
+    var h = authHeaders(); for (var k in h) x.setRequestHeader(k, h[k]);
+    x.upload.onprogress = function (e) {
+      if (e.lengthComputable) setStatus("Đang tải lên: " + Math.round(e.loaded * 100 / e.total) + "%");
+    };
+    x.onload = function () {
+      if (x.status === 200) resolve(JSON.parse(x.responseText));
+      else if (x.status === 401) reject(new Error("Phiên đăng nhập đã hết hạn. Tải lại trang rồi đăng nhập lại."));
+      else if (x.status === 413) reject(new Error(detail(x.responseText) || "Tệp quá lớn."));
+      else reject(new Error(detail(x.responseText) || ("Máy chủ báo lỗi " + x.status)));
+    };
+    x.onerror = function () { reject(new Error("Không gửi được tệp tới máy chủ. Kiểm tra kết nối mạng rồi thử lại.")); };
+    x.onabort = function () { reject(new Error("__cancel__")); };
+    x.send(form);
+  });
+}
+
+async function poll(id, my) {
+  var t0 = Date.now(), fails = 0, stage = "Đang phiên âm…";
+  while (true) {
+    await new Promise(function (r) { setTimeout(r, window.POLL_MS || 2500); });
+    if (my !== runId) throw new Error("__cancel__");
+    setStatus(stage + " " + fmt((Date.now() - t0) / 1000));
+    var j, r;
+    try {
+      r = await fetch("api/audio/jobs/" + encodeURIComponent(id), { headers: authHeaders() });
+    } catch (e) {
+      if (++fails >= 5) throw new Error("Mất kết nối khi đang chờ kết quả.");
+      continue;
+    }
+    if (r.status === 404 || r.status === 401) throw new Error(detail(await r.text()) || "Không còn thông tin việc này. Hãy tải lên lại.");
+    if (!r.ok) {
+      if (r.status === 503 && ++fails < 5) continue;
+      throw new Error(detail(await r.text()) || ("Máy chủ báo lỗi " + r.status));
+    }
+    fails = 0;
+    j = await r.json();
+    if (j.status === "done") return j.result;
+    if (j.status === "error") throw new Error(j.error || "Phiên âm thất bại.");
+    // tiến độ: đang chờ đến lượt / đang phiên âm đoạn i trên n (tệp dài được cắt thành đoạn 20 phút)
+    if (j.status === "queued") stage = j.ahead > 0 ? "Đang chờ đến lượt (còn " + j.ahead + " tệp phía trước)…" : "Đang chờ đến lượt…";
+    else if (j.parts > 1) stage = "Đang phiên âm đoạn " + j.part + "/" + j.parts + "…";
+    else stage = "Đang phiên âm…";
+  }
+}
+
+$("go").addEventListener("click", async function () {
+  if (!file || running) return;
+  var my = ++runId;
+  running = true; updateGo(); resultData = null; curId = ""; render();
+  try {
+    var job = await upload();
+    curXhr = null; curId = job.id;
+    if (my !== runId) { dropJob(job.id); throw new Error("__cancel__"); }
+    resultData = await poll(job.id, my);
+    render();
+    setStatus(resultData.text
+      ? "Xong. Âm thanh dài " + fmt(resultData.duration) + ", xử lý trong " + resultData.seconds + " giây."
+      : "Không nhận ra giọng nói trong tệp này.", resultData.text ? "ok" : "");
+    if ($("autodel").checked) { dropJob(curId); curId = ""; }
+  } catch (e) {
+    if (e.message !== "__cancel__") {
+      setStatus(e.message, "err");
+      if (curId && $("autodel").checked) { dropJob(curId); curId = ""; }
+      checkState();
+    }
+  } finally {
+    if (my === runId) { running = false; updateGo(); }
+  }
+});
+
+$("reset").addEventListener("click", function () {
+  runId++;                                   // huỷ vòng chờ đang chạy (nếu có)
+  if (curXhr) { try { curXhr.abort(); } catch (e) {} curXhr = null; }
+  if (curId) { dropJob(curId); curId = ""; }
+  file = null; resultData = null; running = false;
+  $("file").value = ""; $("fname").textContent = "";
+  setStatus(""); render(); updateGo();
+});
+
+$("copy").addEventListener("click", async function () {
+  var text = buildText();
+  try { await navigator.clipboard.writeText(text); setStatus("Đã sao chép.", "ok"); }
+  catch (e) { $("out").select(); document.execCommand("copy"); setStatus("Đã sao chép.", "ok"); }
+});
+
+$("dl").addEventListener("click", function () {
+  var blob = new Blob(["\ufeff" + buildText()], { type: "text/plain;charset=utf-8" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url; a.download = baseName + ".txt";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+});
+
+checkState();
+</script>
+</body>
+</html>

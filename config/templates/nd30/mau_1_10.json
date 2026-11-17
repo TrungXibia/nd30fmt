@@ -1,0 +1,193 @@
+{
+ "id": "1.10",
+ "standard": "nd30",
+ "name": "Giấy nghỉ phép",
+ "source": {
+  "template": "NĐ 30/2020/NĐ-CP, Phụ lục III – Mẫu 1.10 (Giấy nghỉ phép)",
+  "format": "NĐ 30/2020/NĐ-CP, Phụ lục I",
+  "observed": "Mẫu 1.10: bảng đầu trang 2 cột không viền 174.4/291.1 pt; bảng ký 191.4/283.5 pt"
+ },
+ "template_status": "supported",
+ "doc_types": [
+  "GIAY_NGHI_PHEP"
+ ],
+ "number": {
+  "ky_hieu": "GNP-{ma_co_quan}"
+ },
+ "geometry": {
+  "header_cols_pt": [
+   174.4,
+   291.1
+  ],
+  "footer_cols_pt": [
+   191.4,
+   283.5
+  ],
+  "note": "Độ rộng cột đo từ file mẫu; nếu tổng vượt vùng trình bày thì co theo tỉ lệ"
+ },
+ "layout": [
+  {
+   "kind": "header",
+   "left": [
+    "co_quan_chu_quan",
+    "co_quan_ban_hanh",
+    "line_co_quan",
+    "so_ky_hieu"
+   ],
+   "right": [
+    "quoc_hieu",
+    "tieu_ngu",
+    "line_tieu_ngu",
+    "dia_danh_ngay"
+   ]
+  },
+  {
+   "kind": "ten_loai",
+   "text": "GIẤY NGHỈ PHÉP"
+  },
+  {
+   "kind": "line_trich_yeu",
+   "of": "ten_loai"
+  },
+  {
+   "kind": "text_line",
+   "template": "Xét Đơn đề nghị nghỉ phép ngày {ngay_don} của ông (bà) {nguoi_de_nghi}, {chu_the} cấp cho:"
+  },
+  {
+   "kind": "text_line",
+   "template": "Ông (bà): {nguoi_nghi}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Chức vụ: {chuc_vu_nguoi_nghi}"
+  },
+  {
+   "kind": "text_line",
+   "template": "Được nghỉ phép trong thời gian {thoi_gian_nghi} kể từ ngày {tu_ngay} đến hết ngày {den_ngay} tại {noi_nghi}."
+  },
+  {
+   "kind": "text_line",
+   "template": "Số ngày nghỉ phép nêu trên được tính vào thời gian {tinh_vao}/.",
+   "end_mark": false
+  },
+  {
+   "kind": "nghi_phep_sign"
+  }
+ ],
+ "fields": [
+  "co_quan_chu_quan",
+  "co_quan_ban_hanh",
+  "ma_co_quan",
+  "so",
+  "ky_hieu_tuy_chinh",
+  "dia_danh",
+  "ngay",
+  {
+   "id": "ngay_don",
+   "label": "Ngày của Đơn đề nghị nghỉ phép",
+   "type": "date_text",
+   "required": true,
+   "group": "content",
+   "placeholder": "VD: 20/9/2026"
+  },
+  {
+   "id": "nguoi_de_nghi",
+   "label": "Người đề nghị (ông/bà)",
+   "type": "text",
+   "required": true,
+   "group": "content"
+  },
+  {
+   "id": "chu_the",
+   "label": "Tên cơ quan, tổ chức cấp giấy (viết thường)",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "default_from": "defaults.chu_the"
+  },
+  {
+   "id": "nguoi_nghi",
+   "label": "Người được cấp giấy – họ tên, đơn vị công tác",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "note": "Mẫu 1.10 – ghi chú 5"
+  },
+  {
+   "id": "chuc_vu_nguoi_nghi",
+   "label": "Chức vụ",
+   "type": "text",
+   "group": "content"
+  },
+  {
+   "id": "thoi_gian_nghi",
+   "label": "Thời gian nghỉ (số ngày)",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "placeholder": "VD: 05 ngày"
+  },
+  {
+   "id": "tu_ngay",
+   "label": "Từ ngày",
+   "type": "date_text",
+   "required": true,
+   "group": "content"
+  },
+  {
+   "id": "den_ngay",
+   "label": "Đến hết ngày",
+   "type": "date_text",
+   "required": true,
+   "group": "content"
+  },
+  {
+   "id": "noi_nghi",
+   "label": "Nơi nghỉ phép",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "note": "Mẫu 1.10 – ghi chú 6"
+  },
+  {
+   "id": "tinh_vao",
+   "label": "Loại/thời gian nghỉ được tính vào",
+   "type": "text",
+   "required": true,
+   "group": "content",
+   "placeholder": "VD: nghỉ hằng năm có hưởng lương năm 2026",
+   "note": "Mẫu 1.10 – ghi chú 7"
+  },
+  {
+   "id": "hien_xac_nhan",
+   "label": "Hiện vùng “Xác nhận của cơ quan (tổ chức) hoặc chính quyền địa phương nơi nghỉ phép (nếu cần)”",
+   "type": "checkbox",
+   "default": true,
+   "group": "sign"
+  },
+  "noi_nhan",
+  "luu",
+  "quyen_han",
+  "quyen_han_cua",
+  "chuc_vu",
+  "ho_ten"
+ ],
+ "noi_nhan_default": [
+  "{nguoi_nghi};"
+ ],
+ "validation": [
+  "required_fields",
+  "number_padding",
+  "noi_nhan_punctuation"
+ ],
+ "notes": [
+  "Mẫu 1.10 không có trích yếu; đường kẻ ngay dưới tên loại.",
+  "Cuối văn bản: bảng 2 hàng – hàng 1: Nơi nhận | người ký; hàng 2 (trái): vùng xác nhận nơi nghỉ phép (nghiêng) “(Chữ ký, dấu)” và “Họ và tên” (đậm)."
+ ],
+ "docx": {
+  "page_number": "header, từ trang 2",
+  "header_table": "2 cột, không viền",
+  "lines": "viền dưới đoạn văn",
+  "footer_table": "2 cột, không viền"
+ }
+}

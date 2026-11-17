@@ -1,0 +1,494 @@
+{
+ "standard": "nd30",
+ "name": "Nghị định 30/2020/NĐ-CP – văn bản hành chính",
+ "version": "40.0",
+ "sources": [
+  {
+   "id": "ND30_PL1",
+   "title": "Nghị định 30/2020/NĐ-CP ngày 05/3/2020, Phụ lục I – Thể thức, kỹ thuật trình bày văn bản hành chính"
+  },
+  {
+   "id": "ND30_PL3",
+   "title": "Nghị định 30/2020/NĐ-CP, Phụ lục III – Bảng chữ viết tắt và Mẫu 1.1–1.10"
+  },
+  {
+   "id": "MAU_FILES",
+   "title": "Mẫu 1.1–1.10 (Phụ lục III NĐ 30/2020/NĐ-CP) – vị trí tương đối các khối và độ rộng cột bảng"
+  }
+ ],
+ "rule": "Cỡ chữ, kiểu chữ theo Phụ lục I (Mục II, III, V); vị trí các khối theo Mẫu 1.1–1.10.",
+ "page": {
+  "size_mm": [
+   210,
+   297
+  ],
+  "orientation": "portrait",
+  "margins_mm": {
+   "top": {
+    "range": [
+     20,
+     25
+    ],
+    "default": 20
+   },
+   "bottom": {
+    "range": [
+     20,
+     25
+    ],
+    "default": 20
+   },
+   "left": {
+    "range": [
+     30,
+     35
+    ],
+    "default": 30
+   },
+   "right": {
+    "range": [
+     15,
+     20
+    ],
+    "default": 20
+   }
+  },
+  "margins_source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục I.3; giá trị mặc định = lề đo được trong file Mẫu 1.1–1.10 (T20 B20 L30 R15)",
+  "font": "Times New Roman",
+  "font_source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục I.4",
+  "header_distance_mm": 12.7,
+  "header_distance_source": "Khoảng cách đầu trang đo được trong file mẫu (12,7 mm); số trang nằm trong lề trên theo PL I Mục I.7",
+  "page_number": {
+   "align": "center",
+   "position": "header",
+   "hide_first_page": true,
+   "role": "so_trang",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục I.7"
+  }
+ },
+ "body": {
+  "size": {
+   "range": [
+    13,
+    14
+   ],
+   "default": 14
+  },
+  "align": "justify",
+  "first_line_indent_cm": {
+   "allowed": [
+    1.0,
+    1.27
+   ],
+   "default": 1.27
+  },
+  "space_before_pt": {
+   "range": [
+    6,
+    12
+   ],
+   "default": 6,
+   "note": "tối thiểu 6pt"
+  },
+  "space_after_pt": {
+   "default": 0
+  },
+  "line_spacing": {
+   "range": [
+    1.0,
+    1.5
+   ],
+   "default": 1.5,
+   "note": "tối thiểu dòng đơn, tối đa 1,5 lines"
+  },
+  "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.e"
+ },
+ "size_profiles": {
+  "note": "Chú thích 1 bảng Mục V PL I: cỡ chữ trong cùng văn bản tăng/giảm phải thống nhất (QH 13–TN 14–ngày 14 hoặc QH 12–TN 13–ngày 13).",
+  "14": {
+   "quoc_hieu": 13,
+   "tieu_ngu": 14,
+   "co_quan_chu_quan": 13,
+   "co_quan_ban_hanh": 13,
+   "so_ky_hieu": 13,
+   "dia_danh_ngay": 14,
+   "ten_loai": 14,
+   "trich_yeu": 14,
+   "trich_yeu_cong_van": 13,
+   "body": 14,
+   "kinh_gui": 14,
+   "quyen_han_ky": 14,
+   "chuc_vu_ky": 14,
+   "ho_ten_ky": 14,
+   "so_trang": 14
+  },
+  "13": {
+   "quoc_hieu": 12,
+   "tieu_ngu": 13,
+   "co_quan_chu_quan": 12,
+   "co_quan_ban_hanh": 12,
+   "so_ky_hieu": 13,
+   "dia_danh_ngay": 13,
+   "ten_loai": 13,
+   "trich_yeu": 13,
+   "trich_yeu_cong_van": 12,
+   "body": 13,
+   "kinh_gui": 13,
+   "quyen_han_ky": 13,
+   "chuc_vu_ky": 13,
+   "ho_ten_ky": 13,
+   "so_trang": 13
+  }
+ },
+ "roles": {
+  "quoc_hieu": {
+   "size": [
+    12,
+    13
+   ],
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.1.a"
+  },
+  "tieu_ngu": {
+   "size": [
+    13,
+    14
+   ],
+   "bold": true,
+   "align": "center",
+   "text": "Độc lập - Tự do - Hạnh phúc",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.1.b"
+  },
+  "co_quan_chu_quan": {
+   "size": [
+    12,
+    13
+   ],
+   "bold": false,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.2.b"
+  },
+  "co_quan_ban_hanh": {
+   "size": [
+    12,
+    13
+   ],
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.2.b"
+  },
+  "so_ky_hieu": {
+   "size": [
+    13,
+    13
+   ],
+   "bold": false,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.3.c"
+  },
+  "dia_danh_ngay": {
+   "size": [
+    13,
+    14
+   ],
+   "italic": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.4.c"
+  },
+  "ten_loai": {
+   "size": [
+    13,
+    14
+   ],
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.5.b"
+  },
+  "trich_yeu": {
+   "size": [
+    13,
+    14
+   ],
+   "bold": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.5.b"
+  },
+  "trich_yeu_cong_van": {
+   "size": [
+    12,
+    13
+   ],
+   "bold": false,
+   "align": "center",
+   "space_before_pt": 6,
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.5.b (đoạn 2): sau chữ “V/v”, cách dòng 6pt với số, ký hiệu"
+  },
+  "tham_quyen": {
+   "size_role": "body",
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "Mẫu 1.1–1.3 (dòng THẨM QUYỀN BAN HÀNH: in hoa, đậm, canh giữa – đối chiếu ảnh mẫu); cỡ chữ theo phần lời văn"
+  },
+  "can_cu": {
+   "size_role": "body",
+   "italic": true,
+   "align": "justify",
+   "indent": "body",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.a: in thường, nghiêng, mỗi căn cứ một dòng, cuối dòng “;”, dòng cuối “.”"
+  },
+  "chuyen_tiep": {
+   "size_role": "body",
+   "bold": true,
+   "align": "center",
+   "source": "Mẫu 1.1 (QUYẾT NGHỊ:), Mẫu 1.2–1.3 (QUYẾT ĐỊNH:) – canh giữa, đậm theo ảnh mẫu"
+  },
+  "body": {
+   "size_role": "body",
+   "align": "justify",
+   "indent": "body",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.e"
+  },
+  "phan_label": {
+   "size_role": "body",
+   "bold": true,
+   "align": "center",
+   "numbering": "roman",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ"
+  },
+  "phan_title": {
+   "size_role": "body",
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ"
+  },
+  "chuong_label": {
+   "size_role": "body",
+   "bold": true,
+   "align": "center",
+   "numbering": "roman",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ"
+  },
+  "chuong_title": {
+   "size_role": "body",
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ"
+  },
+  "muc_label": {
+   "size_role": "body",
+   "bold": true,
+   "align": "center",
+   "numbering": "arabic",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ"
+  },
+  "muc_title": {
+   "size_role": "body",
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ"
+  },
+  "dieu": {
+   "size_role": "body",
+   "bold": true,
+   "align": "justify",
+   "indent": "body",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ: “Điều n.” + tiêu đề, in thường, đứng, đậm, lùi đầu dòng 1 cm hoặc 1,27 cm"
+  },
+  "khoan": {
+   "size_role": "body",
+   "bold": false,
+   "align": "justify",
+   "indent": "body",
+   "bold_if_title": true,
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ và Mục V.6.b: số “1.” đứng; khoản có tiêu đề: đậm"
+  },
+  "diem": {
+   "size_role": "body",
+   "bold": false,
+   "align": "justify",
+   "indent": "body",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.đ: “a)” in thường, đứng"
+  },
+  "la_ma": {
+   "size_role": "body",
+   "bold": true,
+   "caps": true,
+   "align": "justify",
+   "indent": "body",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục V.6.b: số thứ tự và tiêu đề của mục (I. …) in hoa, đứng, đậm"
+  },
+  "bullet": {
+   "size_role": "body",
+   "align": "justify",
+   "indent": "body",
+   "marker": "-",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.6.e (cỡ, căn đều); dấu gạch đầu dòng “-” như trình bày nơi nhận/kính gửi"
+  },
+  "kinh_gui": {
+   "size": [
+    13,
+    14
+   ],
+   "align": "left",
+   "indent_left_twips": 2268,
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.9.d (ô 9a); lề trái 4 cm đo từ Mẫu 1.5"
+  },
+  "quyen_han_ky": {
+   "size": [
+    13,
+    14
+   ],
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.7.đ"
+  },
+  "chuc_vu_ky": {
+   "size": [
+    13,
+    14
+   ],
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.7.đ, Mục V.7"
+  },
+  "ho_ten_ky": {
+   "size": [
+    13,
+    14
+   ],
+   "bold": true,
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.7.đ"
+  },
+  "noi_nhan_label": {
+   "size": [
+    12,
+    12
+   ],
+   "bold": true,
+   "italic": true,
+   "align": "left",
+   "text": "Nơi nhận:",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.9.d (ô 9b)"
+  },
+  "noi_nhan_item": {
+   "size": [
+    11,
+    11
+   ],
+   "align": "left",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.9.d (ô 9b)"
+  },
+  "ky_hieu_soan_thao": {
+   "size": [
+    11,
+    11
+   ],
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục III.3"
+  },
+  "lien_he": {
+   "size": [
+    11,
+    12
+   ],
+   "default_size": 11,
+   "align": "left",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục III.4: trang thứ nhất, dưới đường kẻ nét liền hết chiều ngang vùng trình bày"
+  },
+  "so_trang": {
+   "size": [
+    13,
+    14
+   ],
+   "align": "center",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục I.7"
+  },
+  "nhan_dien_ky": {
+   "size_role": "body",
+   "bold": true,
+   "caps": true,
+   "align": "center",
+   "source": "Mẫu 1.9 (THƯ KÝ, CHỦ TỌA) – tiêu đề khu vực ký"
+  },
+  "xac_nhan": {
+   "size_role": "body",
+   "italic": true,
+   "align": "center",
+   "source": "Mẫu 1.10 – khu vực xác nhận nơi nghỉ phép: nghiêng, canh giữa"
+  }
+ },
+ "lines": {
+  "tieu_ngu": {
+   "length": "text",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.1.b: độ dài bằng độ dài dòng chữ Tiêu ngữ"
+  },
+  "co_quan": {
+   "length": "ratio_of_text",
+   "range": [
+    0.333,
+    0.5
+   ],
+   "default": 0.4,
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.2.b: 1/3 đến 1/2 độ dài dòng chữ, đặt cân đối"
+  },
+  "trich_yeu": {
+   "length": "ratio_of_text",
+   "range": [
+    0.333,
+    0.5
+   ],
+   "default": 0.4,
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.5.b: 1/3 đến 1/2 độ dài dòng chữ, đặt cân đối"
+  },
+  "lien_he": {
+   "length": "full",
+   "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục III.4"
+  },
+  "docx_rule": "Đường kẻ = viền dưới (w:pBdr/w:bottom) của đoạn văn có lề trái/phải tính theo độ dài; không dùng ký tự ‘-----’, không dùng hình vẽ (shape)",
+  "preview_rule": "CSS border-bottom trên khối có cùng độ rộng tính từ bảng độ rộng ký tự Times New Roman"
+ },
+ "signature": {
+  "blank_lines": 4,
+  "note": "PL I không quy định khoảng trống chữ ký; mặc định 4 dòng trống, chỉnh được trong Cài đặt.",
+  "authorities": [
+   "",
+   "TM.",
+   "Q.",
+   "KT.",
+   "TL.",
+   "TUQ."
+  ],
+  "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.7.b"
+ },
+ "noi_nhan": {
+  "last_line": "Lưu: VT, {don_vi_soan}.",
+  "item_end": ";",
+  "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.9.d: mỗi dòng bắt đầu “-”, cuối “;”, dòng cuối “Lưu: VT, …”, kết thúc “.”"
+ },
+ "number": {
+  "pad": 2,
+  "format_default": "Số: {so}/{ky_hieu}",
+  "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.3: số < 10 thêm 0; giữa số và ký hiệu “/”, giữa nhóm chữ viết tắt “-”, không cách chữ"
+ },
+ "date": {
+  "format": "{dia_danh}, ngày {dd} tháng {mm} năm {yyyy}",
+  "pad_day_lt10": true,
+  "pad_month_1_2": true,
+  "source": "NĐ 30/2020/NĐ-CP, Phụ lục I Mục II.4.b: ngày < 10 và tháng 1, 2 thêm số 0"
+ },
+ "end_mark": {
+  "text": "/.",
+  "source": "Mẫu 1.1–1.10: kết thúc nội dung bằng “/.”"
+ }
+}

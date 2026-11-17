@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chuyển Markdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--ink:#1d2939;--bg:#edf1f6;--line:#dde3ea;--acc:#2e86c1;--acc-dk:#236b9c;--navy:#1b3a5c;--soft:#f3f6fa;--muted:#667085;
+  --err:#b42318;--ok:#067647;--shadow:0 1px 2px rgba(16,24,40,.06),0 2px 8px rgba(16,24,40,.06)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Nunito",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{display:grid;grid-template-columns:minmax(300px,34%) 1fr;gap:12px;padding:12px;height:100dvh}
+.side,.main{background:#fff;border-radius:10px;box-shadow:var(--shadow);min-height:0;display:flex;flex-direction:column}
+.side>.sec{padding:12px 14px;border-bottom:1px solid var(--line)}
+h2{margin:0 0 8px;font-size:14px;color:var(--navy);font-weight:800}
+.drop{border:2px dashed #b9cde0;border-radius:8px;background:#f5f9fd;padding:16px;text-align:center;cursor:pointer;color:var(--navy)}
+.drop.over{border-color:var(--acc);background:#eaf3fb}
+.drop b{display:block;font-size:14.5px}.drop small{color:var(--muted)}
+.btn{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:6px;padding:6px 10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--acc);background:var(--soft)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}.btn.pri:hover{background:var(--acc-dk)}
+.btn.danger{color:var(--err);border-color:#f5c2c0;background:#fef3f2}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+input[type=search],input[type=text],textarea,select{border:1px solid #cfd6de;border-radius:6px;padding:7px 9px;background:#fff;width:100%}
+textarea{resize:vertical}
+.status{font-size:12.5px;color:var(--muted);min-height:18px;margin-top:6px}
+.status.err{color:var(--err)}
+.list{overflow:auto;flex:1;padding:6px}
+.item{border:1px solid transparent;border-radius:8px;padding:8px 10px;cursor:pointer}
+.item:hover{background:var(--soft)}
+.item.on{background:#e4eef8;border-color:#b9d2ea}
+.item .n{font-weight:800;color:var(--navy);word-break:break-word}
+.item .m{font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.tag{font-size:11px;background:#eef4ea;color:#2f6b1f;border-radius:10px;padding:0 7px}
+.tag.share{background:#fff4e5;color:#9a5b00}
+.item .s{font-size:12.5px;color:#475467;margin-top:4px}.item .s mark{background:#fde68a}
+.empty{color:var(--muted);text-align:center;padding:30px 10px}
+.main .bar{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.main .bar .title{font-weight:800;color:var(--navy);margin-right:auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.tabs{display:flex;gap:2px;background:var(--soft);border-radius:8px;padding:2px}
+.tabs button{border:0;background:transparent;border-radius:6px;padding:5px 12px;font-weight:700;cursor:pointer;color:var(--navy)}
+.tabs button.on{background:#fff;box-shadow:0 1px 2px #0002}
+.ocrbar{font-size:12.5px;background:#eef7f1;border:1px solid #b7e1c6;border-radius:6px;padding:6px 10px;margin:8px 14px 0;display:flex;gap:6px 10px;align-items:center;flex-wrap:wrap}
+.ocrbar.edited{background:#fffaeb;border-color:#fedf89}
+.ocrbar .btn{padding:3px 9px;font-size:12.5px}
+.ocrlist{margin:6px 14px 0;border:1px solid var(--line);border-radius:6px;max-height:260px;overflow:auto;font-size:13px;background:#fff}
+.ocrlist label{display:flex;gap:8px;align-items:center;padding:4px 10px;border-bottom:1px dashed var(--line);cursor:pointer}
+.ocrlist label:last-child{border-bottom:0}
+.ocrlist .fr{color:var(--err);text-decoration:line-through}.ocrlist .to{color:#067647;font-weight:700}.ocrlist .n{margin-left:auto;color:var(--muted)}
+.ocrlist .acts{position:sticky;top:0;background:var(--soft);display:flex;gap:6px;padding:6px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.view mark.ocrfix{background:#d1fadf;border-radius:2px;padding:0 1px}
+.view span.ocrsus{text-decoration:underline wavy #d92d20;text-underline-offset:3px}
+.view.nomark mark.ocrfix{background:none;padding:0}.view.nomark span.ocrsus{text-decoration:none}
+.view{flex:1;overflow:auto;padding:22px 32px;font:16px/1.65 "Times New Roman",Tinos,Georgia,serif}
+.view table{border-collapse:collapse;margin:10px 0;font-size:15px}.view td,.view th{border:1px solid #cfd6de;padding:4px 8px;vertical-align:top}
+.view img{max-width:100%}.view pre{white-space:pre-wrap;background:var(--soft);padding:8px;border-radius:6px}
+.view h1,.view h2,.view h3{font-family:inherit;color:#111}
+.edit{flex:1;display:flex;flex-direction:column;padding:10px 14px;gap:8px;min-height:0}
+.edit textarea{flex:1;font:13.5px/1.5 ui-monospace,Consolas,monospace;min-height:200px}
+.share{font-size:12.5px;background:#fffaeb;border:1px solid #fedf89;border-radius:6px;padding:6px 10px;margin:8px 14px 0;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.share input{flex:1;min-width:200px;font-size:12.5px;padding:4px 6px}
+.hint{font-size:12px;color:var(--muted)}
+details>summary{cursor:pointer;font-weight:800;color:var(--navy)}
+.pick{margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfdff}
+.pick ul{list-style:none;margin:0 0 8px;padding:0;font-size:13px;max-height:180px;overflow:auto}
+.pick li{display:flex;gap:8px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--line)}
+.pick li:last-child{border-bottom:0}
+.pick li .fn{flex:1;min-width:0;word-break:break-all;color:var(--navy);font-weight:700}
+.pick li .fs{color:var(--muted);white-space:nowrap}
+.pick li.bad .fn{color:var(--err)}
+.pick li button{border:0;background:transparent;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;padding:2px 6px}
+.pick .row .btn{flex:1;padding:9px 10px}
+progress{width:100%;height:8px;margin-top:6px}
+.placeholder{flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:30px}
+.phone-only{display:none}
+@media(max-width:860px){.phone-only{display:inline-block}.wrap{padding:8px;gap:8px}.main{scroll-margin-top:8px}.main .bar{padding:8px 10px}.main .bar .title{width:100%;order:-1}.main .bar .btn{padding:8px 10px}.edit textarea{min-height:55dvh}.wrap{grid-template-columns:1fr;height:auto}.side{max-height:none}.list{max-height:50vh}.view{padding:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="side">
+    <div class="sec">
+      <h2>Chuyển tài liệu sang Markdown</h2>
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Chọn file để chuyển">
+        <b>Chọn hoặc kéo thả file</b>
+        <small>Chọn xong bấm <strong>Tải lên</strong> để chuyển</small><br>
+        <small>PDF, Word (.docx, .doc), ảnh (PNG, JPG, TIFF – nhận dạng chữ), TXT, MD · nhiều file một lần</small>
+      </div>
+      <input type="file" id="file" multiple hidden accept=".pdf,.docx,.doc,.txt,.md,.markdown,.png,.jpg,.jpeg,.tif,.tiff,.bmp">
+      <div class="pick" id="pick" hidden>
+        <ul id="pickList" aria-label="File đã chọn"></ul>
+        <div class="row">
+          <button class="btn pri" type="button" id="btnUpload">Tải lên</button>
+          <button class="btn" type="button" id="btnAddMore">Chọn thêm</button>
+          <button class="btn" type="button" id="btnClearPick">Bỏ chọn</button>
+        </div>
+      </div>
+      <progress id="upProg" max="100" value="0" hidden></progress>
+      <div class="status" id="upStatus" role="status" aria-live="polite"></div>
+      <details style="margin-top:6px"><summary>Dán nội dung Markdown</summary>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+          <input type="text" id="pasteName" placeholder="Tên tài liệu" maxlength="120">
+          <textarea id="pasteText" rows="5" placeholder="# Tiêu đề&#10;Nội dung…"></textarea>
+          <button class="btn pri" id="pasteSave" type="button">Lưu vào thư viện</button>
+        </div>
+      </details>
+    </div>
+    <div class="sec">
+      <div class="row"><input type="search" id="q" placeholder="Tìm trong tên và nội dung (không cần gõ dấu)" aria-label="Tìm kiếm"></div>
+      <div class="hint" id="count"></div>
+    </div>
+    <div class="list" id="list" aria-label="Danh sách tài liệu"></div>
+  </aside>
+
+  <section class="main" id="main">
+    <div class="placeholder" id="placeholder">Chọn một tài liệu trong danh sách để xem, sửa Markdown, tải về hoặc chuyển sang tab Soạn thảo văn bản.</div>
+    <div id="docPane" hidden style="display:flex;flex-direction:column;min-height:0;flex:1">
+      <div class="bar">
+        <span class="title" id="docTitle"></span>
+        <div class="tabs" role="tablist"><button type="button" id="tView" class="on" role="tab">Xem</button><button type="button" id="tEdit" role="tab">Sửa Markdown</button></div>
+        <button class="btn phone-only" id="backList" type="button">↑ Danh sách</button>
+      </div>
+      <div class="bar">
+        <button class="btn" type="button" data-dl="md" title="Tải file Markdown">Tải .md</button>
+        <button class="btn" type="button" data-dl="original" title="Tải file gốc đã tải lên">Tải file gốc</button>
+        <button class="btn" type="button" data-dl="docx" title="Word định dạng thường (không thể thức hành chính)">Word thường</button>
+        <button class="btn pri" type="button" data-compose="nd30" title="Nhận diện thể thức, đưa sang tab Soạn thảo theo NĐ 30/2020">Soạn theo NĐ 30 →</button>
+        <button class="btn pri" type="button" data-compose="hd05" title="Đưa sang tab Soạn thảo theo Hướng dẫn 05-HD/VPTW">Soạn văn bản Đảng →</button>
+        <button class="btn" type="button" id="btnShare">Chia sẻ link</button>
+        <button class="btn" type="button" id="btnRename">Đổi tên</button>
+        <button class="btn danger" type="button" id="btnDelete">Xoá</button>
+      </div>
+      <div class="share" id="shareBox" hidden>Link xem công khai (ai có link đều đọc được):
+        <input type="text" id="shareUrl" readonly><button class="btn" type="button" id="copyShare">Sao chép</button><button class="btn danger" type="button" id="unshare">Thu hồi</button></div>
+      <div class="ocrbar" id="ocrBar" hidden></div>
+      <div class="ocrlist" id="ocrList" hidden></div>
+      <div class="status" id="docStatus" role="status" aria-live="polite" style="padding:0 14px"></div>
+      <article class="view" id="view"></article>
+      <div class="edit" id="edit" hidden>
+        <textarea id="mdText" spellcheck="false" aria-label="Nội dung Markdown"></textarea>
+        <div class="row"><button class="btn pri" type="button" id="saveMd">Lưu Markdown</button><span class="hint" id="editHint">Sửa xong bấm Lưu; tìm kiếm và bản xem cập nhật theo nội dung mới.</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let docs=[],cur=null,curData=null,timer=0,dirty=false;
+function token(){try{return localStorage.getItem("nd30_token")||""}catch(e){return ""}}
+async function api(path,opts={}){
+  const headers=Object.assign({},opts.headers||{});const t=token();if(t)headers["X-App-Token"]=t;
+  if(opts.json!==undefined){headers["Content-Type"]="application/json";opts.body=JSON.stringify(opts.json);}
+  const res=await fetch(path,{method:opts.method||(opts.body?"POST":"GET"),headers,body:opts.body});
+  if(opts.raw){if(!res.ok){const d=await res.json().catch(()=>({}));throw Error(d.detail||("HTTP "+res.status));}return res;}
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok){const e=Error(typeof data.detail==="string"?data.detail:("HTTP "+res.status));e.status=res.status;throw e;}
+  return data;
+}
+const fmtDate=s=>{if(!s)return "";const d=new Date(s);return isNaN(d)?s:d.toLocaleString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})};
+const fmtSize=n=>n>=1000?Math.round(n/100)/10+"k ký tự":n+" ký tự";
+
+async function loadList(){
+  try{
+    const r=await api("api/md/docs?q="+encodeURIComponent($("q").value.trim()));
+    docs=r.docs||[];renderList();
+  }catch(e){$("list").innerHTML=`<div class="empty">${e.status===401?"Cần đăng nhập ở tab Chuẩn hoá văn bản.":esc(e.message)}</div>`;}
+}
+function renderList(){
+  const q=$("q").value.trim();
+  $("count").textContent=q?`${docs.length} kết quả cho “${q}”`:`${docs.length} tài liệu`;
+  if(!docs.length){$("list").innerHTML=`<div class="empty">${q?"Không tìm thấy tài liệu phù hợp.":"Chưa có tài liệu. Tải file lên để chuyển sang Markdown."}</div>`;return;}
+  $("list").innerHTML=docs.map(d=>`<div class="item${cur===d.id?" on":""}" data-id="${esc(d.id)}" tabindex="0">
+    <div class="n">${esc(d.filename)}</div>
+    <div class="m"><span>${esc(fmtDate(d.uploaded_at))}</span><span>${esc(fmtSize(d.char_count||0))}</span>${d.label?`<span class="tag">${esc(d.label)}</span>`:""}${d.shared?`<span class="tag share">đang chia sẻ</span>`:""}</div>
+    ${d.snippet?`<div class="s">${d.snippet}</div>`:""}</div>`).join("");
+}
+const isPhone=()=>matchMedia("(max-width:860px)").matches;
+function reveal(){if(isPhone())$("docPane").scrollIntoView({block:"start"});}
+$("list").addEventListener("click",async e=>{const it=e.target.closest(".item");if(it&&await openDoc(it.dataset.id))reveal();});
+$("backList").onclick=()=>$("q").scrollIntoView({block:"center"});
+$("list").addEventListener("keydown",e=>{if(e.key==="Enter"){const it=e.target.closest(".item");if(it)openDoc(it.dataset.id);}});
+$("q").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(loadList,250);});
+
+async function openDoc(id){
+  if(dirty&&!confirm("Bản Markdown đang sửa chưa lưu. Bỏ thay đổi?"))return;
+  dirty=false;
+  try{
+    const r=await api("api/md/docs/"+encodeURIComponent(id));
+    cur=id;curData=r;renderList();
+    $("placeholder").hidden=true;$("docPane").hidden=false;
+    $("docTitle").textContent=r.doc.filename;
+    $("view").innerHTML=r.html;$("mdText").value=r.markdown;
+    showShare(r.share_url);setStatus("");showTab("view");showOcr(r.ocr);
+    return true;
+  }catch(e){setStatus("Không mở được tài liệu: "+e.message,true);return false;}
+}
+function setStatus(t,err){$("docStatus").textContent=t;$("docStatus").className="status"+(err?" err":"");}
+function showTab(t){$("view").hidden=t!=="view";$("edit").hidden=t!=="edit";$("tView").classList.toggle("on",t==="view");$("tEdit").classList.toggle("on",t==="edit");}
+$("tView").onclick=()=>showTab("view");$("tEdit").onclick=()=>showTab("edit");
+$("mdText").addEventListener("input",()=>{dirty=true;});
+$("saveMd").onclick=async()=>{
+  try{await api("api/md/docs/"+cur,{method:"PUT",json:{markdown:$("mdText").value}});dirty=false;await openDoc(cur);showTab("edit");setStatus("Đã lưu Markdown.");loadList();}
+  catch(e){setStatus("Không lưu được: "+e.message,true);}
+};
+/* Sửa dấu tự động sau nhận dạng chữ: tô xanh chỗ đã sửa, gạch đỏ chỗ nghi sai, hoàn tác theo nhóm hoặc toàn bộ */
+let ocrMarks=true;
+function showOcr(o){
+  const bar=$("ocrBar"),list=$("ocrList");list.hidden=true;
+  if(!o){bar.hidden=true;return;}
+  const off=o.groups.filter(g=>!g.on).length;
+  bar.hidden=false;bar.classList.toggle("edited",!!o.edited);
+  bar.innerHTML=(o.edited
+    ?`Tài liệu nhận dạng chữ đã được sửa tay sau khi tự sửa dấu (không còn tô màu). Hoàn tác/áp dụng lại sẽ <b>ghi đè</b> phần sửa tay.`
+    :`Đã tự sửa <b>${o.fixed}</b> chữ sai dấu do nhận dạng chữ (<mark class="ocrfix" style="background:#d1fadf">tô xanh</mark>, rê chuột xem chữ gốc)`
+      +(o.suspicious?` · <b>${o.suspicious}</b> chữ nghi sai còn lại (<span style="text-decoration:underline wavy #d92d20">gạch đỏ</span>)`:"")
+      +(off?` · ${off} nhóm đang tắt`:""))
+    +` <button class="btn" type="button" id="ocrShowList">Danh sách sửa</button>`
+    +(o.fixed||off?` <button class="btn" type="button" id="ocrRaw">Khôi phục bản nhận dạng gốc</button>`:"")
+    +(off?` <button class="btn" type="button" id="ocrAll">Áp dụng lại tất cả</button>`:"")
+    +(o.edited?"":` <label style="margin-left:auto"><input type="checkbox" id="ocrMarkChk" ${ocrMarks?"checked":""}> Tô màu</label>`);
+  $("view").classList.toggle("nomark",!ocrMarks);
+  const chk=$("ocrMarkChk");if(chk)chk.onchange=()=>{ocrMarks=chk.checked;$("view").classList.toggle("nomark",!ocrMarks);};
+  $("ocrShowList").onclick=()=>{
+    if(!list.hidden){list.hidden=true;return;}
+    list.innerHTML=`<div class="acts"><button class="btn pri" type="button" id="ocrApply">Áp dụng lựa chọn</button>`
+      +`<button class="btn" type="button" id="ocrCheckAll">Chọn hết</button><button class="btn" type="button" id="ocrUncheckAll">Bỏ hết</button>`
+      +`<span class="hint">Bỏ chọn nhóm sửa sai rồi bấm Áp dụng; chữ trở lại như bản nhận dạng.</span></div>`
+      +(o.groups.length?o.groups.map((g,i)=>`<label><input type="checkbox" data-g="${i}" ${g.on?"checked":""}> <span class="fr">${esc(g.from)}</span> → <span class="to">${esc(g.to)}</span><span class="n">${g.n} chỗ</span></label>`).join("")
+        :`<div class="empty" style="padding:12px">Không có chỗ nào được tự sửa.</div>`);
+    list.hidden=false;
+    $("ocrCheckAll").onclick=()=>list.querySelectorAll("[data-g]").forEach(x=>x.checked=true);
+    $("ocrUncheckAll").onclick=()=>list.querySelectorAll("[data-g]").forEach(x=>x.checked=false);
+    $("ocrApply").onclick=()=>ocrPost({disabled:[...list.querySelectorAll("[data-g]")].filter(x=>!x.checked).map(x=>{const g=o.groups[+x.dataset.g];return [g.from,g.to];})},o.edited);
+  };
+  const raw=$("ocrRaw");if(raw)raw.onclick=()=>ocrPost({mode:"raw"},o.edited);
+  const all=$("ocrAll");if(all)all.onclick=()=>ocrPost({mode:"all"},o.edited);
+}
+async function ocrPost(body,edited){
+  if(dirty&&!confirm("Bản Markdown đang sửa chưa lưu sẽ bị bỏ. Tiếp tục?"))return;
+  if(edited&&!confirm("Markdown đã được sửa tay. Hoàn tác/áp dụng lại sẽ ghi đè các sửa tay đó. Tiếp tục?"))return;
+  try{
+    const r=await api(`api/md/docs/${cur}/ocrfix`,{json:body});
+    dirty=false;curData=r;$("view").innerHTML=r.html;$("mdText").value=r.markdown;showOcr(r.ocr);
+    setStatus(body.mode==="raw"?"Đã khôi phục bản nhận dạng gốc (có thể Áp dụng lại tất cả).":"Đã cập nhật.");loadList();
+  }catch(e){setStatus("Không cập nhật được: "+e.message,true);}
+}
+function showShare(url){
+  $("shareBox").hidden=!url;$("btnShare").hidden=!!url;
+  if(url)$("shareUrl").value=new URL(url,location.href).href;
+}
+$("btnShare").onclick=async()=>{
+  if(!confirm("Tạo link công khai? Ai có link đều đọc được tài liệu này (không cần mã truy cập)."))return;
+  try{const r=await api(`api/md/docs/${cur}/share`,{json:{on:true}});showShare(r.share_url);loadList();setStatus("Đã tạo link công khai.");}catch(e){setStatus(e.message,true);}
+};
+$("unshare").onclick=async()=>{try{await api(`api/md/docs/${cur}/share`,{json:{on:false}});showShare(null);loadList();setStatus("Đã thu hồi link; link cũ hết tác dụng.");}catch(e){setStatus(e.message,true);}};
+$("copyShare").onclick=async()=>{try{await navigator.clipboard.writeText($("shareUrl").value);setStatus("Đã sao chép link.");}catch(e){$("shareUrl").select();}};
+$("btnRename").onclick=async()=>{
+  const name=prompt("Tên mới:",curData?.doc.filename||"");if(!name)return;
+  try{await api("api/md/docs/"+cur,{method:"PUT",json:{filename:name}});await openDoc(cur);loadList();}catch(e){setStatus(e.message,true);}
+};
+$("btnDelete").onclick=async()=>{
+  if(!confirm("Xoá tài liệu này (file gốc, Markdown và ảnh trích xuất)?"))return;
+  try{await api("api/md/docs/"+cur,{method:"DELETE"});cur=null;curData=null;$("docPane").hidden=true;$("placeholder").hidden=false;loadList();}catch(e){setStatus(e.message,true);}
+};
+document.querySelectorAll("[data-dl]").forEach(b=>b.onclick=async()=>{
+  try{const res=await api(`api/md/docs/${cur}/download/${b.dataset.dl}`,{raw:true});const blob=await res.blob();
+    const cd=res.headers.get("Content-Disposition")||"";let name=(cd.match(/filename\*=UTF-8''([^;]+)/)||[])[1];
+    name=name?decodeURIComponent(name):((cd.match(/filename="?([^";]+)/)||[])[1]||"tai-lieu");
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),60000);}
+  catch(e){setStatus("Không tải được: "+e.message,true);}
+});
+document.querySelectorAll("[data-compose]").forEach(b=>b.onclick=async()=>{
+  if(dirty&&!confirm("Bản Markdown đang sửa chưa lưu. Dùng bản đã lưu?"))return;
+  b.disabled=true;
+  try{
+    const r=await api(`api/md/docs/${cur}/compose?standard=${b.dataset.compose}`);
+    const msg={type:"nd30:compose-draft",draft:r.draft,source:curData?.doc.filename||"",warnings:r.warnings||[],detected:r.detected};
+    if(window.parent!==window){window.parent.postMessage(msg,location.origin);setStatus(`Đã chuyển sang tab Soạn thảo: ${r.detected.label}. ${(r.warnings||[]).join(" ")}`);}
+    else{try{localStorage.setItem("nd30fmt.v40.pending-draft",JSON.stringify(msg));}catch(e){}location.href="soan-thao";}
+  }catch(e){setStatus("Không chuyển được: "+e.message,true);}
+  finally{b.disabled=false;}
+});
+
+/* Chọn file -> danh sách chờ -> bấm "Tải lên". Không xoá ô chọn file trước khi đọc xong
+   (Safari iOS làm hỏng file đã chọn nếu xoá input.value sớm -> "Load failed"). */
+const ACCEPT=$("file").accept.split(",");
+let pending=[],busy=false;
+const extOf=n=>{const i=n.lastIndexOf(".");return i<0?"":n.slice(i).toLowerCase()};
+async function addPending(list){
+  list=[...list];if(!list.length)return;
+  $("upStatus").className="status";$("upStatus").textContent="Đang đọc file đã chọn…";
+  for(const f of list){
+    if(pending.some(p=>p.name===f.name&&p.size===f.size&&p.lastModified===f.lastModified))continue;
+    // sao chép nội dung ngay khi chọn: tránh lỗi Safari iOS làm mất file khi chọn lại/xoá ô chọn file
+    try{const buf=await f.arrayBuffer();pending.push(new File([buf],f.name,{type:f.type||"application/octet-stream",lastModified:f.lastModified}));}
+    catch(e){const u={name:f.name,size:f.size,lastModified:f.lastModified,unreadable:true};pending.push(u);}
+  }
+  $("file").value="";
+  renderPick();
+  if(pending.length){$("upStatus").className="status";$("upStatus").textContent="Đã chọn, bấm Tải lên để chuyển sang Markdown.";}
+}
+function renderPick(){
+  $("pick").hidden=!pending.length;
+  $("pickList").innerHTML=pending.map((f,i)=>{const ok=!f.unreadable&&ACCEPT.includes(extOf(f.name));
+    return `<li class="${ok?"":"bad"}"><span class="fn">${esc(f.name)}</span><span class="fs">${ok?esc(fmtBytes(f.size)):f.unreadable?"không đọc được":"chưa hỗ trợ"}</span><button type="button" data-rm="${i}" aria-label="Bỏ file ${esc(f.name)}" ${busy?"disabled":""}>×</button></li>`}).join("");
+  $("btnUpload").textContent=pending.length>1?`Tải lên ${pending.length} file`:"Tải lên";
+  ["btnUpload","btnAddMore","btnClearPick"].forEach(id=>$(id).disabled=busy);
+}
+const fmtBytes=n=>n>=1048576?(n/1048576).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round(n/1024))+" KB";
+$("pickList").onclick=e=>{const b=e.target.closest("[data-rm]");if(!b||busy)return;pending.splice(+b.dataset.rm,1);renderPick();if(!pending.length)$("upStatus").textContent="";};
+$("btnClearPick").onclick=()=>{pending=[];$("file").value="";renderPick();$("upStatus").textContent="";};
+$("btnAddMore").onclick=()=>$("file").click();
+$("btnUpload").onclick=()=>upload();
+
+function sendForm(form){
+  return new Promise((resolve,reject)=>{
+    const x=new XMLHttpRequest();x.open("POST","api/md/jobs");
+    const t=token();if(t)x.setRequestHeader("X-App-Token",t);
+    x.timeout=300000;
+    x.upload.onprogress=e=>{if(e.lengthComputable){const p=Math.round(e.loaded*100/e.total);$("upProg").value=p;
+      $("upStatus").textContent=p<100?`Đang tải lên… ${p}%`:"Đã tải lên, máy chủ bắt đầu chuyển đổi…";}};
+    x.onload=()=>{let d={};try{d=JSON.parse(x.responseText)}catch(e){}
+      if(x.status>=200&&x.status<300)return resolve(d);
+      const msg=typeof d.detail==="string"?d.detail:x.status===401?"Cần đăng nhập lại ở tab Chuẩn hoá văn bản":x.status===413?"File quá lớn so với giới hạn của máy chủ":x.status===504||x.status===524?"Máy chủ xử lý quá lâu (thử tách bớt file hoặc trang)":"HTTP "+x.status;
+      reject(Error(msg));};
+    x.onerror=()=>reject(Error("Mất kết nối khi tải lên. Kiểm tra mạng rồi bấm Tải lên lần nữa."));
+    x.ontimeout=()=>reject(Error("Quá thời gian chờ máy chủ."));
+    x.send(form);
+  });
+}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function showJob(j){
+  const f=j.files.find(x=>x.state==="running");
+  const doneFiles=j.files.filter(x=>x.state==="done"||x.state==="error").length;
+  let pct=0,txt;
+  if(j.state==="queued"){txt=j.ahead?`Đang chờ máy chủ (${j.ahead} việc trước)…`:"Đang chờ máy chủ…";}
+  else if(f){
+    const per=f.pages?f.page/f.pages:0;pct=Math.round((doneFiles+per)*100/j.files.length);
+    txt=`${j.files.length>1?`File ${doneFiles+1}/${j.files.length}: `:""}${f.filename}`+(f.pages?` – trang ${f.page}/${f.pages}`:" – đang chuyển…");
+  }else{pct=Math.round(doneFiles*100/j.files.length);txt="Đang hoàn tất…";}
+  $("upProg").value=pct;$("upStatus").className="status";$("upStatus").textContent=txt+" (có thể chuyển sang tab khác, việc vẫn chạy trên máy chủ)";
+}
+async function waitJob(id){
+  let fails=0;
+  for(;;){
+    await sleep(1000);
+    try{const j=await api("api/md/jobs/"+encodeURIComponent(id));fails=0;if(j.state==="done")return j;showJob(j);}
+    catch(e){if(e.status===404||e.status===401||++fails>=15)throw e;}   // mạng chập chờn: thử lại tới ~15 giây
+  }
+}
+async function upload(){
+  if(busy||!pending.length)return;
+  const files=pending.filter(f=>!f.unreadable&&ACCEPT.includes(extOf(f.name)));
+  const skipped=pending.filter(f=>!files.includes(f)).map(f=>f.unreadable
+    ?`${f.name}: không đọc được trên thiết bị (nếu file nằm trên iCloud/Drive, hãy tải về máy trước)`:`${f.name}: định dạng chưa hỗ trợ`);
+  if(!files.length){$("upStatus").className="status err";$("upStatus").textContent=skipped.join("; ");return;}
+  busy=true;renderPick();
+  $("upStatus").className="status";$("upStatus").textContent="Đang tải lên…";
+  $("upProg").hidden=false;$("upProg").value=0;
+  const form=new FormData();files.forEach(f=>form.append("files",f,f.name));
+  const notes=skipped;
+  try{
+    const job=await sendForm(form);
+    pending=[];renderPick();$("upProg").value=0;
+    const r=await waitJob(job.id);
+    const ok=r.results.filter(x=>x.ok),bad=r.results.filter(x=>!x.ok).map(x=>`${x.filename}: ${x.message}`);
+    r.results.filter(x=>x.ok&&x.warning).forEach(x=>bad.push(`${x.filename}: ${x.warning}`));
+    $("upStatus").className="status"+(bad.length||notes.length?" err":"");
+    $("upStatus").textContent=(ok.length?`Đã chuyển ${ok.length} file. `:"")+[...bad,...notes].join("; ");
+    await loadList();if(ok.length===1&&await openDoc(ok[0].doc.id))reveal();
+  }catch(e){
+    $("upStatus").className="status err";$("upStatus").textContent="Lỗi: "+e.message+(notes.length?" "+notes.join("; "):"");
+  }finally{busy=false;$("upProg").hidden=true;renderPick();}
+}
+$("drop").onclick=()=>$("file").click();
+$("drop").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("file").click();}};
+$("file").onchange=()=>{addPending($("file").files);};
+["dragenter","dragover"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.add("over");}));
+["dragleave","drop"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.remove("over");}));
+$("drop").addEventListener("drop",e=>addPending(e.dataTransfer.files));
+$("pasteSave").onclick=async()=>{
+  const text=$("pasteText").value;if(!text.trim()){$("upStatus").textContent="Chưa có nội dung.";return;}
+  try{const d=await api("api/md/text",{json:{name:$("pasteName").value||"ghi-chu",markdown:text}});$("pasteText").value="";$("pasteName").value="";await loadList();openDoc(d.id);}
+  catch(e){$("upStatus").className="status err";$("upStatus").textContent=e.message;}
+};
+window.addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue="";}});
+loadList();
+</script>
+</body>
+</html>

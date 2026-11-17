@@ -1,0 +1,47 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  # Khoá giải mã quy chuẩn (config/*_spec.yaml.enc): Settings -> Secrets and variables -> Actions -> ND30_SPEC_KEY
+  ND30_SPEC_KEY: ${{ secrets.ND30_SPEC_KEY }}
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Bản Python (không lõi Rust)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Kiểm tra có khoá giải mã quy chuẩn
+        run: test -n "$ND30_SPEC_KEY" || { echo '::error::Chưa đặt secret ND30_SPEC_KEY cho Actions'; exit 1; }
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest tests -q
+        env:
+          ND30_NO_RUST: "1"
+
+  rust:
+    name: Lõi Rust + so khớp với Python
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Kiểm tra có khoá giải mã quy chuẩn
+        run: test -n "$ND30_SPEC_KEY" || { echo '::error::Chưa đặt secret ND30_SPEC_KEY cho Actions'; exit 1; }
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: dtolnay/rust-toolchain@stable
+      - run: pip install -r requirements-dev.txt maturin ziglang
+      - run: bash rust/build.sh
+      - run: python -c "from nd30fmt import core; assert core.name() == 'rust', core.name()"
+      - run: python -m pytest tests -q

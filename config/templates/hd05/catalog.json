@@ -1,0 +1,126 @@
+{
+ "standard": "hd05",
+ "source": "Hướng dẫn 05-HD/VPTW ngày 27/5/2026 của Văn phòng Trung ương Đảng, mục 3.1.2.a (ký hiệu tên loại: chữ cái đầu các âm tiết; Quyết định, Quy định: QĐ; Chỉ thị: CT; Chương trình: CTr; Thông tri: TT; Tờ trình: TTr)",
+ "types": [
+  {
+   "id": "NGHI_QUYET",
+   "label": "Nghị quyết",
+   "ten_loai": "NGHỊ QUYẾT",
+   "ma_loai": "NQ",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "QUYET_DINH",
+   "label": "Quyết định",
+   "ten_loai": "QUYẾT ĐỊNH",
+   "ma_loai": "QĐ",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "CHI_THI",
+   "label": "Chỉ thị",
+   "ten_loai": "CHỈ THỊ",
+   "ma_loai": "CT",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "KET_LUAN",
+   "label": "Kết luận",
+   "ten_loai": "KẾT LUẬN",
+   "ma_loai": "KL",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "QUY_CHE",
+   "label": "Quy chế",
+   "ten_loai": "QUY CHẾ",
+   "ma_loai": "QC",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "QUY_DINH",
+   "label": "Quy định",
+   "ten_loai": "QUY ĐỊNH",
+   "ma_loai": "QĐ",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "THONG_TRI",
+   "label": "Thông tri",
+   "ten_loai": "THÔNG TRI",
+   "ma_loai": "TT",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "HUONG_DAN",
+   "label": "Hướng dẫn",
+   "ten_loai": "HƯỚNG DẪN",
+   "ma_loai": "HD",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "THONG_BAO",
+   "label": "Thông báo",
+   "ten_loai": "THÔNG BÁO",
+   "ma_loai": "TB",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "BAO_CAO",
+   "label": "Báo cáo",
+   "ten_loai": "BÁO CÁO",
+   "ma_loai": "BC",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "TO_TRINH",
+   "label": "Tờ trình",
+   "ten_loai": "TỜ TRÌNH",
+   "ma_loai": "TTr",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "KE_HOACH",
+   "label": "Kế hoạch",
+   "ten_loai": "KẾ HOẠCH",
+   "ma_loai": "KH",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "CHUONG_TRINH",
+   "label": "Chương trình",
+   "ten_loai": "CHƯƠNG TRÌNH",
+   "ma_loai": "CTr",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "BIEN_BAN",
+   "label": "Biên bản",
+   "ten_loai": "BIÊN BẢN",
+   "ma_loai": "BB",
+   "template": "hd05",
+   "template_status": "supported"
+  },
+  {
+   "id": "CONG_VAN",
+   "label": "Công văn",
+   "ten_loai": "",
+   "ma_loai": "CV",
+   "template": "hd05",
+   "template_status": "supported"
+  }
+ ]
+}

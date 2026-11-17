@@ -1,0 +1,25 @@
+#pragma code_page(65001)
+#include <winver.h>
+1 ICON "app.ico"
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION 1,0,45,0
+PRODUCTVERSION 1,0,45,0
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "042a04b0"
+    BEGIN
+      VALUE "FileDescription", "Công cụ văn bản NĐ30"
+      VALUE "ProductName", "Công cụ văn bản NĐ30"
+      VALUE "FileVersion", "1.0.45"
+      VALUE "ProductVersion", "1.0.45"
+      VALUE "OriginalFilename", "CongCuVanBanND30.exe"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x042a, 1200
+  END
+END

@@ -1,0 +1,56 @@
+name: release
+
+# Tạo Release: đẩy thẻ phiên bản (git tag v1.0.49 && git push origin v1.0.49), HOẶC vào tab Actions -> release ->
+# Run workflow (để trống ô phiên bản = lấy theo mã). Quy trình chạy test, dựng lõi Rust cho Linux x86_64 và tạo
+# Release kèm _core.abi3.so + SHA256SUMS.txt. Ghi chú phát hành lấy từ docs/releases/<thẻ>.md nếu có.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Thẻ phiên bản, vd v1.0.48 (để trống = theo nd30fmt.__version__)"
+        required: false
+
+env:
+  # Khoá giải mã quy chuẩn (config/*_spec.yaml.enc): Settings -> Secrets and variables -> Actions -> ND30_SPEC_KEY
+  ND30_SPEC_KEY: ${{ secrets.ND30_SPEC_KEY }}
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Kiểm tra có khoá giải mã quy chuẩn
+        run: test -n "$ND30_SPEC_KEY" || { echo '::error::Chưa đặt secret ND30_SPEC_KEY cho Actions'; exit 1; }
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: dtolnay/rust-toolchain@stable
+      - run: pip install -r requirements-dev.txt maturin ziglang
+      - name: Xác định thẻ và kiểm tra khớp phiên bản trong mã
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          v="v$(python -c "import nd30fmt; print(nd30fmt.__version__)")"
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then tag="$GITHUB_REF_NAME"; else tag="${INPUT_TAG:-$v}"; fi
+          test "$tag" = "$v" || { echo "Thẻ $tag khác phiên bản mã $v"; exit 1; }
+          echo "TAG=$tag" >> "$GITHUB_ENV"
+      - name: Dựng lõi Rust (manylinux2014, glibc >= 2.17)
+        run: bash rust/build.sh
+      - run: python -c "from nd30fmt import core; assert core.name() == 'rust', core.name()"
+      - run: python -m pytest tests -q
+      - name: Tạo Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir dist && cp nd30fmt/_core.abi3.so dist/
+          (cd dist && sha256sum _core.abi3.so > SHA256SUMS.txt)
+          notes="docs/releases/${TAG}.md"
+          if [ -f "$notes" ]; then arg=(--notes-file "$notes"); else arg=(--generate-notes); fi
+          gh release create "$TAG" dist/_core.abi3.so dist/SHA256SUMS.txt --target "$GITHUB_SHA" \
+            --title "nd30fmt ${TAG#v}" "${arg[@]}"

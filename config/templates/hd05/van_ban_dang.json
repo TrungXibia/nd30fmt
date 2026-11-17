@@ -1,0 +1,363 @@
+{
+ "id": "hd05",
+ "standard": "hd05",
+ "name": "Văn bản của Đảng",
+ "source": {
+  "format": "Hướng dẫn 05-HD/VPTW ngày 27/5/2026 của Văn phòng Trung ương Đảng; cỡ chữ, kiểu chữ theo config/dang_spec.yaml (Phụ lục 2 của Hướng dẫn)",
+  "layout": "Hướng dẫn 05-HD/VPTW ngày 27/5/2026 của Văn phòng Trung ương Đảng, Phần II và Phụ lục 1 (sơ đồ bố trí các thành phần thể thức)"
+ },
+ "template_status": "supported",
+ "role_map": {
+  "tieu_de": "dang_tieu_de",
+  "cap_tren": "dang_co_quan_cap_tren",
+  "ban_hanh": "dang_co_quan_ban_hanh",
+  "so_ky_hieu": "dang_so_ky_hieu",
+  "dia_danh_ngay": "dang_dia_danh_thoi_gian",
+  "the_loai": "dang_the_loai",
+  "trich_yeu": "dang_trich_yeu",
+  "trich_yeu_cong_van": "dang_trich_yeu_cong_van",
+  "kinh_gui": "dang_kinh_gui",
+  "can_cu": "dang_can_cu",
+  "body": "dang_body",
+  "dieu": "dang_dieu",
+  "phan_label": "dang_phan_chuong_label",
+  "phan_title": "dang_phan_chuong_title",
+  "muc_label": "dang_muc_label",
+  "muc_title": "dang_muc_title",
+  "quyen_han_ky": "dang_quyen_han_ky",
+  "chuc_vu_ky": "dang_chuc_vu_ky",
+  "ho_ten_ky": "dang_ho_ten_ky",
+  "noi_nhan_label": "dang_noi_nhan_label",
+  "noi_nhan_item": "dang_noi_nhan_item",
+  "dau_khan": "dang_dau_khan",
+  "du_thao": "dang_du_thao",
+  "pham_vi": "dang_pham_vi_luu_hanh",
+  "lien_he": "dang_thong_tin_lien_he"
+ },
+ "rules": {
+  "tieu_de": "Góc phải, dòng đầu; dưới có đường kẻ nét liền dài bằng tiêu đề (mục 1.2)",
+  "co_quan": "Góc trái, dòng đầu, ngang tiêu đề; dưới có dấu sao (*); cân đối dưới tên cơ quan cấp trên (mục 2.2)",
+  "so_ky_hieu": "Cân đối dưới tên cơ quan; số < 10 thêm 0; Số {so}-{ký hiệu loại}/{ký hiệu cơ quan} (mục 3.2)",
+  "dia_danh_ngay": "Cân đối dưới tiêu đề; ngày < 10 và tháng < 3 thêm 0 (mục 4.2)",
+  "ten_loai_trich_yeu": "Chính giữa trang đầu; dưới trích yếu có 05 dấu gạch nối (-); công văn: trích yếu dưới số, ký hiệu (mục 5.2)",
+  "noi_dung": "Dàn đều hai lề; lùi đầu dòng khoảng 10 mm; cách đoạn tối thiểu 6pt; giãn dòng 18–22pt (Exactly); kết thúc bằng dấu chấm (mục 6.2.2)",
+  "can_cu": "Mỗi căn cứ một dòng, trước có gạch ngang (-), sau có “;”, căn cứ cuối có “.” (mục 6.2.3)",
+  "bo_cuc": "Phần, Chương (La Mã hoặc chữ), Mục (Ả-rập) chính giữa, tên ở dòng dưới; Điều n. cùng dòng tên điều; khoản 1.; điểm a) (mục 6.2.4)",
+  "chu_ky": "Góc phải dưới nội dung: quyền hạn (T/M, K/T, T/L, Q.), chức vụ, chữ ký, họ tên (mục 7)",
+  "noi_nhan": "Góc trái dưới nội dung; “Nơi nhận:” có gạch chân; mỗi nơi nhận kết thúc “;”, dòng lưu kết thúc “.”; công văn, tờ trình dòng đầu “Như trên” (mục 9.2)",
+  "kinh_gui": "Công văn: “Kính gửi” chính giữa trang đầu; tờ trình: “Kính trình” dưới tên loại và trích yếu; sau mỗi nơi nhận có “;” (mục 9.2.3–9.2.5)",
+  "bien_ban": "Biên bản hội nghị: chủ trì hội nghị bên phải, người ghi biên bản bên trái (mục 7.1.4.e, 7.2.4)",
+  "bo_sung": "Dấu mức độ khẩn, chỉ dẫn dự thảo dưới số và ký hiệu (công văn: dưới trích yếu); chỉ dẫn phạm vi phổ biến góc phải trang đầu cách mép trên 10 mm; thông tin liên hệ trang cuối dưới đường kẻ hết chiều ngang (Phần II mục II)",
+  "trang": "A4; lề trên 20, dưới 20, trái 30, phải 15 mm; in hai mặt: mặt sau trái 15, phải 30 mm; số trang giữa, cách mép trên 10 mm, không hiện ở trang đầu (Phần II mục IV)"
+ },
+ "layout": [
+  {
+   "kind": "party_header"
+  },
+  {
+   "kind": "ten_loai",
+   "from": "doc_type",
+   "skip_types": [
+    "CONG_VAN"
+   ]
+  },
+  {
+   "kind": "trich_yeu",
+   "field": "trich_yeu",
+   "skip_types": [
+    "CONG_VAN"
+   ]
+  },
+  {
+   "kind": "party_summary_rule",
+   "skip_types": [
+    "CONG_VAN"
+   ]
+  },
+  {
+   "kind": "kinh_gui",
+   "field": "kinh_gui",
+   "only_types": [
+    "CONG_VAN",
+    "TO_TRINH"
+   ]
+  },
+  {
+   "kind": "can_cu",
+   "field": "can_cu"
+  },
+  {
+   "kind": "body",
+   "field": "noi_dung",
+   "allowed_blocks": [
+    "p",
+    "bullet",
+    "la_ma",
+    "khoan",
+    "diem",
+    "dieu",
+    "phan",
+    "chuong",
+    "muc"
+   ]
+  },
+  {
+   "kind": "party_sign_footer",
+   "skip_types": [
+    "BIEN_BAN"
+   ]
+  },
+  {
+   "kind": "party_bien_ban_sign",
+   "only_types": [
+    "BIEN_BAN"
+   ]
+  },
+  {
+   "kind": "party_extra"
+  }
+ ],
+ "number": {
+  "format": "Số {so}-{ma_loai}/{ma_co_quan}",
+  "cong_van": "Số {so}-CV/{ma_co_quan}"
+ },
+ "fields": [
+  {
+   "id": "co_quan_chu_quan",
+   "label": "Tên cơ quan cấp trên trực tiếp (nếu có)",
+   "type": "multiline",
+   "caps": true,
+   "group": "header",
+   "default_from": "defaults.co_quan_chu_quan",
+   "note": "Mục 2.1, 2.2.2"
+  },
+  {
+   "id": "co_quan_ban_hanh",
+   "label": "Tên cơ quan ban hành",
+   "type": "multiline",
+   "caps": true,
+   "required": true,
+   "group": "header",
+   "default_from": "defaults.co_quan_ban_hanh",
+   "note": "Mục 2.1; tên dài có thể xuống dòng"
+  },
+  {
+   "id": "ma_co_quan",
+   "label": "Ký hiệu cơ quan ban hành (VD: TU, ĐU, CB, BTGDVTU, ĐH)",
+   "type": "code",
+   "required": true,
+   "group": "header",
+   "default_from": "defaults.ma_co_quan",
+   "note": "Mục 3.1.2.b"
+  },
+  {
+   "id": "so",
+   "label": "Số văn bản",
+   "type": "number_text",
+   "group": "header",
+   "note": "Mục 3.1.1, 3.2.2"
+  },
+  {
+   "id": "ky_hieu_tuy_chinh",
+   "label": "Số và ký hiệu (sửa tay, nếu cần)",
+   "type": "text",
+   "group": "header",
+   "placeholder": "VD: Số 05-QC/BTCTU-BNCTU"
+  },
+  {
+   "id": "dia_danh",
+   "label": "Địa danh",
+   "type": "text",
+   "group": "header",
+   "default": "Hà Nội",
+   "note": "Mục 4.1.1"
+  },
+  {
+   "id": "ngay",
+   "label": "Ngày ban hành",
+   "type": "date",
+   "group": "header"
+  },
+  {
+   "id": "do_khan",
+   "label": "Mức độ khẩn (nếu có)",
+   "type": "select",
+   "options": [
+    "",
+    "KHẨN",
+    "THƯỢNG KHẨN",
+    "HỎA TỐC"
+   ],
+   "group": "header",
+   "note": "Phần II mục II.3"
+  },
+  {
+   "id": "du_thao",
+   "label": "Chỉ dẫn dự thảo (nếu có)",
+   "type": "text",
+   "group": "header",
+   "placeholder": "VD: Dự thảo lần 2",
+   "note": "Phần II mục II.4.2"
+  },
+  {
+   "id": "pham_vi",
+   "label": "Chỉ dẫn phạm vi phổ biến (nếu có)",
+   "type": "text",
+   "group": "header",
+   "placeholder": "VD: LƯU HÀNH NỘI BỘ",
+   "note": "Phần II mục II.4.1"
+  },
+  {
+   "id": "trich_yeu",
+   "label": "Trích yếu nội dung (công văn: “về việc …”)",
+   "type": "multiline",
+   "group": "title",
+   "note": "Mục 5.1, 5.2"
+  },
+  {
+   "id": "kinh_gui",
+   "label": "Kính gửi (công văn) / Kính trình (tờ trình) – mỗi dòng một nơi",
+   "type": "list",
+   "group": "content",
+   "only_types": [
+    "CONG_VAN",
+    "TO_TRINH"
+   ],
+   "required": true,
+   "note": "Mục 9.2.3–9.2.5"
+  },
+  {
+   "id": "can_cu",
+   "label": "Căn cứ ban hành (nếu có, mỗi dòng một căn cứ)",
+   "type": "lines",
+   "group": "content",
+   "line_prefix": "Căn cứ ",
+   "note": "Mục 6.2.3"
+  },
+  {
+   "id": "noi_dung",
+   "label": "Nội dung",
+   "type": "blocks",
+   "group": "content",
+   "starter": [
+    {
+     "type": "p",
+     "html": ""
+    }
+   ]
+  },
+  {
+   "id": "quyen_han",
+   "label": "Quyền hạn ký",
+   "type": "select",
+   "options": [
+    "",
+    "T/M",
+    "K/T",
+    "T/L",
+    "Q."
+   ],
+   "group": "sign",
+   "skip_types": [
+    "BIEN_BAN"
+   ],
+   "note": "Mục 7.1.1"
+  },
+  {
+   "id": "quyen_han_cua",
+   "label": "Thay mặt / ký thay / thừa lệnh cho (in hoa)",
+   "type": "text",
+   "caps": true,
+   "group": "sign",
+   "show_if": {
+    "quyen_han": [
+     "T/M",
+     "K/T",
+     "T/L"
+    ]
+   },
+   "placeholder": "VD: BAN THƯỜNG VỤ"
+  },
+  {
+   "id": "chuc_vu",
+   "label": "Chức vụ người ký (có thể nhiều dòng, dòng “kiêm”)",
+   "type": "multiline",
+   "caps": true,
+   "group": "sign",
+   "default_from": "defaults.chuc_vu",
+   "skip_types": [
+    "BIEN_BAN"
+   ],
+   "note": "Mục 7.1.2"
+  },
+  {
+   "id": "ho_ten",
+   "label": "Họ và tên người ký",
+   "type": "text",
+   "group": "sign",
+   "default_from": "defaults.ho_ten",
+   "skip_types": [
+    "BIEN_BAN"
+   ]
+  },
+  {
+   "id": "ho_ten_nguoi_ghi",
+   "label": "NGƯỜI GHI BIÊN BẢN – họ và tên",
+   "type": "text",
+   "group": "sign",
+   "only_types": [
+    "BIEN_BAN"
+   ],
+   "note": "Mục 7.1.4.e"
+  },
+  {
+   "id": "ho_ten_chu_tri",
+   "label": "CHỦ TRÌ HỘI NGHỊ – họ và tên",
+   "type": "text",
+   "group": "sign",
+   "only_types": [
+    "BIEN_BAN"
+   ]
+  },
+  {
+   "id": "noi_nhan",
+   "label": "Nơi nhận (mỗi dòng một nơi)",
+   "type": "list",
+   "group": "footer",
+   "item_end": ";",
+   "note": "Mục 9.2"
+  },
+  {
+   "id": "luu",
+   "label": "Nơi lưu (sau chữ “Lưu”), ký hiệu người soạn thảo, số bản",
+   "type": "text",
+   "group": "footer",
+   "default": "Văn phòng",
+   "note": "Mục 9.2.5; Phần II mục II.5"
+  },
+  {
+   "id": "lien_he",
+   "label": "Thông tin liên hệ (nếu cần)",
+   "type": "multiline",
+   "group": "footer",
+   "default_from": "defaults.lien_he",
+   "note": "Phần II mục II.6"
+  }
+ ],
+ "noi_nhan_default_types": {
+  "CONG_VAN": [
+   "Như trên;"
+  ],
+  "TO_TRINH": [
+   "Như trên;"
+  ]
+ },
+ "validation": [
+  "required_fields",
+  "party_number",
+  "party_punctuation"
+ ],
+ "notes": [
+  "Chỉ áp dụng cho văn bản của Đảng; không dùng thông số Nghị định 30/2020/NĐ-CP."
+ ]
+}
