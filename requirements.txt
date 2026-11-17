@@ -6,5 +6,5 @@ fastapi==0.163.0
 uvicorn==0.54.0
 python-multipart==0.0.32
 pymupdf==2.1
-markdown==3.11
+markdown==3.11.3
 cryptography==50.0.1
