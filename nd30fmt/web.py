@@ -49,7 +49,7 @@ from .mdlib import store as md_store
 from .mdlib import tasks as md_tasks
 
 log = logging.getLogger("nd30fmt")
-from .spec import SpecKeyError, build_spec, public_raw
+from .spec import SpecKeyError, build_spec, public_raw, spec_source
 
 MAX_MB = float(os.getenv("MAX_UPLOAD_MB", "20"))
 MAX_FILES = int(os.getenv("MAX_FILES", "20"))
@@ -288,7 +288,7 @@ def desktop_ping():
 
 @app.get("/healthz")
 def healthz():
-    return {"ok": True, "version": __version__, "office": jobs.office_available(),
+    return {"ok": True, "version": __version__, "spec": spec_source(jobs.BASE_SPEC["nd30"]), "office": jobs.office_available(),
             "audio": _audio_ready(), "core": core.name()}
 
 

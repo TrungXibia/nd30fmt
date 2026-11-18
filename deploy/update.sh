@@ -116,11 +116,14 @@ say "Đang chạy   : $(running_version || true)"
 # Bản mới chỉ có quy chuẩn mã hoá (config/*_spec.yaml.enc): thiếu khoá thì trang web không chạy -> dừng TRƯỚC khi thay mã.
 if [ "$MODE" = update ] && ls "$SRC"/config/*_spec.yaml.enc >/dev/null 2>&1 && ! ls "$SRC"/config/*_spec.yaml >/dev/null 2>&1; then
   if ! $SUDO grep -qE '^ND30_SPEC_KEY=.+' "$D/.env" 2>/dev/null; then
-    die "deploy/.env chưa có ND30_SPEC_KEY (khoá giải mã quy chuẩn). Thêm bằng:
+    if ls "$SRC"/config/sample/*_spec.yaml >/dev/null 2>&1; then
+      say "CHÚ Ý: deploy/.env chưa có ND30_SPEC_KEY -> ứng dụng dùng bộ quy chuẩn MẪU (config/sample/)."
+    else
+      die "deploy/.env chưa có ND30_SPEC_KEY (khoá giải mã quy chuẩn). Thêm bằng:
   echo 'ND30_SPEC_KEY=<khoá>' | sudo tee -a $D/.env
 rồi chạy lại script. Chưa thay đổi gì."
-  fi
-  if command -v python3 >/dev/null 2>&1 && python3 -c "import cryptography, yaml" 2>/dev/null; then
+    fi
+  elif command -v python3 >/dev/null 2>&1 && python3 -c "import cryptography, yaml" 2>/dev/null; then
     KEYV="$($SUDO grep -E '^ND30_SPEC_KEY=' "$D/.env" | tail -1 | cut -d= -f2-)"
     if ! ND30_SPEC_KEY="$KEYV" PYTHONPATH="$SRC" python3 -c "from nd30fmt.spec import load_raw; load_raw()" 2>/dev/null; then
       die "ND30_SPEC_KEY trong $D/.env không giải mã được quy chuẩn của bản mới (sai khoá). Chưa thay đổi gì."

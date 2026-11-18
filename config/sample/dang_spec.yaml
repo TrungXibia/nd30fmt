@@ -1,0 +1,606 @@
+# Quy chuẩn mẫu – thể thức văn bản của Đảng theo Hướng dẫn 05-HD/VPTW
+# Bộ quy chuẩn MẪU, mở (MIT): chỉ các quy định bắt buộc của văn bản gốc.
+# Dùng khi không có ND30_SPEC_KEY. Có thể sửa trực tiếp tệp này cho đơn vị mình.
+meta:
+  name: Quy chuẩn mẫu – thể thức văn bản của Đảng theo Hướng dẫn 05-HD/VPTW
+  version: mau-1.0
+  sample: true
+  sources:
+  - id: DANG
+    title: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+page:
+  paper:
+    width_mm: 210
+    height_mm: 297
+    tolerance_mm: 1.5
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  orientation:
+    value: portrait
+    allow_landscape_for_tables: true
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  margins_mm:
+    top:
+      range:
+      - 20
+      - 20
+      fix: 20
+    bottom:
+      range:
+      - 20
+      - 20
+      fix: 20
+    left:
+      range:
+      - 30
+      - 30
+      fix: 30
+    right:
+      range:
+      - 15
+      - 15
+      fix: 15
+    tolerance_mm: 1.0
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  font:
+    name: Times New Roman
+    color: '000000'
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  page_number:
+    required: true
+    location: header
+    align: center
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    distance_from_top_mm: 10
+    hide_first_page: true
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+body:
+  size:
+  - 14
+  - 15
+  fix_size: 14
+  align: justify
+  first_line_indent_cm:
+  - 0.9
+  - 1.1
+  first_line_indent_tolerance_cm: 0.05
+  fix_first_line_indent_cm: 1.0
+  paragraph_spacing_min_pt: 6
+  fix_space_before_pt: 6
+  fix_space_after_pt: 0
+  line_spacing_mode: exact_pt
+  line_spacing_pt:
+  - 18
+  - 22
+  fix_line_spacing_pt: 20
+  line_spacing_pt_tolerance: 0.5
+  source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+    thuật trình bày văn bản của Đảng
+roles:
+  dang_tieu_de:
+    label: Tiêu đề "Đảng Cộng sản Việt Nam"
+    profile: dang
+    size:
+    - 15
+    - 15
+    fix_size: 15
+    bold: true
+    italic: false
+    caps: true
+    align: right
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_co_quan_cap_tren:
+    label: Tên cơ quan, tổ chức đảng cấp trên trực tiếp
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: false
+    italic: false
+    caps: true
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_co_quan_ban_hanh:
+    label: Tên cơ quan, tổ chức đảng ban hành văn bản
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_so_ky_hieu:
+    label: Số và ký hiệu văn bản
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: false
+    italic: false
+    caps: any
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_dia_danh_thoi_gian:
+    label: Địa danh và ngày, tháng, năm ban hành
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: false
+    italic: true
+    caps: false
+    align: right
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_the_loai:
+    label: Thể loại văn bản
+    profile: dang
+    size:
+    - 15
+    - 16
+    fix_size: 16
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_trich_yeu:
+    label: Trích yếu nội dung văn bản (dưới thể loại)
+    profile: dang
+    size:
+    - 14
+    - 15
+    fix_size: 15
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_trich_yeu_cong_van:
+    label: Trích yếu nội dung của công văn
+    profile: dang
+    size:
+    - 12
+    - 12
+    fix_size: 12
+    bold: false
+    italic: true
+    caps: false
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_kinh_gui:
+    label: Từ "Kính gửi" / "Kính trình"
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: false
+    italic: true
+    caps: false
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_can_cu:
+    label: Căn cứ ban hành văn bản
+    profile: dang
+    body_like: true
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: false
+    italic: false
+    caps: false
+    align: justify
+    first_line_indent_cm:
+    - 0.9
+    - 1.1
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_body:
+    label: Đoạn nội dung
+    profile: dang
+    body_like: true
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: false
+    italic: false
+    caps: any
+    align: justify
+    first_line_indent_cm:
+    - 0.9
+    - 1.1
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_list_item:
+    label: Khoản, điểm, gạch đầu dòng trong nội dung
+    profile: dang
+    body_like: true
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: justify
+    first_line_indent_cm:
+    - 0.9
+    - 1.1
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_phan_chuong_label:
+    label: Từ "Phần"/"Chương" và số thứ tự
+    profile: dang
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_phan_chuong_title:
+    label: Tên Phần/Chương
+    profile: dang
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_muc_label:
+    label: Từ "Mục" và số thứ tự
+    profile: dang
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_muc_title:
+    label: Tên Mục
+    profile: dang
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_dieu:
+    label: Điều
+    profile: dang
+    body_like: true
+    size:
+    - 14
+    - 15
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: justify
+    first_line_indent_cm:
+    - 0.9
+    - 1.1
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_quyen_han_ky:
+    label: Quyền hạn ký (T/M, K/T, T/L, Q.)
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: right
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_chuc_vu_ky:
+    label: Chức vụ của người ký
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: false
+    italic: false
+    caps: true
+    align: right
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_ho_ten_ky:
+    label: Họ tên người ký
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: right
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_noi_nhan_label:
+    label: Từ "Nơi nhận"
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: false
+    italic: false
+    underline: true
+    caps: false
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_noi_nhan_item:
+    label: Tên tổ chức, cơ quan, cá nhân nhận văn bản
+    profile: dang
+    size:
+    - 12
+    - 12
+    fix_size: 12
+    bold: false
+    italic: false
+    caps: any
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_dau_khan:
+    label: Dấu chỉ mức độ khẩn
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_pham_vi_luu_hanh:
+    label: Chỉ dẫn phạm vi lưu hành, phổ biến
+    profile: dang
+    size:
+    - 12
+    - 12
+    fix_size: 12
+    bold: true
+    italic: false
+    caps: true
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_du_thao:
+    label: Chỉ dẫn dự thảo văn bản (lần mấy)
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: false
+    italic: true
+    caps: false
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_ky_hieu_soan_thao:
+    label: Ký hiệu người soạn thảo, số lượng bản phát hành
+    profile: dang
+    size:
+    - 11
+    - 11
+    fix_size: 11
+    bold: false
+    italic: false
+    caps: any
+    align: left
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_thong_tin_lien_he:
+    label: Thông tin liên hệ của cơ quan ban hành
+    profile: dang
+    size:
+    - 10
+    - 10
+    fix_size: 10
+    bold: false
+    italic: false
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_phu_luc_label:
+    label: Từ "Phụ lục" và số thứ tự
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_phu_luc_title:
+    label: Tên Phụ lục
+    profile: dang
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+  dang_heading_l1:
+    label: Đề mục cấp 1 (không thuộc Phần/Chương/Mục chính thức)
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_heading_l2:
+    label: Đề mục cấp 2
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_heading_l3:
+    label: Đề mục cấp 3
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_caption_table:
+    label: Tên bảng
+    profile: convention
+    fix_size: 13
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_caption_figure:
+    label: Tên hình, biểu đồ, sơ đồ
+    profile: convention
+    fix_size: 13
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_source_note:
+    label: Ghi chú nguồn dưới bảng/hình
+    profile: convention
+    fix_size: 12
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_table_cell:
+    label: Nội dung trong bảng số liệu
+    profile: convention
+    fix_size: 13
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_tai_lieu:
+    label: Mục tài liệu tham khảo
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  dang_toc_entry:
+    label: Dòng mục lục
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+    underline: any
+  other:
+    label: Thành phần khác (chỉ kiểm tra phông chữ)
+    profile: dang
+    size: null
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Hướng dẫn số 05-HD/VPTW của Văn phòng Trung ương Đảng về thể thức và kỹ
+      thuật trình bày văn bản của Đảng
+fix:
+  mode: violations
+  font_name: true
+  font_color: true
+  size: true
+  bold_italic: true
+  caps_text: true
+  alignment: true
+  indent: true
+  spacing: true
+  line_spacing: true
+  margins: true
+  paper: true
+  page_number: true
+  normal_style: true
+  min_role_confidence: 0.5

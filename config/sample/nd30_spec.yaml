@@ -1,0 +1,559 @@
+# Quy chuẩn mẫu – thể thức văn bản hành chính theo Nghị định 30/2020/NĐ-CP
+# Bộ quy chuẩn MẪU, mở (MIT): chỉ các quy định bắt buộc của văn bản gốc.
+# Dùng khi không có ND30_SPEC_KEY. Có thể sửa trực tiếp tệp này cho đơn vị mình.
+meta:
+  name: Quy chuẩn mẫu – thể thức văn bản hành chính theo Nghị định 30/2020/NĐ-CP
+  version: mau-1.0
+  sample: true
+  sources:
+  - id: ND30
+    title: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+page:
+  paper:
+    width_mm: 210
+    height_mm: 297
+    tolerance_mm: 1.5
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  orientation:
+    value: portrait
+    allow_landscape_for_tables: true
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  margins_mm:
+    top:
+      range:
+      - 20
+      - 25
+      fix: 20
+    bottom:
+      range:
+      - 20
+      - 25
+      fix: 20
+    left:
+      range:
+      - 30
+      - 35
+      fix: 30
+    right:
+      range:
+      - 15
+      - 20
+      fix: 20
+    tolerance_mm: 0.3
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  font:
+    name: Times New Roman
+    color: '000000'
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  page_number:
+    required: true
+    location: header
+    align: center
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    hide_first_page: true
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+body:
+  size:
+  - 13
+  - 14
+  fix_size: 14
+  align: justify
+  first_line_indent_cm:
+  - 1.0
+  - 1.27
+  first_line_indent_tolerance_cm: 0.05
+  fix_first_line_indent_cm: 1.27
+  paragraph_spacing_min_pt: 6
+  fix_space_before_pt: 6
+  fix_space_after_pt: 0
+  line_spacing_min: 1.0
+  line_spacing_max: 1.5
+  fix_line_spacing: 1.15
+  source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+    thư, Phụ lục I
+roles:
+  quoc_hieu:
+    label: Quốc hiệu
+    profile: nd30
+    size:
+    - 12
+    - 13
+    fix_size: 13
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  tieu_ngu:
+    label: Tiêu ngữ
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  co_quan_chu_quan:
+    label: Tên cơ quan, tổ chức chủ quản trực tiếp
+    profile: nd30
+    size:
+    - 12
+    - 13
+    fix_size: 13
+    bold: false
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  co_quan_ban_hanh:
+    label: Tên cơ quan, tổ chức ban hành văn bản
+    profile: nd30
+    size:
+    - 12
+    - 13
+    fix_size: 13
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  so_ky_hieu:
+    label: Số, ký hiệu văn bản
+    profile: nd30
+    size:
+    - 13
+    - 13
+    fix_size: 13
+    bold: false
+    italic: false
+    caps: any
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  dia_danh_thoi_gian:
+    label: Địa danh và thời gian ban hành
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: false
+    italic: true
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  ten_loai:
+    label: Tên loại văn bản
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  trich_yeu:
+    label: Trích yếu nội dung (dưới tên loại)
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  trich_yeu_cong_van:
+    label: Trích yếu công văn (V/v)
+    profile: nd30
+    size:
+    - 12
+    - 13
+    fix_size: 13
+    bold: false
+    italic: false
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  kinh_gui:
+    label: Kính gửi
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: false
+    italic: false
+    caps: false
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  can_cu:
+    label: Căn cứ ban hành văn bản
+    profile: nd30
+    body_like: true
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: false
+    italic: true
+    caps: false
+    align: justify
+    first_line_indent_cm:
+    - 1.0
+    - 1.27
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  body:
+    label: Đoạn nội dung
+    profile: nd30
+    body_like: true
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: false
+    italic: false
+    caps: any
+    align: justify
+    first_line_indent_cm:
+    - 1.0
+    - 1.27
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  list_item:
+    label: Khoản, điểm, gạch đầu dòng trong nội dung
+    profile: nd30
+    body_like: true
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: justify
+    first_line_indent_cm:
+    - 1.0
+    - 1.27
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  phan_chuong_label:
+    label: Từ 'Phần'/'Chương' và số thứ tự
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  phan_chuong_title:
+    label: Tiêu đề Phần/Chương
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  muc_label:
+    label: Từ 'Mục'/'Tiểu mục' và số thứ tự
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  muc_title:
+    label: Tiêu đề Mục/Tiểu mục
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  dieu:
+    label: Điều
+    profile: nd30
+    body_like: true
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: justify
+    first_line_indent_cm:
+    - 1.0
+    - 1.27
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  chuc_vu_nguoi_ky:
+    label: Quyền hạn, chức vụ người ký
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  ho_ten_nguoi_ky:
+    label: Họ tên người ký
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  noi_nhan_label:
+    label: Từ 'Nơi nhận'
+    profile: nd30
+    size:
+    - 12
+    - 12
+    fix_size: 12
+    bold: true
+    italic: true
+    caps: false
+    align: left
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  noi_nhan_item:
+    label: Tên nơi nhận / Lưu
+    profile: nd30
+    size:
+    - 11
+    - 11
+    fix_size: 11
+    bold: false
+    italic: false
+    caps: any
+    align: left
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  phu_luc_label:
+    label: Từ 'Phụ lục' và số thứ tự
+    profile: nd30
+    size:
+    - 14
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: false
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  phu_luc_title:
+    label: Tên phụ lục
+    profile: nd30
+    size:
+    - 13
+    - 14
+    fix_size: 14
+    bold: true
+    italic: false
+    caps: true
+    align: center
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+  tham_quyen:
+    label: 'Thẩm quyền ban hành (vd: GIÁM ĐỐC SỞ NỘI VỤ) trong quyết định'
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  dong_quyet_dinh:
+    label: Dòng 'QUYẾT ĐỊNH:' / 'QUYẾT NGHỊ:' trước các điều
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  heading_l1:
+    label: Đề mục cấp 1 (I., II., ... hoặc MỞ ĐẦU, KẾT LUẬN)
+    profile: convention
+    body_like: false
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  heading_l2:
+    label: Đề mục cấp 2 (1., 2., ...)
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  heading_l3:
+    label: Đề mục cấp 3 (1.1., a), ...)
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  caption_table:
+    label: Tên bảng
+    profile: convention
+    fix_size: 13
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  caption_figure:
+    label: Tên hình, biểu đồ, sơ đồ
+    profile: convention
+    fix_size: 13
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  source_note:
+    label: Ghi chú nguồn dưới bảng/hình
+    profile: convention
+    fix_size: 12
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  table_cell:
+    label: Nội dung trong bảng số liệu
+    profile: convention
+    fix_size: 13
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  tai_lieu_tham_khao:
+    label: Mục tài liệu tham khảo
+    profile: convention
+    fix_size: 14
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  toc_entry:
+    label: Dòng mục lục
+    profile: convention
+    fix_size: 13
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+    underline: any
+  other:
+    label: Thành phần khác (chỉ kiểm tra phông chữ)
+    profile: nd30
+    size: null
+    bold: any
+    italic: any
+    caps: any
+    align: any
+    source: Nghị định số 30/2020/NĐ-CP ngày 05/3/2020 của Chính phủ về công tác văn
+      thư, Phụ lục I
+fix:
+  mode: violations
+  font_name: true
+  font_color: true
+  size: true
+  bold_italic: true
+  caps_text: true
+  alignment: true
+  indent: true
+  spacing: true
+  line_spacing: true
+  margins: true
+  paper: true
+  page_number: true
+  normal_style: true
+  min_role_confidence: 0.5

@@ -74,9 +74,12 @@ class Spec:
 
 
 # ------------------------------------------------------------------ quy chuẩn mã hoá
-# Tệp quy chuẩn trong kho được mã hoá AES-256-GCM: config/<tên>.yaml.enc. Khoá đặt ở biến môi trường
-# ND30_SPEC_KEY (chuỗi base64 32 byte) hoặc tệp chỉ ra bởi ND30_SPEC_KEY_FILE. Có tệp .yaml rõ thì dùng tệp rõ.
-# Tạo khoá / mã hoá / giải mã để sửa: python tools/spec_crypt.py --help
+# Thứ tự đọc quy chuẩn config/<tên>.yaml:
+#   1. tệp .yaml rõ (nếu có);
+#   2. bản đầy đủ mã hoá AES-256-GCM config/<tên>.yaml.enc, khi có khoá ND30_SPEC_KEY (base64 32 byte) hoặc
+#      ND30_SPEC_KEY_FILE; khoá sai -> báo lỗi, không tự chuyển sang bản mẫu;
+#   3. không có khoá -> bộ quy chuẩn MẪU mở config/sample/<tên>.yaml (quy định bắt buộc của văn bản gốc).
+# Tạo khoá / mã hoá / giải mã: python tools/spec_crypt.py --help; dựng bộ mẫu: python tools/build_sample_spec.py
 ENC_MAGIC = b"ND30ENC1"
 
 
@@ -118,19 +121,43 @@ def decrypt_bytes(blob: bytes, key: bytes) -> bytes:
         raise SpecKeyError("Sai khoá ND30_SPEC_KEY: không giải mã được quy chuẩn") from e
 
 
-def read_spec_text(p: Path) -> str:
-    """Nội dung tệp quy chuẩn: tệp rõ nếu có, nếu không thì giải mã <tệp>.enc."""
+def has_spec_key() -> bool:
+    kf = os.getenv("ND30_SPEC_KEY_FILE")
+    return bool((os.getenv("ND30_SPEC_KEY") or "").strip() or (kf and Path(kf).is_file()))
+
+
+def sample_path(p: Path) -> Path:
+    return p.parent / "sample" / p.name
+
+
+def spec_source(p: str | Path | None = None) -> str:
+    """Nguồn quy chuẩn đang dùng: "plain" | "encrypted" | "sample" | "missing"."""
+    p = Path(p) if p else DEFAULT_SPEC_PATH
     if p.is_file():
+        return "plain"
+    if p.with_name(p.name + ".enc").is_file() and has_spec_key():
+        return "encrypted"
+    if sample_path(p).is_file():
+        return "sample"
+    return "missing"
+
+
+def read_spec_text(p: Path) -> str:
+    """Nội dung tệp quy chuẩn theo thứ tự ở trên."""
+    src = spec_source(p)
+    if src == "plain":
         return p.read_text(encoding="utf-8")
-    enc = p.with_name(p.name + ".enc")
-    if enc.is_file():
-        return decrypt_bytes(enc.read_bytes(), spec_key()).decode("utf-8")
+    if src == "encrypted":
+        return decrypt_bytes(p.with_name(p.name + ".enc").read_bytes(), spec_key()).decode("utf-8")
+    if src == "sample":
+        return sample_path(p).read_text(encoding="utf-8")
+    if p.with_name(p.name + ".enc").is_file():
+        spec_key()          # chỉ có bản mã hoá, không có khoá và không có bản mẫu -> báo thiếu khoá
     raise FileNotFoundError(str(p))
 
 
 def spec_exists(p: str | Path) -> bool:
-    p = Path(p)
-    return p.is_file() or p.with_name(p.name + ".enc").is_file()
+    return spec_source(p) != "missing"
 
 
 def load_raw(path: str | Path | None = None) -> dict:

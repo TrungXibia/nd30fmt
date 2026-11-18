@@ -30,10 +30,11 @@ python -m nd30fmt fix   bao_cao.docx -o ket_qua/     # kiểm tra + sửa + ki�
 python -m nd30fmt fix   thu_muc/ --standard dang
 ```
 
-**Quy chuẩn được mã hoá.** Các tệp `config/*_spec.yaml.enc` mã hoá AES-256-GCM; ứng dụng cần khoá ở biến môi trường
-`ND30_SPEC_KEY` (do chủ dự án cấp). Người có khoá sửa quy chuẩn bằng `python tools/spec_crypt.py decrypt`, sửa tệp `.yaml`,
-rồi `python tools/spec_crypt.py encrypt --remove-plain` (tệp `.yaml` rõ không được đưa lên git). Giao diện, API và báo cáo
-không hiển thị nguồn/căn cứ của quy chuẩn.
+**Hai bộ quy chuẩn.** Ai cũng chạy được ngay với **bộ quy chuẩn mẫu mở** `config/sample/*_spec.yaml`: các quy định
+bắt buộc của văn bản gốc (khổ giấy, lề, phông, cỡ chữ, thành phần thể thức), sửa trực tiếp được cho đơn vị mình.
+**Bộ đầy đủ** (thêm quy ước trình bày báo cáo dài, hiệu chỉnh riêng) nằm ở `config/*_spec.yaml.enc`, mã hoá AES-256-GCM,
+chỉ dùng khi có khoá `ND30_SPEC_KEY` do chủ dự án cấp. `/healthz` cho biết đang dùng bộ nào (`"spec": "sample"` hoặc
+`"encrypted"`). Giao diện, API và báo cáo không hiển thị nguồn/căn cứ của quy chuẩn.
 
 ## Lõi Rust (tuỳ chọn, khuyến nghị cho máy chủ)
 
@@ -48,7 +49,7 @@ Tệp `.so` không đưa vào kho mã; ảnh Docker tự dựng lõi Rust (tắt
 ## Chạy bằng Docker
 
 ```bash
-cp deploy/.env.example deploy/.env       # BẮT BUỘC đặt APP_TOKEN và ND30_SPEC_KEY; tuỳ chọn GROQ_API_KEY
+cp deploy/.env.example deploy/.env       # BẮT BUỘC đặt APP_TOKEN; tuỳ chọn ND30_SPEC_KEY, GROQ_API_KEY
 cd deploy && docker compose up -d --build   # ảnh tự dựng lõi Rust
 curl -s http://127.0.0.1:8030/healthz
 ```
@@ -66,6 +67,7 @@ Mã truy cập theo người dùng (quản trị viên cấp, chỉ lưu bản b
 
 | Tệp | Nội dung |
 |---|---|
+| `config/sample/*_spec.yaml` | Bộ quy chuẩn mẫu mở (dùng khi không có khoá) |
 | `config/nd30_spec.yaml.enc` | Thể thức văn bản hành chính (mã hoá) |
 | `config/dang_spec.yaml.enc` | Thể thức văn bản của Đảng (mã hoá) |
 | `config/dean_spec.yaml.enc` | Quy ước trình bày luận văn/đề án (mã hoá) |
@@ -81,7 +83,7 @@ python -m pytest tests -q                  # có lõi Rust: thêm phép so khớ
 ND30_NO_RUST=1 python -m pytest tests -q   # chỉ bản Python
 ```
 
-Test cần `ND30_SPEC_KEY`; trên GitHub Actions đặt secret cùng tên.
+Không có `ND30_SPEC_KEY` thì test chạy với bộ quy chuẩn mẫu; có khoá thì kiểm tra cả bộ đầy đủ.
 
 Test giao diện cần Playwright (`pip install playwright && playwright install chromium`), không có thì tự bỏ qua. Test bản in cần LibreOffice.
 

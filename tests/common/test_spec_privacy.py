@@ -44,21 +44,39 @@ def test_repo_has_no_plaintext_spec():
         assert blob.startswith(b"ND30ENC1") and b"roles" not in blob and "Phụ lục".encode() not in blob
 
 
-def test_wrong_or_missing_key(monkeypatch):
+def test_wrong_key_errors_missing_key_uses_sample(monkeypatch):
     from nd30fmt import spec
     monkeypatch.setenv("ND30_SPEC_KEY", base64.urlsafe_b64encode(os.urandom(32)).decode())
-    with pytest.raises(spec.SpecKeyError, match="Sai khoá"):
+    with pytest.raises(spec.SpecKeyError, match="Sai khoá"):          # khoá sai: không lặng lẽ chuyển sang bản mẫu
         spec.load_raw()
-    monkeypatch.delenv("ND30_SPEC_KEY")
+    monkeypatch.delenv("ND30_SPEC_KEY", raising=False)
     monkeypatch.delenv("ND30_SPEC_KEY_FILE", raising=False)
-    with pytest.raises(spec.SpecKeyError, match="Thiếu khoá"):
-        spec.load_raw()
+    assert spec.spec_source() == "sample"
+    raw = spec.load_raw()
+    assert raw["meta"]["sample"] is True and raw["page"]["margins_mm"]["left"]["fix"]
+    for std, p in spec.SPEC_PATHS.items():
+        assert spec.spec_source(p) == "sample" and spec.load_spec(p).roles
 
 
-def test_missing_key_gives_clear_503(client, monkeypatch):
-    monkeypatch.delenv("ND30_SPEC_KEY")
+def test_sample_specs_are_open_and_clean():
+    from nd30fmt.spec import SPEC_PATHS
+    for std, p in SPEC_PATHS.items():
+        text = (ROOT / "config" / "sample" / p.name).read_text(encoding="utf-8")
+        assert "http" not in text and "verified" not in text and "note_" not in text and "\nnote:" not in text
+
+
+def test_wrong_key_gives_clear_503(client, monkeypatch):
+    monkeypatch.setenv("ND30_SPEC_KEY", base64.urlsafe_b64encode(os.urandom(32)).decode())
     r = client.get("/api/spec", headers=H)
     assert r.status_code == 503 and "ND30_SPEC_KEY" in r.json()["detail"]
+
+
+def test_healthz_reports_spec_source(client, monkeypatch):
+    if os.getenv("ND30_SPEC_KEY"):
+        assert client.get("/healthz").json()["spec"] == "encrypted"
+    monkeypatch.delenv("ND30_SPEC_KEY", raising=False)
+    assert client.get("/healthz").json()["spec"] == "sample"
+    assert client.get("/api/spec", headers=H).json()["raw"]["meta"]["sample"] is True
 
 
 def test_spec_api_hides_sources(client):

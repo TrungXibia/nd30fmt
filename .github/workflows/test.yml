@@ -6,7 +6,8 @@ on:
   pull_request:
 
 env:
-  # Khoá giải mã quy chuẩn (config/*_spec.yaml.enc): Settings -> Secrets and variables -> Actions -> ND30_SPEC_KEY
+  # Khoá giải mã quy chuẩn đầy đủ (tuỳ chọn): Settings -> Secrets and variables -> Actions -> ND30_SPEC_KEY.
+  # Không có khoá (fork, PR Dependabot) -> test chạy bằng bộ quy chuẩn mẫu config/sample/.
   ND30_SPEC_KEY: ${{ secrets.ND30_SPEC_KEY }}
 
 permissions:
@@ -18,8 +19,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
-      - name: Kiểm tra có khoá giải mã quy chuẩn
-        run: test -n "$ND30_SPEC_KEY" || { echo '::error::Chưa đặt secret ND30_SPEC_KEY cho Actions'; exit 1; }
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
@@ -34,8 +33,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
-      - name: Kiểm tra có khoá giải mã quy chuẩn
-        run: test -n "$ND30_SPEC_KEY" || { echo '::error::Chưa đặt secret ND30_SPEC_KEY cho Actions'; exit 1; }
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
