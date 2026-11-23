@@ -132,7 +132,9 @@ def fix_paragraph(p_info, d: RoleDecision, viols: list[Violation], spec: Spec, s
         for r in p_info.runs:
             if r.size and lo <= r.size <= hi:
                 cnt[r.size] += len(r.text.strip())
-        target = (rule.fix_size or hi) if normalize else (cnt.most_common(1)[0][0] if cnt else (rule.fix_size or hi))
+        # cỡ chữ luôn ghi theo giá trị "Sửa về" đã cài đặt (13 nằm trong khoảng 13–14 vẫn đưa về 14 nếu Sửa về = 14);
+        # khoảng Từ–Đến chỉ quyết định có báo lỗi hay không
+        target = rule.fix_size or (cnt.most_common(1)[0][0] if cnt else hi)
         for r in _text_runs(p_el):
             Run(r, None).font.size = Pt(target)
         stats["size"] += 1
@@ -623,7 +625,9 @@ def apply_fixes(ex: ExtractedDoc, decisions: list[RoleDecision], viols: list[Vio
         if d is None:
             continue
         vs = by_pid.get(p.pid, [])
-        extra = _normalize_fields(p, d, spec) if (normalize and d.confidence >= min_conf) else set()
+        extra = _normalize_fields(p, d, spec) if d.confidence >= min_conf else set()
+        if not normalize:
+            extra &= {"size"}      # chế độ thường: chỉ cỡ chữ luôn đưa về giá trị "Sửa về"
         extra = {f for f in extra if f"{p.pid}|{f}" not in ignored}
         if vs or extra:
             fix_paragraph(p, d, vs, spec, stats, extra, normalize)
