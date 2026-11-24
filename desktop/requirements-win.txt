@@ -1,5 +1,5 @@
 # Phiên bản đã kiểm thử (bản máy tính Windows, Python 3.11) – cùng bộ với requirements.txt (đã chạy đạt bộ test)
-fastapi==0.163.0
+fastapi==0.165.0
 starlette==1.7.0
 uvicorn==0.54.0
 pydantic==2.13.5
